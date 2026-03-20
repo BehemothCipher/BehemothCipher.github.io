@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anthony Amado — BehemothCipher & Developer</title>
+<meta name="description" content="Technician-grade Windows tools built by a field engineer. Security, diagnostics, network monitoring, and automation — buy once, own forever. No subscription." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" />
+<style>
+/* ─── Reset & Tokens ─────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:       #e0f0ff;
+  --ink2:      #0d1117;
+  --ink3:      #161b27;
+  --wire:      #1e3a4a;
+  --mid:       #7ab8cc;
+  --light:     #5a8fa3;
+  --pale:      #1a1a2e;
+  --paper:     #0a0a14;
+  --white:     #0f0f1a;
+  --cyan:      #00bfff;
+  --cyan2:     #33ccff;
+  --cyan-dim:  #003d5c;
+  --red:       #ef4444;
+  --green:     #10b981;
+  --blue:      #3b82f6;
+  --mono:      'IBM Plex Mono', monospace;
+  --sans:      'IBM Plex Sans', sans-serif;
+  --display:   'Orbitron', sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:#0a0a14;
+  color:var(--ink);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ─── Utility ─────────────────────────────────────────────────────────────── */
+.mono{font-family:var(--mono)}
+.container{max-width:1100px;margin:0 auto;padding:0 32px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--paper)}
+::-webkit-scrollbar-thumb{background:var(--wire);border-radius:2px}
+
+/* ─── Animations ──────────────────────────────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.reveal{opacity:1;transform:none}
+@media(min-width:901px){
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+
+/* ─── Noise texture overlay ───────────────────────────────────────────────── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:0.4;
+}
+
+/* ─── Nav ─────────────────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(10,10,20,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--wire);
+}
+.nav-logo{
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  color:#ffffff;letter-spacing:0.06em;
+}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--mid);
+  transition:color 0.15s;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;
+  background:#00bfff;color:#0a0a14;
+  padding:7px 16px;border-radius:2px;
+  transition:background 0.15s;
+}
+.nav-cta:hover{background:#33ccff}
+
+/* ─── Hero ────────────────────────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding-top:80px;
+  background:#060610;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Technical grid background */
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(245,158,11,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(245,158,11,0.06) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+
+/* Scanline effect */
+.hero::after{
+  content:'';
+  position:absolute;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(245,158,11,0.15),transparent);
+  animation:scanline 6s linear infinite;
+  pointer-events:none;
+}
+
+.hero-inner{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 420px;gap:80px;
+  align-items:center;
+}
+
+.hero-tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--cyan);
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-tag::before{
+  content:'';display:block;
+  width:24px;height:1px;background:#00bfff;
+}
+
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(56px,7vw,96px);
+  line-height:0.95;
+  color:#ffffff;
+  letter-spacing:0.04em;
+  margin-bottom:28px;
+  -webkit-text-stroke:1px rgba(0,191,255,0.5);
+  text-shadow:0 0 40px rgba(0,191,255,0.1),0 2px 8px rgba(0,0,0,0.9);
+  font-weight:700;
+}
+.hero h1 em{
+  font-style:normal;
+  color:#00bfff;
+  display:block;
+  -webkit-text-stroke:2px #00bfff;
+  text-shadow:0 0 30px rgba(0,191,255,0.6),0 0 60px rgba(0,191,255,0.3),0 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-desc{
+  font-family:var(--sans);font-size:16px;
+  font-weight:300;color:var(--light);
+  line-height:1.8;max-width:480px;
+  margin-bottom:40px;
+}
+
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;
+  background:#00bfff;color:#0a0a14;
+  padding:12px 24px;border-radius:2px;
+  font-weight:700;transition:background 0.15s,transform 0.1s;
+  border:none;cursor:pointer;display:inline-block;
+}
+.btn-primary:hover{background:#33ccff;transform:translateY(-1px)}
+.btn-outline{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;
+  background:transparent;color:var(--light);
+  padding:12px 24px;border-radius:2px;
+  border:1px solid var(--wire);
+  transition:border-color 0.15s,color 0.15s;display:inline-block;
+}
+.btn-outline:hover{border-color:#00bfff;color:#00bfff}
+
+/* Hero stat panel */
+.hero-panel{
+  background:rgba(0,191,255,0.03);
+  border:1px solid var(--wire);
+  border-radius:4px;padding:28px;
+}
+.panel-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:14px 0;border-bottom:1px solid var(--ink3);
+}
+.panel-row:last-child{border-bottom:none}
+.panel-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:#1e3a4a;
+}
+.panel-value{
+  font-family:var(--mono);font-size:13px;
+  color:#7ab8cc;text-align:right;
+}
+.panel-value .hi{color:var(--cyan)}
+
+/* Terminal blink */
+.cursor::after{
+  content:'_';
+  animation:blink 1s step-end infinite;
+  color:var(--cyan);
+}
+
+/* ─── Ticker strip ────────────────────────────────────────────────────────── */
+.ticker{
+  background:#00bfff;
+  padding:10px 0;overflow:hidden;
+  white-space:nowrap;
+}
+.ticker-inner{
+  display:inline-flex;gap:0;
+  animation:ticker-scroll 30s linear infinite;
+}
+@keyframes ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--ink);padding:0 32px;
+  display:flex;align-items:center;gap:12px;
+}
+.ticker-item::after{content:'//';opacity:0.4;margin-left:12px}
+
+/* ─── Section base ────────────────────────────────────────────────────────── */
+section{padding:96px 0}
+.section-label{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::before{
+  content:'';display:block;
+  width:20px;height:1px;background:#00bfff;
+}
+.section-title{
+  font-family:var(--display);
+  font-size:clamp(36px,5vw,60px);
+  line-height:1;color:#ffffff;
+  margin-bottom:8px;
+}
+.section-sub{
+  font-size:15px;font-weight:300;
+  color:var(--mid);max-width:520px;
+  margin-bottom:56px;line-height:1.7;
+}
+
+/* ─── About ───────────────────────────────────────────────────────────────── */
+.about{background:#0d1117}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:start;
+}
+.about-text p{
+  font-size:15px;font-weight:300;
+  color:#e0f0ff;line-height:1.85;
+  margin-bottom:20px;
+}
+.about-text p strong{font-weight:600;color:#ffffff}
+.about-text p em{font-style:italic;color:var(--mid)}
+
+.skills-grid{display:flex;flex-direction:column;gap:4px}
+.skill-row{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 0;border-bottom:1px solid var(--wire);
+}
+.skill-row:last-child{border-bottom:none}
+.skill-name{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.08em;color:var(--ink);
+  width:160px;flex-shrink:0;
+}
+.skill-bar{
+  flex:1;height:3px;background:var(--pale);
+  border-radius:2px;overflow:hidden;
+}
+.skill-fill{
+  height:100%;background:#00bfff;
+  border-radius:2px;
+  transition:width 1s cubic-bezier(0.4,0,0.2,1);
+  width:0;
+}
+.skill-fill.animated{width:var(--w)}
+.skill-level{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.1em;color:var(--mid);
+  width:48px;text-align:right;
+}
+
+/* ─── Projects ────────────────────────────────────────────────────────────── */
+.projects{background:#0a0a14}
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
+}
+.project-card{
+  background:#0d1117;
+  border:1px solid var(--wire);
+  border-radius:4px;
+  overflow:hidden;
+  transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;
+  cursor:pointer;
+}
+.project-card:hover{
+  border-color:var(--cyan);
+  transform:translateY(-3px);
+  box-shadow:0 0 24px rgba(0,191,255,0.12);
+}
+.card-header{
+  padding:20px 22px 16px;
+  border-bottom:1px solid var(--wire);
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;
+}
+.card-title{
+  font-family:var(--mono);font-size:14px;
+  font-weight:700;color:var(--ink);
+  margin-bottom:4px;
+}
+.card-subtitle{
+  font-size:11px;color:var(--mid);
+  font-weight:300;
+}
+.card-status{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;flex-shrink:0;
+}
+.status-live{background:#dcfce7;color:#166534}
+.status-soon{background:#fef3c7;color:#92400e}
+.status-wip{background:#f0f9ff;color:#075985}
+.card-body{padding:18px 22px}
+.card-desc{
+  font-size:13px;font-weight:300;
+  color:var(--mid);line-height:1.7;
+  margin-bottom:16px;
+}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;
+  background:#0a0a14;color:var(--mid);
+  border:1px solid var(--wire);
+}
+.card-links{display:flex;gap:12px}
+.card-link{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--cyan);display:flex;align-items:center;gap:4px;
+  transition:color 0.15s;
+}
+.card-link:hover{color:var(--cyan-dim)}
+.card-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ─── Featured project ────────────────────────────────────────────────────── */
+.featured-card{
+  grid-column:1/-1;
+  background:#060610;
+  border:1px solid var(--wire);
+  border-radius:4px;overflow:hidden;
+  display:grid;grid-template-columns:1fr 340px;
+  transition:border-color 0.2s;
+}
+.featured-card:hover{border-color:var(--cyan)}
+.featured-body{padding:36px 40px}
+.featured-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:16px;
+}
+.featured-title{
+  font-family:var(--display);
+  font-size:42px;color:var(--white);
+  line-height:1;margin-bottom:12px;
+}
+.featured-title span{color:var(--cyan)}
+.featured-desc{
+  font-size:14px;font-weight:300;
+  color:var(--light);line-height:1.75;
+  max-width:480px;margin-bottom:24px;
+}
+.featured-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px}
+.featured-tags .tag{
+  background:rgba(255,255,255,0.05);
+  border-color:#1e3a4a;color:var(--light);
+}
+.featured-aside{
+  background:rgba(245,158,11,0.04);
+  border-left:1px solid var(--wire);
+  padding:36px 28px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.aside-stat{}
+.aside-num{
+  font-family:var(--display);
+  font-size:36px;color:var(--cyan);
+  line-height:1;margin-bottom:4px;
+}
+.aside-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:#1e3a4a;
+}
+.aside-divider{height:1px;background:var(--wire)}
+
+/* ─── Services ────────────────────────────────────────────────────────────── */
+.services{background:#060610}
+.services .section-title{color:#ffffff;-webkit-text-stroke:1px rgba(0,191,255,0.4)}
+.services .section-sub{color:var(--mid)}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:1px;
+  background:var(--wire);
+  border:1px solid var(--wire);
+  border-radius:4px;overflow:hidden;
+}
+.service-item{
+  background:#060610;
+  padding:28px 24px;
+  transition:background 0.2s;
+}
+.service-item:hover{background:#003d5c}
+.service-icon{
+  width:36px;height:36px;
+  background:rgba(245,158,11,0.1);
+  border:1px solid rgba(245,158,11,0.2);
+  border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;
+  font-size:16px;
+}
+.service-name{
+  font-family:var(--mono);font-size:12px;
+  font-weight:700;color:#7ab8cc;
+  margin-bottom:8px;letter-spacing:0.04em;
+}
+.service-desc{
+  font-size:12px;font-weight:300;
+  color:var(--mid);line-height:1.7;
+  margin-bottom:16px;
+}
+.service-rate{
+  font-family:var(--mono);font-size:11px;
+  color:var(--cyan);
+}
+
+/* ─── Products / Gumroad ──────────────────────────────────────────────────── */
+.products{background:#0d1117}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+.product-card{
+  border:1px solid var(--wire);border-radius:4px;
+  padding:24px;position:relative;overflow:hidden;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.product-card:hover{
+  border-color:var(--cyan);
+  box-shadow:0 8px 32px rgba(245,158,11,0.08);
+}
+.product-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:#00bfff;
+}
+.product-name{
+  font-family:var(--mono);font-size:14px;
+  font-weight:700;color:var(--ink);
+  margin-bottom:6px;
+}
+.product-desc{
+  font-size:13px;font-weight:300;
+  color:var(--mid);line-height:1.65;
+  margin-bottom:20px;
+}
+.product-price{
+  font-family:var(--display);
+  font-size:28px;color:var(--ink);
+  margin-bottom:14px;
+}
+.product-price span{
+  font-family:var(--mono);font-size:11px;
+  color:var(--mid);vertical-align:middle;margin-left:4px;
+}
+.product-btn{
+  display:block;width:100%;
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  background:#00bfff;color:#0a0a14;
+  padding:10px;text-align:center;border-radius:2px;
+  font-weight:700;transition:background 0.15s;
+}
+.product-btn:hover{background:var(--cyan2)}
+.product-badge{
+  position:absolute;top:16px;right:16px;
+  font-family:var(--mono);font-size:8px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  background:var(--ink);color:var(--cyan);
+  padding:3px 7px;border-radius:2px;
+}
+
+/* ─── Contact ─────────────────────────────────────────────────────────────── */
+.contact{background:#0a0a14}
+.contact-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:start;
+}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--mid);
+}
+.form-input,.form-textarea{
+  font-family:var(--mono);font-size:12px;
+  background:#0d1117;color:#e0f0ff;
+  border:1px solid var(--wire);border-radius:2px;
+  padding:10px 14px;outline:none;
+  transition:border-color 0.15s;
+}
+.form-input:focus,.form-textarea:focus{border-color:var(--cyan)}
+.form-textarea{resize:vertical;min-height:120px}
+.form-submit{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  background:#00bfff;color:#0a0a14;
+  border:none;padding:13px 28px;border-radius:2px;
+  cursor:pointer;align-self:flex-start;
+  transition:background 0.15s;font-weight:700;
+}
+.form-submit:hover{background:#003d5c}
+
+.contact-info{padding-top:8px}
+.contact-info p{
+  font-size:14px;font-weight:300;
+  color:var(--mid);line-height:1.85;
+  margin-bottom:32px;
+}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--mono);font-size:12px;
+  color:var(--ink);padding:12px 16px;
+  background:var(--white);border:1px solid var(--wire);
+  border-radius:2px;
+  transition:border-color 0.15s,color 0.15s;
+}
+.contact-link:hover{border-color:#00bfff;color:#00bfff}
+.contact-link-icon{
+  width:20px;height:20px;flex-shrink:0;
+  color:var(--cyan);
+}
+
+/* ─── Footer ──────────────────────────────────────────────────────────────── */
+footer{
+  background:#060610;
+  padding:32px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+  border-top:1px solid var(--wire);
+}
+.footer-logo{
+  font-family:var(--mono);font-size:12px;
+  font-weight:700;color:#7ab8cc;letter-spacing:0.06em;
+}
+.footer-logo span{color:var(--cyan)}
+.footer-note{
+  font-family:var(--mono);font-size:10px;
+  color:#1e3a4a;letter-spacing:0.06em;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:48px}
+  .hero-panel{display:none}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .featured-card{grid-template-columns:1fr}
+  .featured-aside{border-left:none;border-top:1px solid var(--wire);flex-direction:row;flex-wrap:wrap}
+  .contact-inner{grid-template-columns:1fr}
+  nav .nav-links{display:none}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .projects-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .container{padding:0 16px}
+  section{padding:56px 0}
+  nav{padding:12px 16px}
+  .nav-logo span{font-size:11px}
+  .nav-logo img{height:32px;width:32px}
+  .hero{padding:90px 16px 56px}
+  .hero h1{font-size:36px;-webkit-text-stroke:0.5px rgba(0,191,255,0.4)}
+  .hero h1 em{-webkit-text-stroke:1px #00bfff}
+  .hero-desc{font-size:14px}
+  .hero-actions{flex-direction:column}
+  .btn-primary,.btn-outline{text-align:center;width:100%;box-sizing:border-box}
+  .section-title{font-size:28px}
+  .services-grid{grid-template-columns:1fr}
+  .products-grid{grid-template-columns:1fr}
+  .featured-title{font-size:28px}
+  .featured-body{padding:20px}
+  .about-logo img{height:70px;width:70px}
+  .skills-grid .skill-name{width:120px;font-size:10px}
+  .terminal-body{font-size:11px;padding:14px}
+  footer{flex-direction:column;text-align:center;padding:20px 16px}
+  img{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Nav ────────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo" style="display:flex;align-items:center;gap:10px;">
+    <img src="./behemoth-labs-logo.png" alt="Behemoth Labs" style="height:52px;width:52px;object-fit:cover;border-radius:50%;border:2px solid rgba(0,191,255,0.4);box-shadow:0 0 14px rgba(0,191,255,0.3);" />
+    <span>Behemoth<span style="color:#00bfff;">Labs</span></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://behemothcipher.gumroad.com" class="nav-cta" target="_blank">Buy Tools</a>
+</nav>
+
+<!-- ─── Hero ───────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div style="margin-bottom:28px;">
+          <img src="./behemoth-labs-logo.png" alt="Behemoth Labs" style="height:200px;width:200px;object-fit:cover;object-position:center top;border-radius:12px;border:2px solid rgba(0,191,255,0.5);box-shadow:0 0 40px rgba(0,191,255,0.35),0 0 80px rgba(0,191,255,0.15);display:block;" />
+        </div>
+        <div class="hero-tag">Behemoth Labs // Windows Tools for Technicians</div>
+        <h1>
+          Technician<br>
+          Grade<br>
+          <em>Windows Tools.</em>
+        </h1>
+        <p class="hero-desc">
+          Six years maintaining ATM networks and financial infrastructure. 
+          I build the tools I always wished existed — packaged as proper Windows 
+          installers, priced fairly, and sold direct. No subscriptions. No bloat. 
+          Buy once, own it forever.
+        </p>
+        <div class="hero-actions">
+          <a href="https://behemothcipher.gumroad.com" class="btn-primary" target="_blank">Browse All Tools</a>
+          <a href="#projects" class="btn-outline">See What I Build</a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="panel-row">
+          <div>
+            <div class="panel-label">Current Status</div>
+          </div>
+          <div class="panel-value"><span class="hi">● </span>Actively Shipping</div>
+        </div>
+        <div class="panel-row">
+          <div>
+            <div class="panel-label">Specialisation</div>
+          </div>
+          <div class="panel-value">Windows<br>Desktop Tools</div>
+        </div>
+        <div class="panel-row">
+          <div>
+            <div class="panel-label">Background</div>
+          </div>
+          <div class="panel-value">ATM / Financial<br>Infrastructure</div>
+        </div>
+        <div class="panel-row">
+          <div>
+            <div class="panel-label">Stack</div>
+          </div>
+          <div class="panel-value">Node · React<br>Python · C#</div>
+        </div>
+        <div class="panel-row">
+          <div>
+            <div class="panel-label">Products Live</div>
+          </div>
+          <div class="panel-value"><span class="hi">2</span> of 7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Ticker ─────────────────────────────────────────────────────────────── -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item">Behemoth System Kit</span>
+    <span class="ticker-item">Behemoth Security Kit</span>
+    <span class="ticker-item">Behemoth Network Kit</span>
+    <span class="ticker-item">Behemoth Guard Kit</span>
+    <span class="ticker-item">Behemoth Forensic Kit</span>
+    <span class="ticker-item">Behemoth Tool Kit</span>
+    <span class="ticker-item">BotSniffer</span>
+    <span class="ticker-item">Buy Once — Own Forever</span>
+    <span class="ticker-item">Behemoth System Kit</span>
+    <span class="ticker-item">Behemoth Security Kit</span>
+    <span class="ticker-item">Behemoth Network Kit</span>
+    <span class="ticker-item">Behemoth Guard Kit</span>
+    <span class="ticker-item">Behemoth Forensic Kit</span>
+    <span class="ticker-item">Behemoth Tool Kit</span>
+    <span class="ticker-item">BotSniffer</span>
+    <span class="ticker-item">Buy Once — Own Forever</span>
+  </div>
+</div>
+
+<!-- ─── About ──────────────────────────────────────────────────────────────── -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="section-label">About Me</div>
+        <div class="section-title">Engineer<br>First.</div>
+        <p>
+          Six years as a field engineer maintaining <strong>ATM networks and cash machine infrastructure</strong> — systems where downtime costs money by the minute and security isn't optional. That experience is the foundation of everything I build.
+        </p>
+        <p>
+          Most Windows tools are built by people who've never had to use them under pressure. <em>Behemoth Labs exists to fix that.</em> Every kit is built around workflows I've actually needed, problems I've actually hit, and gaps I've actually felt in the field.
+        </p>
+        <p>
+          No subscriptions. No bloat. No dumbed-down interfaces. <strong>Technician-grade tools</strong> — packaged properly, documented clearly, priced fairly. Buy once, own it forever.
+        </p>
+        <p>
+          I ship everything as a proper Windows installer. You run it, it works. That's the standard I hold everything to.
+        </p>
+        <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://behemothcipher.gumroad.com" class="btn-primary" target="_blank">Browse All Tools</a>
+          <a href="https://github.com/BehemothCipher" class="btn-outline" target="_blank">GitHub</a>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="section-label">Technical Skills</div>
+        <div class="skills-grid">
+          <div class="skill-row">
+            <div class="skill-name mono">Node.js / JS</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:82%"></div></div>
+            <div class="skill-level mono">Advanced</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">React</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:75%"></div></div>
+            <div class="skill-level mono">Strong</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">Python</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:70%"></div></div>
+            <div class="skill-level mono">Strong</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">Networking / TCP</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:92%"></div></div>
+            <div class="skill-level mono">Expert</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">Windows / Inno Setup</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:85%"></div></div>
+            <div class="skill-level mono">Expert</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">Security / Auth</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:78%"></div></div>
+            <div class="skill-level mono">Strong</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">SQL / SQLite</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:72%"></div></div>
+            <div class="skill-level mono">Strong</div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name mono">Hardware / Embedded</div>
+            <div class="skill-bar"><div class="skill-fill" style="--w:88%"></div></div>
+            <div class="skill-level mono">Expert</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Projects ───────────────────────────────────────────────────────────── -->
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="section-label reveal">Products</div>
+    <div class="section-title reveal">The Suite.</div>
+    <p class="section-sub reveal">Every tool ships as a standalone Windows installer. Buy once, own it forever. No cloud required.</p>
+
+    <div class="projects-grid">
+
+      <!-- Featured: BotSniffer -->
+      <div class="featured-card reveal">
+        <div class="featured-body">
+          <div class="featured-label">Featured Project — In Development</div>
+          <div class="featured-title">BOT<span>SNIFFER</span></div>
+          <p class="featured-desc">
+            A full-stack bot intelligence platform. Detects scrapers, credential stuffers, headless browsers, and ad fraud bots in real time using a five-signal weighted scoring engine. Includes a live dashboard, JS fingerprinter, IP reputation lookup, and a drop-in Express middleware.
+          </p>
+          <div class="featured-tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">React</span>
+            <span class="tag">WebSocket</span>
+            <span class="tag">SQLite</span>
+            <span class="tag">Inno Setup</span>
+            <span class="tag">Security</span>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="https://github.com/anthonyamado/botsniffer" class="btn-outline" style="font-size:10px;padding:9px 18px" target="_blank">View on GitHub</a>
+            <a href="#contact" class="btn-primary" style="font-size:10px;padding:9px 18px">Get in Touch</a>
+          </div>
+        </div>
+        <div class="featured-aside">
+          <div class="aside-stat">
+            <div class="aside-num">5</div>
+            <div class="aside-label">Detection Signals</div>
+          </div>
+          <div class="aside-divider"></div>
+          <div class="aside-stat">
+            <div class="aside-num">RT</div>
+            <div class="aside-label">Live WebSocket Feed</div>
+          </div>
+          <div class="aside-divider"></div>
+          <div class="aside-stat">
+            <div class="aside-num">MIT</div>
+            <div class="aside-label">Open Source License</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 — placeholder, update with your real project -->
+      <div class="project-card reveal">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Behemoth System Kit</div>
+            <div class="card-subtitle">Windows Desktop App</div>
+          </div>
+          <span class="card-status status-live">Live</span>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Technician maintenance toolkit for Windows — system health dashboard, cleanup profiles, diagnostics, report generation, and portable USB mode.</p>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Networking</span>
+            <span class="tag">Desktop</span>
+          </div>
+          <div class="card-links">
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit" class="card-link" target="_blank">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Buy Now — $19
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 — placeholder -->
+      <div class="project-card reveal" style="transition-delay:0.1s">
+        <div class="card-header">
+          <div>
+            <div class="card-title">ATM Diagnostic Script</div>
+            <div class="card-subtitle">Automation / Scripting</div>
+          </div>
+          <span class="card-status status-wip">In Progress</span>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Replace with your real project. Your ATM/field engineering background is a genuine differentiator — any tools from that world are worth showing.</p>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Windows</span>
+            <span class="tag">Automation</span>
+          </div>
+          <div class="card-links">
+            <a href="#" class="card-link">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4 — placeholder -->
+      <div class="project-card reveal" style="transition-delay:0.2s">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Your Project Title</div>
+            <div class="card-subtitle">Category Here</div>
+          </div>
+          <span class="card-status status-live">Live</span>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Add your other projects here. Even small scripts or tools show your range and problem-solving ability to potential clients.</p>
+          <div class="card-tags">
+            <span class="tag">Your</span>
+            <span class="tag">Tech</span>
+            <span class="tag">Stack</span>
+          </div>
+          <div class="card-links">
+            <a href="#" class="card-link">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── Why Buy Direct ─────────────────────────────────────────────────────── -->
+<section id="services" style="background:#060610">
+  <div class="container">
+    <div class="section-label reveal">Why Behemoth Labs</div>
+    <div class="section-title reveal">No Nonsense.<br>Just Tools.</div>
+    <p class="section-sub reveal">Everything I build follows the same rules I learned maintaining systems that cannot go down.</p>
+
+    <div class="services-grid reveal">
+      <div class="service-item">
+        <div class="service-icon">💰</div>
+        <div class="service-name">Buy Once, Own Forever</div>
+        <p class="service-desc">No subscriptions. No monthly fees. No licence keys that expire. Pay once and it's yours.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">🖥️</div>
+        <div class="service-name">Proper Windows Installers</div>
+        <p class="service-desc">Every tool ships as an Inno Setup installer. Run it, it works. No Python installs, no command line, no setup headaches.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">🔧</div>
+        <div class="service-name">Built By a Technician</div>
+        <p class="service-desc">Six years in the field maintaining ATM infrastructure. These tools solve problems I've actually had — not problems someone imagined.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">🔒</div>
+        <div class="service-name">No Cloud Required</div>
+        <p class="service-desc">Everything runs locally on your machine. No data sent anywhere. No account required. No internet dependency after download.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">📦</div>
+        <div class="service-name">Portable USB Mode</div>
+        <p class="service-desc">Most kits support portable USB mode — take your tools with you to any machine without installing anything.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-icon">⚡</div>
+        <div class="service-name">More Kits Shipping Soon</div>
+        <p class="service-desc">Security, Network, Guard, Forensic, and Tool Kit all in active development. Follow on GitHub to get notified when they ship.</p>
+        <div class="service-rate mono"><a href="https://github.com/BehemothCipher" target="_blank" style="color:#00bfff">github.com/BehemothCipher</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Gumroad Products ────────────────────────────────────────────────────── -->
+<section class="products" id="products">
+  <div class="container">
+    <div class="section-label reveal">Available Now</div>
+    <div class="section-title reveal">Get The Tools.</div>
+    <p class="section-sub reveal">Download today. Runs on any Windows 10/11 machine. More kits shipping throughout 2025.</p>
+
+    <div class="products-grid">
+
+      <!-- ── LIVE PRODUCTS ── -->
+      <div class="product-card reveal">
+        <div class="product-badge" style="background:rgba(0,191,255,0.12);color:#00bfff;border:1px solid rgba(0,191,255,0.25);">● Live</div>
+        <div class="product-name">Behemoth System Kit</div>
+        <p class="product-desc">Technician maintenance toolkit — system health dashboard, cleanup profiles, diagnostics, and technician report generation. Built by a field engineer for field engineers.</p>
+        <div class="product-price">$12 <span>one-time</span></div>
+        <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit" class="product-btn" target="_blank">Buy Now — $12 →</a>
+      </div>
+
+      <div class="product-card reveal" style="transition-delay:0.05s">
+        <div class="product-badge" style="background:rgba(0,191,255,0.12);color:#00bfff;border:1px solid rgba(0,191,255,0.25);">● Live</div>
+        <div class="product-name">Behemoth Network Kit</div>
+        <p class="product-desc">Network diagnostics and monitoring for Windows — port scanning, connectivity testing, bandwidth analysis, and infrastructure reporting.</p>
+        <div class="product-price">$15 <span>one-time</span></div>
+        <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit" class="product-btn" target="_blank">Buy Now — $15 →</a>
+      </div>
+
+      <!-- ── IN DEVELOPMENT ── -->
+      <div class="product-card reveal" style="transition-delay:0.05s">
+        <div class="product-badge" style="background:#1e3a4a;color:#00bfff;">WIP</div>
+        <div class="product-name">BotSniffer</div>
+        <p class="product-desc">Real-time bot detection platform — live dashboard, 5-signal scoring engine, JS fingerprinting, and ad fraud auditing. Drop-in Express middleware included.</p>
+        <div class="product-price">— <span>coming soon</span></div>
+        <a href="https://github.com/BehemothCipher/botsniffer" class="product-btn" style="opacity:0.5;cursor:default;" target="_blank">In Development</a>
+      </div>
+
+      <div class="product-card reveal" style="transition-delay:0.1s">
+        <div class="product-badge" style="background:#1e3a4a;color:#00bfff;">WIP</div>
+        <div class="product-name">Behemoth Security Kit</div>
+        <p class="product-desc">Windows security hardening toolkit — vulnerability scanning, threat detection, and system lockdown tools for technicians and small businesses.</p>
+        <div class="product-price">— <span>coming soon</span></div>
+        <a href="https://gumroad.com/behemothcipher" class="product-btn" style="opacity:0.5;cursor:default;" target="_blank">In Development</a>
+      </div>
+
+      <div class="product-card reveal" style="transition-delay:0.2s">
+        <div class="product-badge" style="background:#1e3a4a;color:#00bfff;">WIP</div>
+        <div class="product-name">Behemoth Guard Kit</div>
+        <p class="product-desc">Endpoint protection and monitoring toolkit — real-time process watching, intrusion detection, and automated threat response for Windows systems.</p>
+        <div class="product-price">— <span>coming soon</span></div>
+        <a href="https://gumroad.com/behemothcipher" class="product-btn" style="opacity:0.5;cursor:default;" target="_blank">In Development</a>
+      </div>
+
+      <div class="product-card reveal" style="transition-delay:0.25s">
+        <div class="product-badge" style="background:#1e3a4a;color:#00bfff;">WIP</div>
+        <div class="product-name">Behemoth Forensic Kit</div>
+        <p class="product-desc">Digital forensics toolkit for Windows — log analysis, file recovery, system timeline reconstruction, and incident investigation tools.</p>
+        <div class="product-price">— <span>coming soon</span></div>
+        <a href="https://gumroad.com/behemothcipher" class="product-btn" style="opacity:0.5;cursor:default;" target="_blank">In Development</a>
+      </div>
+
+      <div class="product-card reveal" style="transition-delay:0.3s">
+        <div class="product-badge" style="background:#1e3a4a;color:#00bfff;">WIP</div>
+        <div class="product-name">Behemoth Tool Kit</div>
+        <p class="product-desc">General-purpose technician utility belt — a collection of essential Windows tools for IT professionals covering diagnostics, repair, and maintenance.</p>
+        <div class="product-price">— <span>coming soon</span></div>
+        <a href="https://gumroad.com/behemothcipher" class="product-btn" style="opacity:0.5;cursor:default;" target="_blank">In Development</a>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── Contact ─────────────────────────────────────────────────────────────── -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-label reveal">Get In Touch</div>
+    <div class="section-title reveal">Let's Work<br>Together.</div>
+
+    <div class="contact-inner">
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="name">Your Name</label>
+          <input class="form-input" type="text" id="name" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" type="email" id="email" placeholder="jane@company.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="project">Topic</label>
+          <select class="form-input" id="project">
+            <option value="">Select a topic...</option>
+            <option>Product question</option>
+            <option>Bulk / team licensing</option>
+            <option>Bug report</option>
+            <option>Feature request</option>
+            <option>When does X kit ship?</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">Tell Me About Your Project</label>
+          <textarea class="form-textarea" id="message" placeholder="Your question, feedback, or message..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="submit-btn">Send Message →</button>
+      </form>
+
+      <div class="contact-info reveal" style="transition-delay:0.15s">
+        <p>
+          Questions about a product, bulk licensing, or want to know when the next kit ships? Reach out directly — I respond within 24 hours.
+        </p>
+        <p>
+          For bug reports or feature requests, GitHub Issues is the best place. For everything else, email works fine.
+        </p>
+        <div class="contact-links">
+          <a href="/cdn-cgi/l/email-protection#60010e143f010d01040f3f5953201901080f0f4e030f0d" class="contact-link">
+            <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span class="mono"><span class="__cf_email__" data-cfemail="62030c163d030f03060d3d5b51221b030a0d0d4c010d0f">[email&#160;protected]</span></span>
+          </a>
+          <a href="https://github.com/anthonyamado" class="contact-link" target="_blank">
+            <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            <span class="mono">github.com/anthonyamado</span>
+          </a>
+          <a href="https://gumroad.com/behemothcipher" class="contact-link" target="_blank">
+            <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span class="mono">gumroad.com/behemothcipher</span>
+          </a>
+          <a href="https://linkedin.com/in/anthonyamado" class="contact-link" target="_blank">
+            <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+            <span class="mono">LinkedIn Profile</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo" style="display:flex;align-items:center;gap:10px;">
+  <img src="./behemoth-labs-logo.png" alt="Behemoth Labs" style="height:28px;width:28px;object-fit:cover;border-radius:50%;border:1px solid rgba(0,191,255,0.2);" />
+  <span>Anthony Amado<span>.dev</span></div>
+  </span></div>
+  <div class="footer-note mono">© 2025 Behemoth Labs · Built to last. · behemothcipher.gumroad.com</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─── Scroll reveal ────────────────────────────────────────────────────────────
+// On mobile, skip animations and show everything immediately
+const isMobile = window.innerWidth <= 900 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+function revealAll() {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  document.querySelectorAll('.skill-fill').forEach(bar => bar.classList.add('animated'));
+}
+
+if (isMobile) {
+  // Mobile — reveal everything instantly, no animation
+  revealAll();
+} else {
+  // Desktop — use intersection observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.skill-fill').forEach(bar => bar.classList.add('animated'));
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Fallback — reveal anything already in viewport after 300ms
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight + 100) {
+        el.classList.add('visible');
+      }
+    });
+    document.querySelectorAll('.skill-fill').forEach(bar => bar.classList.add('animated'));
+  }, 300);
+
+  // Final fallback — reveal everything after 1.5s no matter what
+  setTimeout(revealAll, 1500);
+}
+
+// Re-check on resize (e.g. rotating phone)
+window.addEventListener('resize', () => {
+  if (window.innerWidth <= 900) revealAll();
+});
+
+// ─── Nav scroll shrink ────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.padding = window.scrollY > 40 ? '10px 32px' : '16px 32px';
+});
+
+// ─── Contact form ─────────────────────────────────────────────────────────────
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const name    = document.getElementById('name').value;
+  const email   = document.getElementById('email').value;
+  const project = document.getElementById('project').value;
+  const message = document.getElementById('message').value;
+
+  // Opens mailto — replace with a real form service (Formspree, Netlify Forms) for production
+  const subject = encodeURIComponent(`Behemoth Labs Enquiry — ${project || 'General'}`); 
+  const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${project}\n\n${message}`);
+  window.location.href = `mailto:ant_amado_93@yahoo.com?subject=${subject}&body=${body}`;
+
+  btn.textContent = 'Message Sent ✓';
+  btn.style.background = '#10b981';
+  setTimeout(() => {
+    btn.textContent = 'Send Message →';
+    btn.style.background = '';
+  }, 3000);
+}
+
+// ─── Smooth anchor scroll with offset ────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+   
