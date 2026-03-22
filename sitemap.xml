@@ -7,16 +7,4 @@
     <priority>1.0</priority>
   </url>
 
-  <url>
-    <loc>https://behemothcipher.github.io/about.html</loc>
-    <lastmod>2026-03-22</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://behemothcipher.github.io/projects.html</loc>
-    <lastmod>2026-03-22</lastmod>
-    <priority>0.8</priority>
-  </url>
-
 </urlset>
