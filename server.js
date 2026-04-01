@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
-
+const cia = require('./cia-backend-endpoint');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,7 +10,7 @@ app.use(cors({
   origin: ['https://behemothlab.dev', 'http://localhost:5500', 'http://127.0.0.1:5500']
 }));
 app.use(express.json());
-
+app.use('/api/cia', cia);
 // Gmail transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
