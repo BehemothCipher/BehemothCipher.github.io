@@ -604,7 +604,8 @@ What are you looking for today?`;
       textarea.style.height = 'auto';
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     });
-
+// Auto-open after a short delay
+setTimeout(() => { if (!isOpen) togglePanel(); }, 2000);
     // Close on outside click
     document.addEventListener('click', e => {
       if (isOpen && !panel.contains(e.target) && !fab.contains(e.target)) {
