@@ -23,15 +23,15 @@ What are you looking for today?`;
   // ── Inject styles ────────────────────────────────────────────────────────────
   const STYLES = `
     :root {
-      --cia-bg:      #0b0f16;
-      --cia-panel:   #101722;
-      --cia-panel2:  #1a2330;
-      --cia-line:    #1c3248;
-      --cia-text:    #e6eef8;
-      --cia-muted:   #8ea6bf;
-      --cia-accent:  #00b8e8;
-      --cia-accent2: #1d9bf0;
-      --cia-glow:    0 0 20px rgba(0,184,232,0.25), 0 0 60px rgba(0,184,232,0.08);
+      --cia-bg:      #0f0f17;
+      --cia-panel:   #13131f;
+      --cia-panel2:  #181826;
+      --cia-line:    #1e2436;
+      --cia-text:    #dde8f0;
+      --cia-muted:   #7a9ab0;
+      --cia-accent:  #00aadd;
+      --cia-accent2: #22bbee;
+      --cia-glow:    0 4px 24px rgba(0,140,200,0.1), 0 8px 40px rgba(0,0,0,0.4);
       --cia-radius:  12px;
     }
 
@@ -58,7 +58,7 @@ What are you looking for today?`;
     }
     #cia-fab:hover {
       transform: scale(1.08);
-      box-shadow: 0 0 28px rgba(0,184,232,0.45), 0 0 70px rgba(0,184,232,0.15);
+      box-shadow: 0 4px 20px rgba(0,140,200,0.2), 0 8px 40px rgba(0,0,0,0.4);
     }
     #cia-fab svg { width: 28px; height: 28px; }
     #cia-fab .cia-badge {
@@ -93,7 +93,7 @@ What are you looking for today?`;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
       font-size: 14px;
       color: var(--cia-text);
       transition: opacity 0.2s ease, transform 0.2s ease;
@@ -139,7 +139,7 @@ What are you looking for today?`;
     .cia-status {
       font-size: 11px;
       color: var(--cia-accent);
-      font-family: 'Consolas', monospace;
+      font-family: 'Poppins', system-ui, sans-serif;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -232,7 +232,7 @@ What are you looking for today?`;
       border: 1px solid var(--cia-line);
       border-radius: 3px;
       padding: 1px 5px;
-      font-family: Consolas, monospace;
+      font-family: 'Poppins', system-ui, sans-serif;
       font-size: 12px;
       color: #9fe1ff;
     }
