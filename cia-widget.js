@@ -31,7 +31,7 @@ What are you looking for today?`;
       --cia-muted:   #7a9ab0;
       --cia-accent:  #00aadd;
       --cia-accent2: #22bbee;
-      --cia-glow:    0 4px 24px rgba(0,140,200,0.1), 0 8px 40px rgba(0,0,0,0.4);
+      --cia-glow:    0 2px 12px rgba(0,0,0,0.5);
       --cia-radius:  12px;
     }
 
@@ -47,7 +47,7 @@ What are you looking for today?`;
       height: 58px;
       border-radius: 50%;
       background: var(--cia-bg);
-      border: 2px solid var(--cia-accent);
+      border: 1.5px solid rgba(0,170,221,0.35);
       box-shadow: var(--cia-glow);
       cursor: pointer;
       display: flex;
@@ -58,7 +58,7 @@ What are you looking for today?`;
     }
     #cia-fab:hover {
       transform: scale(1.08);
-      box-shadow: 0 4px 20px rgba(0,140,200,0.2), 0 8px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.6);
     }
     #cia-fab svg { width: 28px; height: 28px; }
     #cia-fab .cia-badge {
@@ -87,9 +87,9 @@ What are you looking for today?`;
       height: min(580px, calc(100vh - 140px));
       background: var(--cia-bg);
       border: 1px solid var(--cia-line);
-      border-top: 2px solid var(--cia-accent);
+      border-top: 1px solid rgba(0,170,221,0.3);
       border-radius: var(--cia-radius);
-      box-shadow: var(--cia-glow), 0 24px 80px rgba(0,0,0,0.7);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -276,7 +276,7 @@ What are you looking for today?`;
     }
     #cia-input-wrap:focus-within {
       border-color: var(--cia-accent);
-      box-shadow: 0 0 0 2px rgba(0,184,232,0.1);
+      box-shadow: none;
     }
     #cia-textarea {
       flex: 1;
