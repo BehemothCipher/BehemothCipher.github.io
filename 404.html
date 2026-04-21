@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404 — Page Not Found | CipherBuilds</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f17;--bg2:#13131f;
+  --border:#1e2436;
+  --cyan:#00aadd;--cyan2:#22bbee;
+  --text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;
+  --sans:'Poppins',sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px;overflow:hidden;position:relative}
+
+/* Grid background */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,170,221,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,170,221,0.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+
+/* Glow */
+body::after{content:'';position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,140,200,0.06) 0%,transparent 70%);pointer-events:none}
+
+.container{text-align:center;position:relative;z-index:2;max-width:560px}
+
+.error-code{font-size:clamp(80px,18vw,160px);font-weight:900;color:transparent;background:linear-gradient(135deg,var(--cyan) 0%,rgba(0,170,221,0.2) 100%);-webkit-background-clip:text;background-clip:text;line-height:1;margin-bottom:8px;letter-spacing:-4px}
+
+.error-title{font-size:clamp(18px,4vw,28px);font-weight:700;color:#fff;margin-bottom:12px}
+
+.error-desc{font-size:15px;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:40px}
+
+.error-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+
+.btn-primary{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:0.04em;background:var(--cyan);color:#fff;padding:12px 28px;border-radius:6px;text-decoration:none;transition:background 0.2s}
+.btn-primary:hover{background:var(--cyan2)}
+
+.btn-outline{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:0.04em;background:transparent;color:var(--muted);padding:12px 28px;border-radius:6px;border:1px solid var(--border);text-decoration:none;transition:border-color 0.2s,color 0.2s}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+
+.quick-links{display:flex;flex-direction:column;gap:8px;align-items:center}
+.quick-link{font-size:13px;color:var(--faint);text-decoration:none;transition:color 0.2s;display:flex;align-items:center;gap:8px}
+.quick-link:hover{color:var(--cyan)}
+.quick-link::before{content:'→';color:var(--cyan);opacity:0.6}
+
+.brand{position:fixed;top:20px;left:32px;font-size:14px;font-weight:700;color:var(--cyan);text-decoration:none;z-index:10}
+
+@media(max-width:480px){
+  .error-actions{flex-direction:column;align-items:center}
+  .btn-primary,.btn-outline{width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<a href="/" class="brand">CipherBuilds</a>
+
+<div class="container">
+  <div class="error-code">404</div>
+  <div class="error-title">Page Not Found</div>
+  <p class="error-desc">
+    This page doesn't exist or was moved.<br>
+    The tools still work though — head back and find what you need.
+  </p>
+
+  <div class="error-actions">
+    <a href="/" class="btn-primary">Back to Home →</a>
+    <a href="https://behemothcipher.gumroad.com" class="btn-outline" target="_blank">Visit Store</a>
+  </div>
+
+  <div class="quick-links">
+    <a href="/#demos" class="quick-link">Free Demos</a>
+    <a href="/#products" class="quick-link">Products</a>
+    <a href="/#commissions" class="quick-link">Commissions</a>
+    <a href="/#contact" class="quick-link">Contact</a>
+    <a href="/about.html" class="quick-link">About</a>
+  </div>
+</div>
+
+</body>
+</html>
