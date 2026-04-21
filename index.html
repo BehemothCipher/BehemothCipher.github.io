@@ -4,9 +4,62 @@
 <meta charset="UTF-8" />
 <meta property="og:url" content="https://behemothlab.dev/" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CipherBuilds — Tools & Custom App Development</title>
-<meta name="description" content="Field-built Windows tools and custom app development. Built by a technician, priced fairly, shipped direct." />
+<title>CipherBuilds — Windows Diagnostic & Cleanup Tools for Technicians | behemothlab.dev</title>
+<meta name="description" content="Technician-grade Windows tools built by a field engineer with 10+ years in ATM infrastructure. System Kit, Network Kit, and more — one-time purchase, no subscriptions, no bloat. Buy once, own forever." />
+<meta name="keywords" content="Windows cleanup tool, Windows diagnostic tool, technician tools, Windows maintenance software, system health dashboard, network scanner Windows, one time purchase Windows software, no subscription Windows tools, field engineer tools, IT technician software" />
+<meta name="author" content="BehemothCipher" />
+<meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://behemothlab.dev/" />
+
+<!-- Open Graph (Facebook, LinkedIn, Discord previews) -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="CipherBuilds — Windows Tools for Technicians" />
+<meta property="og:description" content="Technician-grade Windows diagnostic and cleanup tools. Built by a field engineer, priced fairly, sold direct. Buy once, own forever. No subscriptions." />
+<meta property="og:image" content="https://behemothlab.dev/cipherbuilds-logo-full.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="400" />
+<meta property="og:site_name" content="CipherBuilds" />
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="CipherBuilds — Windows Tools for Technicians" />
+<meta name="twitter:description" content="Technician-grade Windows diagnostic and cleanup tools. Buy once, own forever. No subscriptions, no bloat." />
+<meta name="twitter:image" content="https://behemothlab.dev/cipherbuilds-logo-full.png" />
+
+<!-- Schema.org structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CipherBuilds",
+  "url": "https://behemothlab.dev",
+  "description": "Technician-grade Windows tools built by a field engineer. System Kit, Network Kit, and custom app development.",
+  "author": {
+    "@type": "Person",
+    "name": "BehemothCipher",
+    "jobTitle": "Field Engineer & Software Developer",
+    "url": "https://github.com/BehemothCipher"
+  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "System Kit",
+      "description": "Windows system health dashboard, cleanup tool, diagnostics and report generation.",
+      "price": "12.00",
+      "priceCurrency": "USD",
+      "url": "https://behemothcipher.gumroad.com/l/behemoth-system-kit"
+    },
+    {
+      "@type": "Offer",
+      "name": "Network Kit",
+      "description": "Windows network diagnostics, port scanning, connectivity testing and bandwidth analysis.",
+      "price": "15.00",
+      "priceCurrency": "USD",
+      "url": "https://behemothcipher.gumroad.com/l/behemoth-network-kit"
+    }
+  ]
+}
+</script>
 <script>
 if (location.hostname === "behemothcipher.github.io") {
   location.replace("https://behemothlab.dev" + location.pathname);
@@ -230,7 +283,7 @@ section{padding:88px 32px}
 .sim-dots{display:flex;gap:7px}
 .sim-dot{width:12px;height:12px;border-radius:50%}
 .dot-red{background:#ff5f57}.dot-yellow{background:#febc2e}.dot-green{background:#28c840}
-.sim-wintitle{font-size:12px;color:#8ea6bf;font-family:'Segoe UI',sans-serif}
+.sim-wintitle{font-size:12px;color:#8ea6bf}
 .sim-appheader{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 16px 10px;background:#0f141c;border-bottom:1px solid #1c3248}
 .sim-apptitle{font-size:22px;font-weight:700;color:#e6eef8;line-height:1.2}
 .sim-appby{font-size:13px;color:#59b6ff;font-weight:600;margin-top:2px}
@@ -291,9 +344,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   .hero h1{font-size:36px}
   .hero-actions{flex-direction:column}
   .btn-primary,.btn-outline{text-align:center;width:100%}
-  .sim-cards{grid-template-columns:1fr 1fr}
-  .sim-profiles{grid-template-columns:1fr}
-  .sim-btnrow{flex-direction:column}
   .commission-grid{grid-template-columns:1fr}
   .demo-grid{grid-template-columns:1fr}
   .services-grid{grid-template-columns:1fr}
@@ -315,7 +365,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 <!-- Nav -->
 <nav>
   <div class="nav-brand">
-    <img src="./cipherbuilds-logo-full.png" alt="CipherBuilds" class="nav-logo-img" />
+    <img src="./cipherbuilds-logo-full.png" alt="CipherBuilds logo" class="nav-logo-img" />
     <div class="nav-name">CipherBuilds</div>
   </div>
   <ul class="nav-links">
@@ -453,21 +503,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
     <div class="section-label reveal">Interactive Preview</div>
     <div class="section-title reveal">Try It Before<br>You Buy It.</div>
     <p class="section-sub reveal">This is a live simulation of the System Kit interface — the real colors, real layout, real tools. Click the buttons to see exactly how it works, no download required.</p>
-
     <div class="sim-shell reveal">
-
-      <!-- Title bar -->
       <div class="sim-titlebar">
-        <div class="sim-dots">
-          <span class="sim-dot dot-red"></span>
-          <span class="sim-dot dot-yellow"></span>
-          <span class="sim-dot dot-green"></span>
-        </div>
+        <div class="sim-dots"><span class="sim-dot dot-red"></span><span class="sim-dot dot-yellow"></span><span class="sim-dot dot-green"></span></div>
         <div class="sim-wintitle">System Kit &nbsp;–&nbsp; by BehemothCipher &nbsp;&nbsp; v14.0.0</div>
         <div style="width:52px"></div>
       </div>
-
-      <!-- App header -->
       <div class="sim-appheader">
         <div>
           <div class="sim-apptitle">System Kit</div>
@@ -476,16 +517,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
         <div class="sim-logo-block">CipherBuilds</div>
       </div>
-
-      <!-- Action buttons row 1 -->
-      <div class="sim-btnrow" id="sim-row1">
+      <div class="sim-btnrow">
         <button class="sim-glow-btn" onclick="simAction('health')">System Health Dashboard</button>
         <button class="sim-glow-btn" onclick="simAction('standard')">Run Standard Profile</button>
         <button class="sim-glow-btn" onclick="simAction('deep')">Run Deep Profile</button>
         <button class="sim-glow-btn" onclick="simAction('report')">Generate Technician Report</button>
       </div>
-
-      <!-- Action buttons row 2 -->
       <div class="sim-btnrow sim-btnrow2">
         <button class="sim-glow-btn sim-glow-btn-sm" onclick="simAction('usb')">Create Portable USB</button>
         <button class="sim-glow-btn sim-glow-btn-sm" onclick="simAction('export')">Export Report</button>
@@ -493,48 +530,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         <button class="sim-glow-btn sim-glow-btn-sm" onclick="simAction('logs')">Open Logs Folder</button>
         <button class="sim-glow-btn sim-glow-btn-sm" onclick="simAction('about')">About</button>
       </div>
-
-      <!-- Dashboard cards -->
       <div class="sim-cards">
-        <div class="sim-card">
-          <div class="sim-card-title">Disk</div>
-          <div class="sim-card-val" id="card-disk">Free Space: --</div>
-        </div>
-        <div class="sim-card">
-          <div class="sim-card-title">Cleanup</div>
-          <div class="sim-card-val" id="card-cleanup">Potential Cleanup: --</div>
-        </div>
-        <div class="sim-card">
-          <div class="sim-card-title">Toolkit</div>
-          <div class="sim-card-val" id="card-mode">Mode: Installed</div>
-        </div>
-        <div class="sim-card">
-          <div class="sim-card-title">Status</div>
-          <div class="sim-card-val" id="card-status">Status: Ready</div>
-        </div>
+        <div class="sim-card"><div class="sim-card-title">Disk</div><div class="sim-card-val" id="card-disk">Free Space: --</div></div>
+        <div class="sim-card"><div class="sim-card-title">Cleanup</div><div class="sim-card-val" id="card-cleanup">Potential Cleanup: --</div></div>
+        <div class="sim-card"><div class="sim-card-title">Toolkit</div><div class="sim-card-val" id="card-mode">Mode: Installed</div></div>
+        <div class="sim-card"><div class="sim-card-title">Status</div><div class="sim-card-val" id="card-status">Status: Ready</div></div>
       </div>
-
-      <!-- Profile cards -->
       <div class="sim-profiles">
-        <div class="sim-profile-card">
-          <div class="sim-profile-name">Standard Profile</div>
-          <div class="sim-profile-desc">Includes: system health scan, quick cleanup, recycle bin, browser cache cleanup, and updated toolkit metrics.</div>
-        </div>
-        <div class="sim-profile-card">
-          <div class="sim-profile-name">Deep Profile</div>
-          <div class="sim-profile-desc">Includes: system health dashboard, deep maintenance, largest-files snapshot, and a technician service report.</div>
-        </div>
+        <div class="sim-profile-card"><div class="sim-profile-name">Standard Profile</div><div class="sim-profile-desc">Includes: system health scan, quick cleanup, recycle bin, browser cache cleanup, and updated toolkit metrics.</div></div>
+        <div class="sim-profile-card"><div class="sim-profile-name">Deep Profile</div><div class="sim-profile-desc">Includes: system health dashboard, deep maintenance, largest-files snapshot, and a technician service report.</div></div>
       </div>
-
-      <!-- Progress bar -->
-      <div class="sim-progress-wrap">
-        <div class="sim-progress-track">
-          <div class="sim-progress-bar" id="sim-pbar" style="width:0%"></div>
-        </div>
-      </div>
+      <div class="sim-progress-wrap"><div class="sim-progress-track"><div class="sim-progress-bar" id="sim-pbar" style="width:0%"></div></div></div>
       <div class="sim-statusline" id="sim-statusline">Ready.</div>
-
-      <!-- Notebook tabs -->
       <div class="sim-notebook">
         <div class="sim-tabs">
           <button class="sim-tab active" onclick="simTab('output', this)">Technical Output</button>
@@ -548,15 +555,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
           <pre class="sim-log-text" id="sim-log-text"></pre>
         </div>
       </div>
-
-      <!-- Footer -->
       <div class="sim-appfooter">
         <span id="sim-summary">No report yet.</span>
         <span>© 2026 BehemothCipher Labs &nbsp;•&nbsp; All rights reserved</span>
       </div>
-
     </div>
-
     <p style="text-align:center;font-size:13px;color:var(--faint);margin-top:20px">This is a simulation. The real System Kit runs natively on Windows 10/11 as a proper installed application.</p>
   </div>
 </section>
@@ -915,7 +918,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 <!-- Footer -->
 <footer>
   <div class="footer-brand">
-    <img src="./cipherbuilds-logo-full.png" alt="CipherBuilds" class="footer-logo" />
+    <img src="./cipherbuilds-logo-full.png" alt="CipherBuilds logo" class="footer-logo" />
     <div class="footer-name">CIPHERBUILDS</div>
   </div>
   <div class="footer-note">© 2025 BehemothCipher · CipherBuilds · Springfield, MA · Built to last.</div>
@@ -949,268 +952,7 @@ if (isMobile) {
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   setTimeout(revealAll, 2000);
 }
-// ── System Kit Simulator ──────────────────────────────────────────────
-const simNow = () => new Date().toLocaleTimeString('en-US', {hour12:false});
-let simRunning = false;
-
-function simTab(tab, btn) {
-  document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sim-output').style.display = tab === 'output' ? 'block' : 'none';
-  document.getElementById('sim-log').style.display = tab === 'log' ? 'block' : 'none';
-}
-
-function setStatus(msg) {
-  document.getElementById('sim-statusline').textContent = msg;
-  document.getElementById('card-status').textContent = 'Status: ' + msg;
-}
-
-function setProgress(pct) {
-  document.getElementById('sim-pbar').style.width = pct + '%';
-}
-
-function setSummary(msg) {
-  document.getElementById('sim-summary').textContent = msg;
-}
-
-function appendLog(msg) {
-  const el = document.getElementById('sim-log-text');
-  el.textContent += `[${simNow()}] [INFO] ${msg}\n`;
-  el.scrollTop = el.scrollHeight;
-}
-
-function showOutput(text) {
-  document.getElementById('sim-output-placeholder').style.display = 'none';
-  const el = document.getElementById('sim-output-text');
-  el.style.display = 'block';
-  el.textContent = text;
-}
-
-function setCards(disk, cleanup) {
-  document.getElementById('card-disk').textContent = disk;
-  document.getElementById('card-cleanup').textContent = cleanup;
-}
-
-function simAction(action) {
-  if (simRunning) return;
-  simRunning = true;
-  setProgress(0);
-
-  const actions = {
-    health: runHealthDashboard,
-    standard: runStandardProfile,
-    deep: runDeepProfile,
-    report: runTechnicianReport,
-    usb: () => simInfo('Create Portable USB', 'In the real app, this packages the tool to any USB drive so it runs on any machine without installing.'),
-    export: () => simInfo('Export Report', 'In the real app, this saves the last technical output as a .txt file to a location you choose.'),
-    schedule: () => simInfo('Schedule Maintenance', 'In the real app, this creates a Windows Task Scheduler entry to run cleanup automatically (weekly or monthly).'),
-    logs: () => simInfo('Open Logs Folder', 'In the real app, this opens the folder where all cleanup and scan logs are saved.'),
-    about: () => simInfo('About', 'System Kit v14.0.0\nby BehemothCipher\nBehemothCipher Labs\n\nTechnician maintenance toolkit for Windows 10/11.\nbehemothlab.dev'),
-  };
-  (actions[action] || (() => { simRunning = false; }))();
-}
-
-function simInfo(title, msg) {
-  showOutput(`${title}\n${'─'.repeat(56)}\n\n${msg}`);
-  appendLog(`${title} — info displayed.`);
-  setSummary(title + ' — for demonstration purposes.');
-  setProgress(100);
-  setStatus('Ready.');
-  setTimeout(() => { setProgress(0); simRunning = false; }, 1500);
-}
-
-function runHealthDashboard() {
-  setStatus('Running system health scan...');
-  appendLog('System Health Dashboard started.');
-  setProgress(10);
-
-  const steps = [
-    [400,  20, 'Checking disk usage...'],
-    [900,  40, 'Scanning temp folders...'],
-    [1400, 60, 'Checking browser cache...'],
-    [1900, 80, 'Checking Windows Update cache...'],
-    [2500, 95, 'Checking recycle bin...'],
-  ];
-
-  steps.forEach(([delay, pct, msg]) => {
-    setTimeout(() => { setProgress(pct); setStatus(msg); appendLog(msg); }, delay);
-  });
-
-  setTimeout(() => {
-    setProgress(100);
-    setStatus('Scan complete.');
-    setCards('Free Space: 287.4 GB', 'Potential Cleanup: 5.81 GB');
-    const output = [
-      'SYSTEM SCAN',
-      '─'.repeat(56),
-      'User Temp                          1.24 GB',
-      'Windows Temp                       892.31 MB',
-      'Recycle Bin                        56.12 MB',
-      'Chrome Cache                       847.44 MB',
-      'Edge Cache                         412.09 MB',
-      'Windows Update Cache               2.36 GB',
-      '─'.repeat(56),
-      'Total Junk Found                   5.81 GB',
-    ].join('\n');
-    showOutput(output);
-    appendLog('Scan complete. Total junk found: 5.81 GB');
-    setSummary('Scan complete. Potential junk found: 5.81 GB');
-    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
-  }, 3200);
-}
-
-function runStandardProfile() {
-  setStatus('Running Standard Profile...');
-  appendLog('Starting Standard Profile...');
-  setProgress(5);
-
-  const steps = [
-    [300,  14, 'Cleaning user temp files...'],
-    [800,  28, 'Cleaning Windows temp files...'],
-    [1300, 42, 'Emptying recycle bin...'],
-    [1800, 57, 'Cleaning recent files...'],
-    [2200, 71, 'Flushing DNS cache...'],
-    [2700, 85, 'Cleaning browser cache...'],
-  ];
-
-  steps.forEach(([delay, pct, msg]) => {
-    setTimeout(() => { setProgress(pct); setStatus(msg); appendLog(msg); }, delay);
-  });
-
-  setTimeout(() => {
-    setProgress(100);
-    setStatus('Standard Profile complete.');
-    setCards('Free Space: 293.2 GB', 'Potential Cleanup: 0 B');
-    const output = [
-      'QUICK CLEANUP SUMMARY',
-      '─'.repeat(60),
-      '',
-      'User Temp                              1.24 GB',
-      'Windows Temp                           892.31 MB',
-      'Recycle Bin                            56.12 MB',
-      'Recent Files                           4.21 MB',
-      'DNS Flush                              0 B',
-      'Chrome Cache                           847.44 MB',
-      'Edge Cache                             412.09 MB',
-      '',
-      '─'.repeat(60),
-      'Estimated Total Freed                  3.43 GB',
-      'Log File                               cleanup_' + new Date().toISOString().slice(0,10) + '.log',
-    ].join('\n');
-    showOutput(output);
-    appendLog('Standard Profile complete. Estimated total freed: 3.43 GB');
-    setSummary('Standard Profile complete. Estimated space freed: 3.43 GB');
-    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
-  }, 3500);
-}
-
-function runDeepProfile() {
-  setStatus('Running Deep Profile...');
-  appendLog('Starting Deep Maintenance...');
-  setProgress(5);
-
-  const steps = [
-    [300,  12, 'Cleaning user temp files...'],
-    [700,  24, 'Cleaning Windows temp files...'],
-    [1100, 36, 'Emptying recycle bin...'],
-    [1500, 48, 'Cleaning recent files...'],
-    [1900, 57, 'Flushing DNS cache...'],
-    [2300, 66, 'Cleaning browser cache...'],
-    [2800, 76, 'Creating restore point...'],
-    [3400, 87, 'Cleaning Windows Update cache...'],
-    [4000, 94, 'Running Windows component cleanup (DISM)...'],
-  ];
-
-  steps.forEach(([delay, pct, msg]) => {
-    setTimeout(() => { setProgress(pct); setStatus(msg); appendLog(msg); }, delay);
-  });
-
-  setTimeout(() => {
-    setProgress(100);
-    setStatus('Deep Profile complete.');
-    setCards('Free Space: 296.8 GB', 'Potential Cleanup: 0 B');
-    const output = [
-      'DEEP CLEANUP SUMMARY',
-      '─'.repeat(60),
-      '',
-      'User Temp                              1.24 GB',
-      'Windows Temp                           892.31 MB',
-      'Recycle Bin                            56.12 MB',
-      'Recent Files                           4.21 MB',
-      'DNS Flush                              0 B',
-      'Chrome Cache                           847.44 MB',
-      'Edge Cache                             412.09 MB',
-      'Windows Update Cache                   2.36 GB',
-      'DISM Component Cleanup                 1.12 GB',
-      '',
-      '─'.repeat(60),
-      'Estimated Total Freed                  6.93 GB',
-      'Log File                               cleanup_' + new Date().toISOString().slice(0,10) + '.log',
-    ].join('\n');
-    showOutput(output);
-    appendLog('Deep Profile complete. Estimated total freed: 6.93 GB');
-    setSummary('Deep Profile complete. Estimated space freed: 6.93 GB');
-    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
-  }, 5000);
-}
-
-function runTechnicianReport() {
-  setStatus('Generating technician report...');
-  appendLog('Generating Technician Report...');
-  setProgress(20);
-
-  setTimeout(() => { setProgress(55); setStatus('Reading disk and junk data...'); appendLog('Reading disk and junk data...'); }, 600);
-  setTimeout(() => { setProgress(80); setStatus('Reading largest files snapshot...'); appendLog('Reading largest files snapshot...'); }, 1200);
-
-  setTimeout(() => {
-    setProgress(100);
-    setStatus('Technician report complete.');
-    const now = new Date().toLocaleString();
-    const output = [
-      'SYSTEM HEALTH REPORT',
-      '='.repeat(64),
-      `Generated        : ${now}`,
-      `Computer Name    : DESKTOP-CIPHER01`,
-      `Platform         : Windows 11 Pro 22H2 (22621.3296)`,
-      '',
-      '-- Disk & Space -----------------------------------------------',
-      '  C:\\ Total      : 931.51 GB',
-      '  C:\\ Used       : 644.11 GB',
-      '  C:\\ Free       : 287.40 GB',
-      '  Usage          : 69.2%',
-      '',
-      '-- Junk / Cleanable Space -------------------------------------',
-      '  User Temp                       1.24 GB',
-      '  Windows Temp                  892.31 MB',
-      '  Recycle Bin                    56.12 MB',
-      '  Chrome Cache                  847.44 MB',
-      '  Edge Cache                    412.09 MB',
-      '  Windows Update Cache            2.36 GB',
-      '  Total Potential Cleanup         5.81 GB',
-      '',
-      '-- Largest Files Snapshot -------------------------------------',
-      '     4.21 GB  C:\\Users\\User\\Downloads\\setup_old.exe',
-      '     2.88 GB  C:\\Users\\User\\Downloads\\backup.zip',
-      '     1.47 GB  C:\\Users\\User\\Desktop\\project_archive.7z',
-      '     890.44 MB  C:\\Users\\User\\Downloads\\installer_v2.msi',
-      '     741.12 MB  C:\\Users\\User\\Videos\\recording.mp4',
-      '',
-      '-- Toolkit Status ---------------------------------------------',
-      '  Product          : System Kit',
-      '  Publisher        : BehemothCipher Labs',
-      '  Mode             : Installed',
-      '  Admin Rights     : Yes',
-      `  Log File         : cleanup_${new Date().toISOString().slice(0,10)}.log`,
-      '='.repeat(64),
-    ].join('\n');
-    showOutput(output);
-    appendLog('Technician report generated.');
-    setSummary('Technician report complete. Use Export Report to save.');
-    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
-  }, 1800);
-}
-
-
+window.addEventListener('resize', () => { if (window.innerWidth <= 900) revealAll(); });
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
   if (nav) nav.style.padding = window.scrollY > 40 ? '10px 32px' : '14px 32px';
@@ -1287,6 +1029,120 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
   });
 });
+
+// ── System Kit Simulator ──────────────────────────────────────────────
+const simNow = () => new Date().toLocaleTimeString('en-US', {hour12:false});
+let simRunning = false;
+
+function simTab(tab, btn) {
+  document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sim-output').style.display = tab === 'output' ? 'block' : 'none';
+  document.getElementById('sim-log').style.display = tab === 'log' ? 'block' : 'none';
+}
+function setStatus(msg) {
+  document.getElementById('sim-statusline').textContent = msg;
+  document.getElementById('card-status').textContent = 'Status: ' + msg;
+}
+function setProgress(pct) { document.getElementById('sim-pbar').style.width = pct + '%'; }
+function setSummary(msg) { document.getElementById('sim-summary').textContent = msg; }
+function appendLog(msg) {
+  const el = document.getElementById('sim-log-text');
+  el.textContent += '[' + simNow() + '] [INFO] ' + msg + '\n';
+  el.scrollTop = el.scrollHeight;
+}
+function showOutput(text) {
+  document.getElementById('sim-output-placeholder').style.display = 'none';
+  const el = document.getElementById('sim-output-text');
+  el.style.display = 'block';
+  el.textContent = text;
+}
+function setCards(disk, cleanup) {
+  document.getElementById('card-disk').textContent = disk;
+  document.getElementById('card-cleanup').textContent = cleanup;
+}
+function simAction(action) {
+  if (simRunning) return;
+  simRunning = true;
+  setProgress(0);
+  const actions = {
+    health: runHealthDashboard,
+    standard: runStandardProfile,
+    deep: runDeepProfile,
+    report: runTechnicianReport,
+    usb: () => simInfo('Create Portable USB', 'In the real app, this packages the tool to any USB drive so it runs on any machine without installing.'),
+    export: () => simInfo('Export Report', 'In the real app, this saves the last technical output as a .txt file to a location you choose.'),
+    schedule: () => simInfo('Schedule Maintenance', 'In the real app, this creates a Windows Task Scheduler entry to run cleanup automatically (weekly or monthly).'),
+    logs: () => simInfo('Open Logs Folder', 'In the real app, this opens the folder where all cleanup and scan logs are saved.'),
+    about: () => simInfo('About', 'System Kit v14.0.0\nby BehemothCipher\nBehemothCipher Labs\n\nTechnician maintenance toolkit for Windows 10/11.\nbehemothlab.dev'),
+  };
+  (actions[action] || (() => { simRunning = false; }))();
+}
+function simInfo(title, msg) {
+  showOutput(title + '\n' + '\u2500'.repeat(56) + '\n\n' + msg);
+  appendLog(title + ' \u2014 info displayed.');
+  setSummary(title + ' \u2014 for demonstration purposes.');
+  setProgress(100);
+  setStatus('Ready.');
+  setTimeout(() => { setProgress(0); simRunning = false; }, 1500);
+}
+function runHealthDashboard() {
+  setStatus('Running system health scan...');
+  appendLog('System Health Dashboard started.');
+  setProgress(10);
+  const steps = [[400,20,'Checking disk usage...'],[900,40,'Scanning temp folders...'],[1400,60,'Checking browser cache...'],[1900,80,'Checking Windows Update cache...'],[2500,95,'Checking recycle bin...']];
+  steps.forEach(([delay,pct,msg]) => setTimeout(() => { setProgress(pct); setStatus(msg); appendLog(msg); }, delay));
+  setTimeout(() => {
+    setProgress(100); setStatus('Scan complete.');
+    setCards('Free Space: 287.4 GB','Potential Cleanup: 5.81 GB');
+    showOutput('SYSTEM SCAN\n' + '\u2500'.repeat(56) + '\nUser Temp                          1.24 GB\nWindows Temp                       892.31 MB\nRecycle Bin                        56.12 MB\nChrome Cache                       847.44 MB\nEdge Cache                         412.09 MB\nWindows Update Cache               2.36 GB\n' + '\u2500'.repeat(56) + '\nTotal Junk Found                   5.81 GB');
+    appendLog('Scan complete. Total junk found: 5.81 GB');
+    setSummary('Scan complete. Potential junk found: 5.81 GB');
+    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
+  }, 3200);
+}
+function runStandardProfile() {
+  setStatus('Running Standard Profile...'); appendLog('Starting Standard Profile...'); setProgress(5);
+  const steps = [[300,14,'Cleaning user temp files...'],[800,28,'Cleaning Windows temp files...'],[1300,42,'Emptying recycle bin...'],[1800,57,'Cleaning recent files...'],[2200,71,'Flushing DNS cache...'],[2700,85,'Cleaning browser cache...']];
+  steps.forEach(([delay,pct,msg]) => setTimeout(() => { setProgress(pct); setStatus(msg); appendLog(msg); }, delay));
+  setTimeout(() => {
+    setProgress(100); setStatus('Standard Profile complete.');
+    setCards('Free Space: 293.2 GB','Potential Cleanup: 0 B');
+    const d = new Date().toISOString().slice(0,10);
+    showOutput('QUICK CLEANUP SUMMARY\n' + '\u2500'.repeat(60) + '\n\nUser Temp                              1.24 GB\nWindows Temp                           892.31 MB\nRecycle Bin                            56.12 MB\nRecent Files                           4.21 MB\nDNS Flush                              0 B\nChrome Cache                           847.44 MB\nEdge Cache                             412.09 MB\n\n' + '\u2500'.repeat(60) + '\nEstimated Total Freed                  3.43 GB\nLog File                               cleanup_' + d + '.log');
+    appendLog('Standard Profile complete. Estimated total freed: 3.43 GB');
+    setSummary('Standard Profile complete. Estimated space freed: 3.43 GB');
+    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
+  }, 3500);
+}
+function runDeepProfile() {
+  setStatus('Running Deep Profile...'); appendLog('Starting Deep Maintenance...'); setProgress(5);
+  const steps = [[300,12,'Cleaning user temp files...'],[700,24,'Cleaning Windows temp files...'],[1100,36,'Emptying recycle bin...'],[1500,48,'Cleaning recent files...'],[1900,57,'Flushing DNS cache...'],[2300,66,'Cleaning browser cache...'],[2800,76,'Creating restore point...'],[3400,87,'Cleaning Windows Update cache...'],[4000,94,'Running Windows component cleanup (DISM)...']];
+  steps.forEach(([delay,pct,msg]) => setTimeout(() => { setProgress(pct); setStatus(msg); appendLog(msg); }, delay));
+  setTimeout(() => {
+    setProgress(100); setStatus('Deep Profile complete.');
+    setCards('Free Space: 296.8 GB','Potential Cleanup: 0 B');
+    const d = new Date().toISOString().slice(0,10);
+    showOutput('DEEP CLEANUP SUMMARY\n' + '\u2500'.repeat(60) + '\n\nUser Temp                              1.24 GB\nWindows Temp                           892.31 MB\nRecycle Bin                            56.12 MB\nRecent Files                           4.21 MB\nDNS Flush                              0 B\nChrome Cache                           847.44 MB\nEdge Cache                             412.09 MB\nWindows Update Cache                   2.36 GB\nDISM Component Cleanup                 1.12 GB\n\n' + '\u2500'.repeat(60) + '\nEstimated Total Freed                  6.93 GB\nLog File                               cleanup_' + d + '.log');
+    appendLog('Deep Profile complete. Estimated total freed: 6.93 GB');
+    setSummary('Deep Profile complete. Estimated space freed: 6.93 GB');
+    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
+  }, 5000);
+}
+function runTechnicianReport() {
+  setStatus('Generating technician report...'); appendLog('Generating Technician Report...'); setProgress(20);
+  setTimeout(() => { setProgress(55); setStatus('Reading disk and junk data...'); appendLog('Reading disk and junk data...'); }, 600);
+  setTimeout(() => { setProgress(80); setStatus('Reading largest files snapshot...'); appendLog('Reading largest files snapshot...'); }, 1200);
+  setTimeout(() => {
+    setProgress(100); setStatus('Technician report complete.');
+    const now = new Date().toLocaleString();
+    const d = new Date().toISOString().slice(0,10);
+    showOutput('SYSTEM HEALTH REPORT\n' + '='.repeat(64) + '\nGenerated        : ' + now + '\nComputer Name    : DESKTOP-CIPHER01\nPlatform         : Windows 11 Pro 22H2 (22621.3296)\n\n-- Disk & Space -----------------------------------------------\n  C:\\ Total      : 931.51 GB\n  C:\\ Used       : 644.11 GB\n  C:\\ Free       : 287.40 GB\n  Usage          : 69.2%\n\n-- Junk / Cleanable Space -------------------------------------\n  User Temp                       1.24 GB\n  Windows Temp                  892.31 MB\n  Recycle Bin                    56.12 MB\n  Chrome Cache                  847.44 MB\n  Edge Cache                    412.09 MB\n  Windows Update Cache            2.36 GB\n  Total Potential Cleanup         5.81 GB\n\n-- Largest Files Snapshot -------------------------------------\n     4.21 GB  C:\\Users\\User\\Downloads\\setup_old.exe\n     2.88 GB  C:\\Users\\User\\Downloads\\backup.zip\n     1.47 GB  C:\\Users\\User\\Desktop\\project_archive.7z\n   890.44 MB  C:\\Users\\User\\Downloads\\installer_v2.msi\n   741.12 MB  C:\\Users\\User\\Videos\\recording.mp4\n\n-- Toolkit Status ---------------------------------------------\n  Product          : System Kit\n  Publisher        : BehemothCipher Labs\n  Mode             : Installed\n  Admin Rights     : Yes\n  Log File         : cleanup_' + d + '.log\n' + '='.repeat(64));
+    appendLog('Technician report generated.');
+    setSummary('Technician report complete. Use Export Report to save.');
+    setTimeout(() => { setProgress(0); simRunning = false; }, 1000);
+  }, 1800);
+}
 </script>
 <script
   src="/cia-widget.js"
