@@ -1,0 +1,54 @@
+# === NEVER PUSH THESE ===
+
+# Python source files (tool source code)
+*.py
+*.pyw
+*.pyc
+*.pyd
+__pycache__/
+
+# PyInstaller
+*.spec
+dist/
+build/
+
+# Inno Setup
+*.iss
+
+# Batch build scripts
+*.bat
+*.cmd
+
+# Environment / credentials
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Compiled / packaged
+*.exe
+*.msi
+*.zip
+*.tar.gz
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Contract source files
+contract.js
+contract_pdf.py
+generateContract.js
+
+# Logs
+*.log
