@@ -383,7 +383,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
     <div class="nav-name">CipherBuilds</div>
   </div>
   <ul class="nav-links">
-    <li><a href="#demos">Demos</a></li>
     <li><a href="#simulator">Simulator</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="#featured">Featured</a></li>
@@ -463,53 +462,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
     <span class="ticker-item">Buy Once — Own Forever</span>
   </div>
 </div>
-
-<!-- Demos -->
-<section id="demos" style="background:var(--bg2)">
-  <div class="container">
-    <div class="section-label reveal">Free Demos</div>
-    <div class="section-title reveal">Try Before You Buy.</div>
-    <p class="section-sub reveal">Download free limited demos of CipherBuilds tools — no account required, no time limit. See exactly what you're getting before you purchase.</p>
-
-    <div class="demo-grid">
-
-      <div class="demo-card reveal">
-        <div class="demo-badge">● Free Download</div>
-        <div class="demo-name">System Kit</div>
-        <div class="demo-tagline">Demo Edition — Limited Features</div>
-        <p class="demo-desc">Try the System Kit before you buy. The demo includes system health scanning and basic cleanup — enough to see how it works on your machine.</p>
-        <ul class="demo-features">
-          <li>System health dashboard</li>
-          <li>Basic cleanup scan</li>
-          <li>Disk usage overview</li>
-          <li>Full version: $30 one-time</li>
-        </ul>
-        <div class="demo-footer">
-          <div class="demo-price">Free <span>demo</span></div>
-          <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo" class="demo-btn" target="_blank">Download Free →</a>
-        </div>
-      </div>
-
-      <div class="demo-card reveal" style="transition-delay:0.1s">
-        <div class="demo-badge">● Free Download</div>
-        <div class="demo-name">Network Kit</div>
-        <div class="demo-tagline">Demo Edition — Limited Features</div>
-        <p class="demo-desc">Try the Network Kit before you buy. The demo includes basic network scanning and connectivity testing so you can see how it performs on your setup.</p>
-        <ul class="demo-features">
-          <li>Network connectivity tester</li>
-          <li>Basic port scanner</li>
-          <li>Local network overview</li>
-          <li>Full version: $35 one-time</li>
-        </ul>
-        <div class="demo-footer">
-          <div class="demo-price">Free <span>demo</span></div>
-          <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo" class="demo-btn" target="_blank">Download Free →</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- Simulator -->
 <section id="simulator" style="background:var(--bg2)">
@@ -613,7 +565,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         <p class="product-desc">Technician maintenance toolkit — system health dashboard, cleanup profiles, diagnostics, and report generation. Built by a field engineer for field engineers.</p>
         <div class="product-footer">
           <div class="product-price">$30 <span>one-time</span></div>
-          <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit" class="product-btn" target="_blank">Buy Now →</a>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit" class="product-btn" target="_blank">Buy Now →</a>
+          </div>
         </div>
       </div>
 
@@ -623,7 +578,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         <p class="product-desc">Network diagnostics and monitoring for Windows — port scanning, connectivity testing, bandwidth analysis, and infrastructure reporting.</p>
         <div class="product-footer">
           <div class="product-price">$35 <span>one-time</span></div>
-          <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit" class="product-btn" target="_blank">Buy Now →</a>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit" class="product-btn" target="_blank">Buy Now →</a>
+          </div>
         </div>
       </div>
 
@@ -681,122 +639,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   </div>
 </section>
 
-<!-- Featured -->
-<section id="featured" style="background:var(--bg2)">
-  <div class="container">
-    <div class="section-label reveal">Featured Product</div>
-    <div class="section-title reveal">Coming Soon.</div>
-    <p class="section-sub reveal">The most advanced kit in the CipherBuilds suite.</p>
-    <div class="featured-card reveal">
-      <div class="featured-body">
-        <div class="featured-label">Featured Product — Coming Soon</div>
-        <div class="featured-title">CIPHER<span>SENTINEL</span></div>
-        <p class="featured-desc">
-          Real-time bot intelligence platform for Windows. Detects scrapers, credential stuffers,
-          headless browsers, and ad fraud bots the moment they hit your site — using a five-signal
-          threat scoring engine, live dashboard, JS browser fingerprinting, and IP reputation lookup.
-          Built by a field engineer who knows what real attacks look like.
-        </p>
-        <div class="featured-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">React</span>
-          <span class="tag">WebSocket</span>
-          <span class="tag">SQLite</span>
-          <span class="tag">Inno Setup</span>
-          <span class="tag">Security</span>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="https://behemothcipher.gumroad.com" class="btn-primary" style="font-size:10px;padding:9px 18px" target="_blank">View on Gumroad →</a>
-        </div>
-      </div>
-      <div class="featured-aside">
-        <div>
-          <div class="aside-num">5</div>
-          <div class="aside-label">Detection Signals</div>
-        </div>
-        <div class="aside-divider"></div>
-        <div>
-          <div class="aside-num">RT</div>
-          <div class="aside-label">Live WebSocket Feed</div>
-        </div>
-        <div class="aside-divider"></div>
-        <div>
-          <div class="aside-num">MIT</div>
-          <div class="aside-label">Open Source License</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- About -->
 <section id="about" style="background:var(--bg)">
   <div class="container">
-    <div class="about-grid">
-      <div class="about-text reveal">
+    <div class="about-simple reveal">
+      <div>
         <div class="section-label">About</div>
         <div class="section-title">Built In<br>The Field.</div>
-        <p>Ten years as a field engineer maintaining <strong>ATM networks and cash machine infrastructure</strong> — systems where downtime costs money by the minute and security isn't optional. That experience is the foundation of everything I build.</p>
-        <p>Most Windows tools are built by people who've never had to use them under pressure. <em>CipherBuilds exists to fix that.</em> Every kit is built around workflows I've actually needed, problems I've actually hit.</p>
-        <p>No subscriptions. No bloat. No dumbed-down interfaces. <strong>Technician-grade tools</strong> — packaged properly, documented clearly, priced fairly. Buy once, own it forever.</p>
-        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap">
-          <a href="https://behemothcipher.gumroad.com" class="btn-primary" target="_blank">Buy on Gumroad →</a>
-        </div>
-      </div>
-      <div class="reveal" style="transition-delay:0.15s">
-        <div class="section-label">Technical Skills</div>
-        <div class="skills-grid">
-          <div class="skill-row"><div class="skill-name">Node.js / JS</div><div class="skill-bar"><div class="skill-fill" style="--w:82%"></div></div><div class="skill-level">Advanced</div></div>
-          <div class="skill-row"><div class="skill-name">React</div><div class="skill-bar"><div class="skill-fill" style="--w:75%"></div></div><div class="skill-level">Strong</div></div>
-          <div class="skill-row"><div class="skill-name">Python</div><div class="skill-bar"><div class="skill-fill" style="--w:70%"></div></div><div class="skill-level">Strong</div></div>
-          <div class="skill-row"><div class="skill-name">Networking / TCP</div><div class="skill-bar"><div class="skill-fill" style="--w:92%"></div></div><div class="skill-level">Expert</div></div>
-          <div class="skill-row"><div class="skill-name">Windows / Inno</div><div class="skill-bar"><div class="skill-fill" style="--w:85%"></div></div><div class="skill-level">Expert</div></div>
-          <div class="skill-row"><div class="skill-name">Security / Auth</div><div class="skill-bar"><div class="skill-fill" style="--w:78%"></div></div><div class="skill-level">Strong</div></div>
-          <div class="skill-row"><div class="skill-name">SQL / SQLite</div><div class="skill-bar"><div class="skill-fill" style="--w:72%"></div></div><div class="skill-level">Strong</div></div>
-          <div class="skill-row"><div class="skill-name">Hardware / Field</div><div class="skill-bar"><div class="skill-fill" style="--w:92%"></div></div><div class="skill-level">Expert</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Why CipherBuilds -->
-<section id="services" style="background:var(--bg2)">
-  <div class="container">
-    <div class="section-label reveal">Why CipherBuilds</div>
-    <div class="section-title reveal">No Nonsense.<br>Just Tools.</div>
-    <p class="section-sub reveal">Everything I build follows the same rules I learned maintaining systems that cannot go down.</p>
-    <div class="services-grid reveal">
-      <div class="service-item">
-        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h4.5a1.5 1.5 0 0 1 0 3H10.5a1.5 1.5 0 0 0 0 3H15"/></svg></div>
-        <div class="service-name">Buy Once, Own Forever</div>
-        <p class="service-desc">No subscriptions. No monthly fees. No licence keys that expire. Pay once and it's yours.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <div class="service-name">Proper Windows Installers</div>
-        <p class="service-desc">Every tool ships as an Inno Setup installer. Run it, it works. No Python installs, no command line, no setup headaches.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-        <div class="service-name">Built By a Technician</div>
-        <p class="service-desc">Ten years in the field maintaining ATM infrastructure. These tools solve problems I've actually had — not problems someone imagined.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <div class="service-name">No Cloud Required</div>
-        <p class="service-desc">Everything runs locally on your machine. No data sent anywhere. No account required. No internet dependency after download.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></div>
-        <div class="service-name">Portable USB Mode</div>
-        <p class="service-desc">Most kits support portable USB mode — take your tools with you to any machine without installing anything.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <div class="service-name">More Kits Shipping Soon</div>
-        <p class="service-desc">Security, Guard, Forensic, and Bundle Kit all in active development. Follow on GitHub to get notified when they ship.</p>
-
+        <p style="font-size:15px;font-weight:300;color:var(--muted);line-height:1.85;max-width:600px;margin-bottom:28px">Ten years maintaining ATM networks and financial infrastructure. I build the tools I always wished existed — packaged as proper Windows installers, priced fairly, sold direct. No subscriptions. No bloat. Buy once, own it forever.</p>
+        <a href="/about.html" class="btn-outline">Read the Full Story →</a>
       </div>
     </div>
   </div>
