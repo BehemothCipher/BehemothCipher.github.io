@@ -96,8 +96,8 @@ SITE SECTIONS: #demos #products #featured #about #commissions #contact
 Gumroad: https://behemothcipher.gumroad.com | GitHub: https://github.com/BehemothCipher
 
 FREE DEMOS:
-System Kit Demo — health dashboard, cleanup scan, disk overview. Full: $12. https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo
-Network Kit Demo — connectivity tester, port scanner, network overview. Full: $15. https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo
+System Kit Demo — health dashboard, cleanup scan, disk overview. Full: $30. https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo
+Network Kit Demo — connectivity tester, port scanner, network overview. Full: $35. https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo
 Always recommend the demo first when someone is undecided.
 
 LIVE PRODUCTS:
