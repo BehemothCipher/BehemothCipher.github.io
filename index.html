@@ -285,13 +285,14 @@ section{padding:88px 32px}
 
 /* ── Simulator ─────────────────────────────────────────────────────── */
 /* Simulator side-by-side layout */
-.sim-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.sim-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
 .sim-video-col,.sim-interactive-col{display:flex;flex-direction:column;gap:8px}
 .sim-col-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
 .sim-col-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);display:inline-block;animation:pulse 1.4s ease-in-out infinite;flex-shrink:0}
-.sim-video-wrap{background:#0f141c;border:1px solid #1c3248;border-radius:8px;overflow:hidden;width:100%}
-.sim-video-wrap video{width:100%;display:block;border-radius:8px}
-@media(max-width:900px){.sim-layout{grid-template-columns:1fr}}
+.sim-video-wrap{background:#0f141c;border:1px solid #1c3248;border-radius:8px;overflow:hidden;width:100%;flex:1}
+.sim-video-wrap video{width:100%;height:100%;object-fit:cover;display:block}
+.sim-video-col{flex:1}
+@media(max-width:900px){.sim-layout{grid-template-columns:1fr}.sim-video-wrap video{height:auto}}
 
 .sim-shell{background:#0f141c;border:1px solid #1c3248;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.6);font-family:'Segoe UI',sans-serif}
 .sim-titlebar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#0a0e18;border-bottom:1px solid #1c3248}
