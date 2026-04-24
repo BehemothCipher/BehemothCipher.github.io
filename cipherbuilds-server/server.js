@@ -101,8 +101,8 @@ Network Kit Demo — connectivity tester, port scanner, network overview. Full: 
 Always recommend the demo first when someone is undecided.
 
 LIVE PRODUCTS:
-System Kit — $12. Maintenance toolkit, health dashboard, cleanup, diagnostics, reports. https://behemothcipher.gumroad.com/l/behemoth-system-kit
-Network Kit — $15. Port scanning, connectivity testing, bandwidth analysis. https://behemothcipher.gumroad.com/l/behemoth-network-kit
+System Kit — $30. Maintenance toolkit, health dashboard, cleanup, diagnostics, reports. https://behemothcipher.gumroad.com/l/behemoth-system-kit
+Network Kit — $35. Port scanning, connectivity testing, bandwidth analysis. https://behemothcipher.gumroad.com/l/behemoth-network-kit
 
 IN DEVELOPMENT (no release dates):
 Sentinel — Bot detection, live dashboard, 5-signal scoring, JS fingerprinting.
