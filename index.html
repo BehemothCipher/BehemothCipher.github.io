@@ -284,6 +284,15 @@ section{padding:88px 32px}
 .tier-option.selected-tier{border-color:var(--cyan);background:rgba(0,150,200,0.04)}
 
 /* ── Simulator ─────────────────────────────────────────────────────── */
+/* Simulator side-by-side layout */
+.sim-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.sim-video-col,.sim-interactive-col{display:flex;flex-direction:column;gap:8px}
+.sim-col-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.sim-col-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);display:inline-block;animation:pulse 1.4s ease-in-out infinite;flex-shrink:0}
+.sim-video-wrap{background:#0f141c;border:1px solid #1c3248;border-radius:8px;overflow:hidden;width:100%}
+.sim-video-wrap video{width:100%;display:block;border-radius:8px}
+@media(max-width:900px){.sim-layout{grid-template-columns:1fr}}
+
 .sim-shell{background:#0f141c;border:1px solid #1c3248;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.6);font-family:'Segoe UI',sans-serif}
 .sim-titlebar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#0a0e18;border-bottom:1px solid #1c3248}
 .sim-dots{display:flex;gap:7px}
@@ -508,8 +517,26 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   <div class="container">
     <div class="section-label reveal">Interactive Preview</div>
     <div class="section-title reveal">Try It Before<br>You Buy It.</div>
-    <p class="section-sub reveal">This is a live simulation of the System Kit interface — the real colors, real layout, real tools. Click the buttons to see exactly how it works, no download required.</p>
-    <div class="sim-shell reveal">
+    <p class="section-sub reveal">Watch the real app running on Windows 11, then click through the interactive simulator yourself. No download required.</p>
+
+    <div class="sim-layout reveal">
+
+      <!-- Video column -->
+      <div class="sim-video-col">
+        <div class="sim-col-label">
+          <span class="sim-col-dot"></span> Real App — Windows 11
+        </div>
+        <div class="sim-video-wrap">
+          <video src="/system-kit-demo.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+
+      <!-- Simulator column -->
+      <div class="sim-interactive-col">
+        <div class="sim-col-label">
+          <span class="sim-col-dot" style="background:var(--green)"></span> Interactive Simulator — Click to try
+        </div>
+    <div class="sim-shell">
       <div class="sim-titlebar">
         <div class="sim-dots"><span class="sim-dot dot-red"></span><span class="sim-dot dot-yellow"></span><span class="sim-dot dot-green"></span></div>
         <div class="sim-wintitle">System Kit &nbsp;–&nbsp; by BehemothCipher &nbsp;&nbsp; v14.0.0</div>
@@ -565,8 +592,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         <span id="sim-summary">No report yet.</span>
         <span>© 2026 BehemothCipher Labs &nbsp;•&nbsp; All rights reserved</span>
       </div>
-    </div>
-    <p style="text-align:center;font-size:13px;color:var(--faint);margin-top:20px">This is a simulation. The real System Kit runs natively on Windows 10/11 as a proper installed application.</p>
+    </div><!-- end sim-shell -->
+    </div><!-- end sim-interactive-col -->
+    </div><!-- end sim-layout -->
+    <p style="text-align:center;font-size:13px;color:var(--faint);margin-top:20px">Simulation only — the real System Kit runs natively on Windows 10/11 as a proper installed application.</p>
   </div>
 </section>
 
