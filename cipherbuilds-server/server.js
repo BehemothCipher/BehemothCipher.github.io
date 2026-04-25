@@ -99,16 +99,17 @@ FREE DEMOS:
 System Kit Demo — health dashboard, cleanup scan, disk overview. Full: $30. https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo
 Network Kit Demo — connectivity tester, port scanner, network overview. Full: $35. https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo
 Guard Kit Demo — process monitoring, intrusion detection preview. Full: $40. https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo
+Security Kit Demo — vulnerability scanning, threat detection preview. Full: $45. https://behemothcipher.gumroad.com/l/behemoth-security-kit-demo
 Always recommend the demo first when someone is undecided.
 
 LIVE PRODUCTS:
 System Kit — $30. Maintenance toolkit, health dashboard, cleanup, diagnostics, reports. https://behemothcipher.gumroad.com/l/behemoth-system-kit
 Network Kit — $35. Port scanning, connectivity testing, bandwidth analysis. https://behemothcipher.gumroad.com/l/behemoth-network-kit
 Guard Kit — $40. Real-time process monitoring, intrusion detection, automated threat response. Demo free: https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo | Buy: https://behemothcipher.gumroad.com/l/behemoth-guard-kit
+Security Kit — $45. Vulnerability scanning, threat detection, system lockdown tools. Demo free: https://behemothcipher.gumroad.com/l/behemoth-security-kit-demo | Buy: https://behemothcipher.gumroad.com/l/behemoth-security-kit
 
 IN DEVELOPMENT (no release dates):
 Sentinel — Bot detection, live dashboard, 5-signal scoring, JS fingerprinting.
-Security Kit — Vulnerability scanning, threat detection, system lockdown.
 Forensic Kit — Log analysis, file recovery, timeline reconstruction.
 Bundle Kit — All five kits, one install, discounted price.
 
