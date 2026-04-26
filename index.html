@@ -118,6 +118,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links a:hover{color:var(--cyan)}
 .nav-cta{font-family:var(--sans);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;background:var(--cyan);color:#fff;padding:9px 20px;border-radius:6px;font-weight:600;transition:background 0.2s}
 .nav-cta:hover{background:var(--cyan2)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--muted);border-radius:2px;transition:all 0.2s}
+.nav-mobile{display:none;position:fixed;top:65px;left:0;right:0;background:rgba(15,15,23,0.98);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:16px 24px;z-index:99;flex-direction:column;gap:4px}
+.nav-mobile.open{display:flex}
+.nav-mobile a{font-family:var(--sans);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);padding:10px 0;border-bottom:1px solid var(--border);font-weight:500;transition:color 0.2s}
+.nav-mobile a:last-child{border-bottom:none}
+.nav-mobile a:hover{color:var(--cyan)}
+@media(max-width:900px){.nav-hamburger{display:flex}}
 
 /* Hero */
 .hero{min-height:100vh;display:flex;align-items:center;padding:120px 32px 80px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,rgba(0,140,200,0.06) 0%,transparent 65%)}
@@ -347,6 +355,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   .featured-card{grid-template-columns:1fr}
   .featured-aside{border-left:none;border-top:1px solid var(--border);flex-direction:row;flex-wrap:wrap}
   .contact-inner{grid-template-columns:1fr}
+  .products-grid{grid-template-columns:1fr 1fr}
+  .commission-grid{grid-template-columns:1fr}
+  .sim-layout{grid-template-columns:1fr}
+  .sim-cards{grid-template-columns:1fr 1fr}
+  .sim-profiles{grid-template-columns:1fr}
+  .sim-btnrow{flex-wrap:wrap}
   nav .nav-links{display:none}
   .reveal,.anim-ready .reveal{opacity:1!important;transform:none!important}
 }
@@ -359,8 +373,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   .hero-actions{flex-direction:column}
   .btn-primary,.btn-outline{text-align:center;width:100%}
   .commission-grid{grid-template-columns:1fr}
+  .products-grid{grid-template-columns:1fr}
   .demo-grid{grid-template-columns:1fr}
   .services-grid{grid-template-columns:1fr}
+  .sim-cards{grid-template-columns:1fr 1fr}
+  .sim-glow-btn{min-width:calc(50% - 4px);flex:none}
+  .sim-glow-btn-sm{min-width:calc(50% - 4px);flex:none}
   .featured-card{grid-template-columns:1fr;display:flex;flex-direction:column}
   .featured-body{padding:20px 16px}
   .featured-title{font-size:24px;word-break:break-word}
@@ -371,6 +389,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   .featured-tags{gap:4px}
   .tag{font-size:8px;padding:2px 6px}
   .btn-primary,.btn-outline{width:100%;text-align:center;display:block;box-sizing:border-box}
+  .tier-selector .tier-options{gap:6px}
+  .contact-links{gap:8px}
 }
 </style>
 </head>
@@ -391,7 +411,19 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="https://behemothcipher.gumroad.com" class="nav-cta" target="_blank">Buy Tools</a>
+  <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#" onclick="closeMobileNav()">Home</a>
+  <a href="#products" onclick="closeMobileNav()">Products</a>
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="https://github.com/BehemothCipher" target="_blank" onclick="closeMobileNav()">GitHub</a>
+  <a href="#commissions" onclick="closeMobileNav()">Commissions</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  <a href="https://behemothcipher.gumroad.com" target="_blank" style="color:var(--cyan)" onclick="closeMobileNav()">Buy Tools →</a>
+</div>
 
 <!-- Hero -->
 <section class="hero">
@@ -584,13 +616,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card wip reveal" style="transition-delay:0.1s">
-        <div class="product-badge badge-wip">WIP</div>
-        <div class="product-name">Sentinel</div>
-        <p class="product-desc">Real-time bot detection platform — live dashboard, 5-signal scoring engine, JS fingerprinting, ad fraud auditing, and Windows installer.</p>
+      <div class="product-card live reveal" style="transition-delay:0.1s">
+        <div class="product-badge badge-live">● Live</div>
+        <div class="product-name">Guard Kit</div>
+        <p class="product-desc">Endpoint protection and monitoring toolkit — real-time process watching, intrusion detection, and automated threat response for Windows endpoints.</p>
         <div class="product-footer">
-          <div class="product-price">— <span>coming soon</span></div>
-          <span class="product-btn disabled">In Development</span>
+          <div class="product-price">$40 <span>one-time</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit" class="product-btn" target="_blank">Buy Now →</a>
+          </div>
         </div>
       </div>
 
@@ -607,23 +642,20 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card live reveal" style="transition-delay:0.2s">
-        <div class="product-badge badge-live">● Live</div>
-        <div class="product-name">Guard Kit</div>
-        <p class="product-desc">Endpoint protection and monitoring toolkit — real-time process watching, intrusion detection, and automated threat response for Windows endpoints.</p>
+      <div class="product-card wip reveal" style="transition-delay:0.2s">
+        <div class="product-badge badge-wip">WIP</div>
+        <div class="product-name">Forensic Kit</div>
+        <p class="product-desc">Digital forensics toolkit — log analysis, file recovery, system timeline reconstruction, and incident investigation tools for Windows.</p>
         <div class="product-footer">
-          <div class="product-price">$40 <span>one-time</span></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit" class="product-btn" target="_blank">Buy Now →</a>
-          </div>
+          <div class="product-price">— <span>coming soon</span></div>
+          <span class="product-btn disabled">In Development</span>
         </div>
       </div>
 
       <div class="product-card wip reveal" style="transition-delay:0.25s">
         <div class="product-badge badge-wip">WIP</div>
-        <div class="product-name">Forensic Kit</div>
-        <p class="product-desc">Digital forensics toolkit — log analysis, file recovery, system timeline reconstruction, and incident investigation tools for Windows.</p>
+        <div class="product-name">Sentinel</div>
+        <p class="product-desc">Real-time bot detection platform — live dashboard, 5-signal scoring engine, JS fingerprinting, ad fraud auditing, and Windows installer.</p>
         <div class="product-footer">
           <div class="product-price">— <span>coming soon</span></div>
           <span class="product-btn disabled">In Development</span>
@@ -918,6 +950,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const target = document.querySelector(a.getAttribute('href'));
     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
   });
+});
+
+// ── Mobile Nav ───────────────────────────────────────────────────────
+function toggleMobileNav() {
+  document.getElementById('nav-mobile').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('nav-mobile').classList.remove('open');
+}
+document.addEventListener('click', e => {
+  const nav = document.getElementById('nav-mobile');
+  if (nav && nav.classList.contains('open') && !nav.contains(e.target) && !e.target.closest('.nav-hamburger')) {
+    nav.classList.remove('open');
+  }
 });
 
 // ── System Kit Simulator ──────────────────────────────────────────────
