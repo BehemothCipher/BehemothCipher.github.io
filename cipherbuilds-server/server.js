@@ -111,7 +111,7 @@ Security Kit — $45. Vulnerability scanning, threat detection, system lockdown 
 Forensic Kit — $50. Log analysis, file recovery, system timeline reconstruction, incident investigation. Demo free: https://behemothcipher.gumroad.com/l/behemoth-forensic-kit-demo | Buy: https://behemothcipher.gumroad.com/l/behemoth-forensic-kit
 
 IN DEVELOPMENT (no release dates):
-Bundle Kit — All five kits, one install, discounted price.
+Tool Kit — $130. All five kits in one install (System, Network, Guard, Security, Forensic). Buy separately for $200 or save $70 here. Buy: https://behemothcipher.gumroad.com/l/behemoth-tool-kit
 
 COMMISSION TIERS (50% deposit required):
 Tier 1 Simple $150-300: Scripts, bots, basic tools. 1-2 weeks.
