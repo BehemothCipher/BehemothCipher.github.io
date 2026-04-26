@@ -109,9 +109,9 @@ Network Kit — $35. Port scanning, connectivity testing, bandwidth analysis. ht
 Guard Kit — $40. Real-time process monitoring, intrusion detection, automated threat response. Demo free: https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo | Buy: https://behemothcipher.gumroad.com/l/behemoth-guard-kit
 Security Kit — $45. Vulnerability scanning, threat detection, system lockdown tools. Demo free: https://behemothcipher.gumroad.com/l/behemoth-security-kit-demo | Buy: https://behemothcipher.gumroad.com/l/behemoth-security-kit
 Forensic Kit — $50. Log analysis, file recovery, system timeline reconstruction, incident investigation. Demo free: https://behemothcipher.gumroad.com/l/behemoth-forensic-kit-demo | Buy: https://behemothcipher.gumroad.com/l/behemoth-forensic-kit
+Tool Kit — $130. All five kits in one install (System, Network, Guard, Security, Forensic). Buy separately for $200 or save $70 with the Tool Kit. Buy: https://behemothcipher.gumroad.com/l/behemoth-tool-kit
 
 IN DEVELOPMENT (no release dates):
-Tool Kit — $130. All five kits in one install (System, Network, Guard, Security, Forensic). Buy separately for $200 or save $70 here. Buy: https://behemothcipher.gumroad.com/l/behemoth-tool-kit
 
 COMMISSION TIERS (50% deposit required):
 Tier 1 Simple $150-300: Scripts, bots, basic tools. 1-2 weeks.
