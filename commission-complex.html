@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Complex / Full-Stack Commission — CipherBuilds</title>
+<meta name="description" content="Complex / Full-Stack commission tier — $700 and up. Full web apps, AI tools, multi-user platforms. Built by BehemothCipher. 50% deposit, contract included." />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f17;--bg2:#13131f;--bg3:#181826;
+  --border:#1e2436;--border2:#242840;
+  --cyan:#00aadd;--cyan2:#22bbee;
+  --text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;
+  --green:#00cc77;--amber:#ffb347;
+  --sans:'Poppins',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(15,15,23,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--cyan)}
+.nav-brand img{height:38px;width:38px;object-fit:cover;border-radius:50%;border:1px solid rgba(0,170,221,0.3)}
+.nav-back{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-back:hover{color:var(--cyan)}
+.nav-cta{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:var(--amber);color:#0f0f17;padding:9px 20px;border-radius:6px;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.85}
+
+.hero{padding:120px 32px 60px;background:radial-gradient(ellipse at 30% 0%,rgba(255,179,71,0.06) 0%,transparent 65%);border-bottom:1px solid var(--border)}
+.hero-inner{max-width:900px;margin:0 auto}
+.tier-eyebrow{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.tier-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--amber)}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:700;color:#fff;line-height:1;margin-bottom:16px}
+.hero h1 span{color:var(--amber)}
+.hero-price{font-size:48px;font-weight:700;color:var(--amber);margin-bottom:8px}
+.hero-deposit{font-size:14px;color:var(--faint);margin-bottom:24px}
+.hero-desc{font-size:16px;font-weight:300;color:var(--muted);line-height:1.85;max-width:600px;margin-bottom:36px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:var(--amber);color:#0f0f17;padding:14px 32px;border-radius:6px;transition:opacity 0.2s;display:inline-block}
+.btn-primary:hover{opacity:0.85}
+.btn-outline{font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:transparent;color:var(--muted);padding:14px 32px;border-radius:6px;border:1px solid var(--border2);transition:border-color 0.2s,color 0.2s;display:inline-block}
+.btn-outline:hover{border-color:var(--amber);color:var(--amber)}
+
+section{padding:72px 32px}
+.container{max-width:900px;margin:0 auto}
+.section-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--amber);font-weight:600;margin-bottom:12px;opacity:0.85}
+.section-title{font-size:clamp(24px,4vw,40px);font-weight:700;color:#fff;margin-bottom:32px;line-height:1.1}
+
+.included-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.included-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:22px;display:flex;gap:14px;align-items:flex-start}
+.included-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.included-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.included-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+
+.examples-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.example-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color 0.2s}
+.example-card:hover{border-color:rgba(255,179,71,0.3)}
+.example-tag{display:inline-block;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(255,179,71,0.1);color:var(--amber);border:1px solid rgba(255,179,71,0.25);margin-bottom:10px}
+.example-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.example-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+
+.process-steps{display:flex;flex-direction:column;gap:0}
+.process-step{display:grid;grid-template-columns:48px 1fr;gap:20px;padding:24px 0;border-bottom:1px solid var(--border);align-items:start}
+.process-step:last-child{border-bottom:none}
+.step-num{width:40px;height:40px;border-radius:50%;background:rgba(255,179,71,0.1);border:1px solid rgba(255,179,71,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--amber);flex-shrink:0}
+.step-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+.step-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.75}
+
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.faq-q{width:100%;text-align:left;padding:18px 20px;background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;font-weight:600;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q:hover{color:var(--amber)}
+.faq-arrow{font-size:12px;color:var(--faint);transition:transform 0.2s;flex-shrink:0}
+.faq-a{font-size:13px;font-weight:300;color:var(--muted);line-height:1.8;padding:0 20px 18px;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+
+.cta-box{background:rgba(255,179,71,0.04);border:1px solid rgba(255,179,71,0.2);border-radius:10px;padding:40px;text-align:center}
+.cta-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:10px}
+.cta-sub{font-size:15px;font-weight:300;color:var(--muted);margin-bottom:32px}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-name{font-size:12px;font-weight:700;color:var(--cyan)}
+.footer-note{font-size:11px;color:var(--faint)}
+
+@media(max-width:700px){
+  nav{padding:12px 16px}
+  .hero{padding:90px 16px 48px}
+  section{padding:48px 16px}
+  .included-grid{grid-template-columns:1fr}
+  .hero-actions,.cta-actions{flex-direction:column}
+  .btn-primary,.btn-outline{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">
+    <img src="./cipher-nav-logo.png" alt="CipherBuilds" />
+    CipherBuilds
+  </a>
+  <a href="/#commissions" class="nav-back">← Back to Commissions</a>
+  <a href="/#contact" class="nav-cta">Get Started</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="tier-eyebrow">Tier 3 — Commission</div>
+    <h1>Complex / <span>Full-Stack.</span></h1>
+    <div class="hero-price">$700+</div>
+    <div class="hero-deposit">Quoted per project · 50% deposit upfront · contract included · non-refundable once work begins</div>
+    <p class="hero-desc">
+      Multiple moving parts — backend, frontend, database, live data, user accounts. Like building a house. This tier is for serious projects that need real architecture behind them. AI-powered tools, full web apps, real-time platforms, multi-user systems. Weeks to months of dedicated work.
+    </p>
+    <div class="hero-actions">
+      <a href="/#contact" class="btn-primary">Request a Quote →</a>
+      <a href="/commission-mid.html" class="btn-outline">See Mid-Level Tier</a>
+    </div>
+  </div>
+</div>
+
+<section style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-label">What You Get</div>
+    <div class="section-title">Everything in<br>the Complex Tier</div>
+    <div class="included-grid">
+      <div class="included-card">
+        <div class="included-icon">📋</div>
+        <div>
+          <div class="included-title">Detailed Contract</div>
+          <div class="included-desc">A comprehensive contract covering full technical scope, milestones, payment schedule, revisions, IP rights, and confidentiality.</div>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="included-icon">🏗️</div>
+        <div>
+          <div class="included-title">Full Architecture</div>
+          <div class="included-desc">Frontend, backend, database, APIs, and deployment — all planned and built as a cohesive system, not bolted-together parts.</div>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="included-icon">💻</div>
+        <div>
+          <div class="included-title">Complete Source Code</div>
+          <div class="included-desc">Full ownership of every file, every layer of the stack upon final payment. Documented enough for another developer to pick up.</div>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="included-icon">🔧</div>
+        <div>
+          <div class="included-title">3 Rounds of Revisions</div>
+          <div class="included-desc">Three rounds of adjustments after delivery. More room to refine the product to match your exact vision without additional cost.</div>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="included-icon">🚀</div>
+        <div>
+          <div class="included-title">Deployment Assistance</div>
+          <div class="included-desc">Help getting the app live — whether that's on a server, a cloud platform, or a hosted service. Not just handed off as files.</div>
+        </div>
+      </div>
+      <div class="included-card">
+        <div class="included-icon">💬</div>
+        <div>
+          <div class="included-title">Milestone Check-ins</div>
+          <div class="included-desc">Structured updates at key milestones throughout the build. You always know where the project stands and what's coming next.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg)">
+  <div class="container">
+    <div class="section-label">Project Examples</div>
+    <div class="section-title">What a Complex App<br>Looks Like</div>
+    <div class="examples-grid">
+      <div class="example-card">
+        <div class="example-tag">Full-Stack Web App</div>
+        <div class="example-title">SaaS Dashboard Platform</div>
+        <div class="example-desc">Multi-user web app with login, role-based access, live data charts, admin panel, and a REST API backend. Deployed on a cloud server.</div>
+      </div>
+      <div class="example-card">
+        <div class="example-tag">AI-Powered</div>
+        <div class="example-title">AI Document Analyzer</div>
+        <div class="example-desc">Upload documents, extract key data using AI, display summaries and insights in a clean dashboard. Backend API + frontend interface.</div>
+      </div>
+      <div class="example-card">
+        <div class="example-tag">Real-Time</div>
+        <div class="example-title">Live Monitoring Platform</div>
+        <div class="example-desc">WebSocket-based real-time data feed with a live dashboard, alert system, logging, and historical data charts. Similar to Sentinel.</div>
+      </div>
+      <div class="example-card">
+        <div class="example-tag">E-Commerce</div>
+        <div class="example-title">Custom Store Backend</div>
+        <div class="example-desc">Product management, order tracking, payment integration, customer accounts, and an admin panel — built to your exact business logic.</div>
+      </div>
+      <div class="example-card">
+        <div class="example-tag">Enterprise Tool</div>
+        <div class="example-title">Internal Operations Platform</div>
+        <div class="example-desc">A web-based internal tool for teams — task management, reporting, user roles, notifications, and API integrations with existing systems.</div>
+      </div>
+      <div class="example-card">
+        <div class="example-tag">Desktop + Web</div>
+        <div class="example-title">Hybrid Desktop/Web App</div>
+        <div class="example-desc">A desktop app that syncs with a web backend — data accessible from both a local Windows app and a browser, with user accounts and shared storage.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">From Idea to<br>Delivered Platform</div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Submit Your Idea</div>
+          <div class="step-desc">Fill out the contact form with as much detail as you can — what the app does, who uses it, how many users, integrations needed, any deadlines. The more context, the better the quote.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Discovery Meeting</div>
+          <div class="step-desc">For complex projects, we'll have a more in-depth discussion — via email or a call — to fully map out requirements, technical decisions, and realistic scope before anything is priced.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Proposal & Quote</div>
+          <div class="step-desc">I'll send a detailed proposal outlining the full scope, tech stack, milestones, timeline, and a firm quoted price. No surprises after this point.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Contract & Deposit</div>
+          <div class="step-desc">A comprehensive contract is drafted, signed by both parties, and the 50% deposit is paid. Work begins immediately after.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">Build with Milestones</div>
+          <div class="step-desc">The project is built in phases with check-ins at each milestone. You review progress at key points and provide feedback before the next phase begins.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">6</div>
+        <div>
+          <div class="step-title">QA & Revisions</div>
+          <div class="step-desc">Three rounds of revisions after final delivery. I'll also run through the full app before handoff to catch any issues before you do.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">7</div>
+        <div>
+          <div class="step-title">Final Payment & Deployment</div>
+          <div class="step-desc">Final 50% payment is made. I assist with deployment and hand off the complete source code, credentials, and any documentation needed to operate the app.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg)">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <div class="section-title">Common Questions</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Why is this tier priced per project instead of a range?<span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Complex projects vary enormously in scope. A $700 project and a $5,000 project can both be "complex" depending on what's involved. I price per project after a full discovery conversation so the quote is accurate — not a rough estimate that gets revised later.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can you build AI-powered apps?<span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Yes. I have experience integrating AI APIs — including Anthropic's Claude — into desktop and web applications. If your project needs AI features like chat, document analysis, or intelligent automation, that's in scope.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens if the scope changes during the build?<span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Scope changes after the contract is signed are handled as change orders — a separate written agreement with a price adjustment. I won't absorb new features into the original quote, but I also won't surprise you with hidden charges.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you sign NDAs?<span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Yes. If your project involves proprietary business logic, sensitive data, or competitive IP, I'm happy to sign an NDA before the discovery conversation. Just let me know when you reach out.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What tech stack do you use?<span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Primarily Node.js/Express for backends, React for frontend web apps, Python for desktop tools and scripts, and SQLite or PostgreSQL for databases. I'll recommend the right stack for your specific project during the discovery phase.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I get ongoing support after delivery?<span class="faq-arrow">▼</span></button>
+        <div class="faq-a">Post-delivery support and maintenance can be arranged as a separate agreement. For complex apps especially, having someone familiar with the codebase available for fixes and updates makes sense. We can discuss this during scoping.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="container">
+    <div class="cta-box">
+      <div class="cta-title">Ready to Build Something Real?</div>
+      <p class="cta-sub">Describe your project and I'll reach out within 24 hours to start the conversation.</p>
+      <div class="cta-actions">
+        <a href="/#contact" class="btn-primary">Request a Quote →</a>
+        <a href="/commission-mid.html" class="btn-outline">View Mid-Level Tier</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">© 2025 BehemothCipher · CipherBuilds · Springfield, MA</div>
+  <div class="footer-note">All builds include a contract · 50% deposit required · All rights reserved</div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
