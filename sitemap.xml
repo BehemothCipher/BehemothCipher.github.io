@@ -4,10 +4,31 @@
   <url>
     <loc>https://behemothlab.dev/</loc>
     <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
   </url>
+
   <url>
-    <loc>https://behemothlab.dev/about</loc>
+    <loc>https://behemothlab.dev/about.html</loc>
     <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://behemothlab.dev/commission-simple.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://behemothlab.dev/commission-mid.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://behemothlab.dev/commission-complex.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
 
 </urlset>
