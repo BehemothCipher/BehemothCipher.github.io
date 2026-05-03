@@ -183,7 +183,7 @@ section{padding:88px 32px}
 
 /* Products grid */
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.product-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:22px;position:relative;transition:border-color 0.2s,box-shadow 0.2s}
+.product-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:22px;position:relative;transition:border-color 0.2s,box-shadow 0.2s;cursor:pointer}
 .product-card:hover{border-color:var(--cyan);box-shadow:0 4px 16px rgba(0,140,200,0.05)}
 .product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0}
 .product-card.live::before{background:var(--cyan)}
@@ -590,78 +590,78 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 
     <div class="products-grid">
 
-      <div class="product-card live reveal">
+      <div class="product-card live reveal" onclick="window.location='/system-kit.html'">
         <div class="product-badge badge-live">● Live</div>
-        <div class="product-name"><a href="/system-kit.html" style="color:inherit;text-decoration:none;hover:color:var(--cyan)">System Kit</a></div>
+        <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">System Kit<a href="/system-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Technician maintenance toolkit — system health dashboard, cleanup profiles, diagnostics, and report generation. Built by a field engineer for field engineers.</p>
         <div class="product-footer">
           <div class="product-price">$30 <span>one-time</span></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit" class="product-btn" target="_blank">Buy Now →</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo" class="product-btn" onclick="event.stopPropagation()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-system-kit" class="product-btn" onclick="event.stopPropagation()" target="_blank">Buy Now →</a>
           </div>
         </div>
       </div>
 
-      <div class="product-card live reveal" style="transition-delay:0.05s">
+      <div class="product-card live reveal" style="transition-delay:0.05s" onclick="window.location='/network-kit.html'">
         <div class="product-badge badge-live">● Live</div>
-        <div class="product-name"><a href="/network-kit.html" style="color:inherit;text-decoration:none;hover:color:var(--cyan)">Network Kit</a></div>
+        <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Network Kit<a href="/network-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Network diagnostics and monitoring for Windows — port scanning, connectivity testing, bandwidth analysis, and infrastructure reporting.</p>
         <div class="product-footer">
           <div class="product-price">$35 <span>one-time</span></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit" class="product-btn" target="_blank">Buy Now →</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo" class="product-btn" onclick="event.stopPropagation()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-network-kit" class="product-btn" onclick="event.stopPropagation()" target="_blank">Buy Now →</a>
           </div>
         </div>
       </div>
 
-      <div class="product-card live reveal" style="transition-delay:0.1s">
+      <div class="product-card live reveal" style="transition-delay:0.1s" onclick="window.location='/guard-kit.html'">
         <div class="product-badge badge-live">● Live</div>
-        <div class="product-name"><a href="/guard-kit.html" style="color:inherit;text-decoration:none;hover:color:var(--cyan)">Guard Kit</a></div>
+        <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Guard Kit<a href="/guard-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Endpoint protection and monitoring toolkit — real-time process watching, intrusion detection, and automated threat response for Windows endpoints.</p>
         <div class="product-footer">
           <div class="product-price">$40 <span>one-time</span></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit" class="product-btn" target="_blank">Buy Now →</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo" class="product-btn" onclick="event.stopPropagation()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-guard-kit" class="product-btn" onclick="event.stopPropagation()" target="_blank">Buy Now →</a>
           </div>
         </div>
       </div>
 
-      <div class="product-card live reveal" style="transition-delay:0.15s">
+      <div class="product-card live reveal" style="transition-delay:0.15s" onclick="window.location='/security-kit.html'">
         <div class="product-badge badge-live">● Live</div>
-        <div class="product-name"><a href="/security-kit.html" style="color:inherit;text-decoration:none;hover:color:var(--cyan)">Security Kit</a></div>
+        <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Security Kit<a href="/security-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Windows security hardening toolkit — vulnerability scanning, threat detection, and system lockdown tools for technicians and small businesses.</p>
         <div class="product-footer">
           <div class="product-price">$45 <span>one-time</span></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-security-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-security-kit" class="product-btn" target="_blank">Buy Now →</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-security-kit-demo" class="product-btn" onclick="event.stopPropagation()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-security-kit" class="product-btn" onclick="event.stopPropagation()" target="_blank">Buy Now →</a>
           </div>
         </div>
       </div>
 
-      <div class="product-card live reveal" style="transition-delay:0.2s">
+      <div class="product-card live reveal" style="transition-delay:0.2s" onclick="window.location='/forensic-kit.html'">
         <div class="product-badge badge-live">● Live</div>
-        <div class="product-name"><a href="/forensic-kit.html" style="color:inherit;text-decoration:none;hover:color:var(--cyan)">Forensic Kit</a></div>
+        <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Forensic Kit<a href="/forensic-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Digital forensics toolkit — log analysis, file recovery, system timeline reconstruction, and incident investigation tools for Windows.</p>
         <div class="product-footer">
           <div class="product-price">$50 <span>one-time</span></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-forensic-kit-demo" class="product-btn" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
-            <a href="https://behemothcipher.gumroad.com/l/behemoth-forensic-kit" class="product-btn" target="_blank">Buy Now →</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-forensic-kit-demo" class="product-btn" onclick="event.stopPropagation()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:10px" target="_blank">Try Demo</a>
+            <a href="https://behemothcipher.gumroad.com/l/behemoth-forensic-kit" class="product-btn" onclick="event.stopPropagation()" target="_blank">Buy Now →</a>
           </div>
         </div>
       </div>
 
-      <div class="product-card live reveal" style="transition-delay:0.25s;border-color:rgba(0,170,221,0.4)">
+      <div class="product-card live reveal" style="transition-delay:0.25s;border-color:rgba(0,170,221,0.4)" onclick="window.location='/tool-kit.html'">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name">Tool Kit <span style="font-size:11px;font-weight:600;color:var(--green);background:rgba(0,204,119,0.1);border:1px solid rgba(0,204,119,0.25);padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:6px">Save $70</span></div>
         <p class="product-desc">The complete CipherBuilds package — all five kits in one install. System, Network, Guard, Security, and Forensic Kit bundled together. Buy separately for $200, or get everything here for $130 and save $70.</p>
         <div class="product-footer">
           <div class="product-price">$130 <span>one-time</span></div>
-          <a href="https://behemothcipher.gumroad.com/l/behemoth-tool-kit" class="product-btn" target="_blank">Buy Now →</a>
+          <a href="https://behemothcipher.gumroad.com/l/behemoth-tool-kit" class="product-btn" onclick="event.stopPropagation()" target="_blank">Buy Now →</a>
         </div>
       </div>
 
