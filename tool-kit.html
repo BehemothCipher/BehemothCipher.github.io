@@ -39,7 +39,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-cta:hover{opacity:0.85}
 
 .hero{padding:110px 32px 60px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse at 40% 0%,rgba(0,150,200,0.07) 0%,transparent 65%)}
-.hero-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero-inner{max-width:1100px;margin:0 auto}
 .hero-eyebrow{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .hero-eyebrow::before{content:'';display:block;width:18px;height:1px;background:var(--accent)}
 .hero h1{font-size:clamp(32px,5vw,60px);font-weight:700;color:#fff;line-height:1.05;margin-bottom:12px}
@@ -51,7 +51,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .btn-primary:hover{opacity:0.85}
 .btn-demo{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:transparent;color:var(--muted);padding:13px 28px;border-radius:6px;border:1px solid var(--border2);transition:border-color 0.2s,color 0.2s;display:inline-block}
 .btn-demo:hover{border-color:var(--accent);color:var(--accent)}
-.hero-screenshot{border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,0.5)}
+.hero-text{max-width:680px;margin-bottom:40px}.hero-screenshot{border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 48px rgba(0,0,0,0.6);margin-top:8px}
 .hero-screenshot img{width:100%;display:block}
 
 section{padding:72px 32px}
@@ -94,8 +94,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 @media(max-width:800px){
   nav{padding:12px 16px}
   .hero{padding:90px 16px 48px}
-  .hero-inner{grid-template-columns:1fr;gap:28px}
-  .hero-screenshot{order:-1}
+  .hero-inner{}
   section{padding:48px 16px}
   .features-grid{grid-template-columns:1fr}
   .specs-grid{grid-template-columns:1fr}
@@ -119,7 +118,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 
 <section class="hero">
   <div class="hero-inner">
-    <div>
+    <div class="hero-text">
       <div class="hero-eyebrow">CipherBuilds · Windows Tool</div>
       <h1>Tool Kit</h1>
       <div class="hero-price">$130</div>
@@ -129,6 +128,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         <a href="https://behemothcipher.gumroad.com/l/behemoth-tool-kit" class="btn-primary" target="_blank">Buy Now →</a>
         
       </div>
+    
     </div>
     <div class="hero-screenshot">
       <img src="./ToolKit.png" alt="Tool Kit screenshot" />
