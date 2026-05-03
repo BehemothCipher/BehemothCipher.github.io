@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-    <loc>https://behemothlab.dev/</loc>
-    <priority>1.0</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://behemothlab.dev/about.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://behemothlab.dev/commission-simple.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://behemothlab.dev/commission-mid.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://behemothlab.dev/commission-complex.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
+  <url><loc>https://behemothlab.dev/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://behemothlab.dev/about.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/system-kit.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/network-kit.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/guard-kit.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/security-kit.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/forensic-kit.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/tool-kit.html</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/commission-simple.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/commission-mid.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://behemothlab.dev/commission-complex.html</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 
 </urlset>
