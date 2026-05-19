@@ -3,6 +3,60 @@ const express   = require('express');
 const cors      = require('cors');
 const nodemailer = require('nodemailer');
 const Anthropic  = require('@anthropic-ai/sdk');
+const crypto    = require('crypto');
+
+// ── GitHub storage config ───────────────────────────────────────────────────
+// TOKEN EXPIRES: ~90 days from setup. Renew at github.com → Settings →
+// Developer Settings → Personal Access Tokens and update GITHUB_TOKEN on Render.
+const GH_TOKEN  = process.env.GITHUB_TOKEN;
+const GH_OWNER  = process.env.GITHUB_REPO_OWNER || 'BehemothCipher';
+const GH_REPO   = process.env.GITHUB_REPO_NAME  || 'BehemothCipher.github.io';
+const GH_API    = 'https://api.github.com';
+
+// Two files stored in repo root:
+// reviews.json  — public review data (no emails)
+// subscribers.json — private emails only (never served to frontend)
+
+async function ghGet(filePath) {
+  const res = await fetch(`${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${filePath}`, {
+    headers: {
+      Authorization: `token ${GH_TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'CipherBuilds-Server'
+    }
+  });
+  if (res.status === 404) return { content: null, sha: null };
+  if (!res.ok) throw new Error(`GitHub GET failed: ${res.status}`);
+  const data = await res.json();
+  const content = JSON.parse(Buffer.from(data.content, 'base64').toString('utf8'));
+  return { content, sha: data.sha };
+}
+
+async function ghPut(filePath, content, sha, message) {
+  const body = {
+    message,
+    content: Buffer.from(JSON.stringify(content, null, 2)).toString('base64'),
+    committer: { name: 'CipherBuilds Server', email: 'contact@behemothlab.dev' }
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(`${GH_API}/repos/${GH_OWNER}/${GH_REPO}/contents/${filePath}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `token ${GH_TOKEN}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+      'User-Agent': 'CipherBuilds-Server'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`GitHub PUT failed: ${res.status} — ${err}`);
+  }
+  return res.json();
+}
+
+
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -85,6 +139,115 @@ app.post('/contact', async (req, res) => {
   } catch (err) {
     console.error('Contact error:', err);
     res.status(500).json({ error: 'Failed to send message. Please try again.' });
+  }
+});
+
+
+// ── Review endpoints ─────────────────────────────────────────────────────────
+
+// GET reviews for a kit — reads from GitHub, strips emails
+app.get('/api/reviews/:kit', async (req, res) => {
+  const kit = req.params.kit.toLowerCase().replace(/[^a-z-]/g, '');
+  try {
+    const { content } = await ghGet('reviews.json');
+    const all = content || {};
+    const kitReviews = (all[kit] || []).map(({ email, ...r }) => r);
+    res.json({ reviews: kitReviews });
+  } catch(e) {
+    console.error('GET reviews error:', e.message);
+    res.json({ reviews: [] });
+  }
+});
+
+// POST a new review — saves to GitHub
+const reviewHits = new Map();
+function reviewRateLimit(ip) {
+  const now = Date.now();
+  const entry = reviewHits.get(ip) || { count: 0, reset: now + 86400000 };
+  if (now > entry.reset) { entry.count = 0; entry.reset = now + 86400000; }
+  entry.count++;
+  reviewHits.set(ip, entry);
+  return entry.count > 3;
+}
+
+app.post('/api/reviews', async (req, res) => {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
+  if (reviewRateLimit(ip)) return res.status(429).json({ error: 'Review limit reached. Try again tomorrow.' });
+
+  const { kit, username, email, rating, review } = req.body || {};
+
+  if (!kit || !username || !email || !review)
+    return res.status(400).json({ error: 'Kit, username, email, and review are required.' });
+  if (username.length > 30)
+    return res.status(400).json({ error: 'Username must be 30 characters or less.' });
+  if (review.length > 500)
+    return res.status(400).json({ error: 'Review must be 500 characters or less.' });
+
+  const kitKey      = kit.toLowerCase().replace(/[^a-z-]/g, '');
+  const safeUsername = username.replace(/[<>]/g, '').trim();
+  const safeReview   = review.replace(/[<>]/g, '').trim();
+  const safeEmail    = email.trim().toLowerCase();
+  const stars        = Math.min(5, Math.max(1, parseInt(rating) || 5));
+
+  const newReview = {
+    id:       crypto.randomBytes(6).toString('hex'),
+    username: safeUsername,
+    rating:   stars,
+    review:   safeReview,
+    date:     new Date().toISOString().split('T')[0],
+    email:    safeEmail
+  };
+
+  try {
+    // ── 1. Save public review to reviews.json ──────────────────────────────
+    const { content: reviewData, sha: reviewSha } = await ghGet('reviews.json');
+    const allReviews = reviewData || {};
+    if (!allReviews[kitKey]) allReviews[kitKey] = [];
+    allReviews[kitKey].unshift(newReview);
+    await ghPut('reviews.json', allReviews, reviewSha,
+      `New review: ${safeUsername} on ${kitKey} (${stars} stars)`);
+
+    // ── 2. Save email to subscribers.json (private) ────────────────────────
+    try {
+      const { content: subData, sha: subSha } = await ghGet('subscribers.json');
+      const subs = subData || [];
+      const exists = subs.some(s => s.email === safeEmail);
+      if (!exists) {
+        subs.push({ email: safeEmail, source: kitKey, date: newReview.date });
+        await ghPut('subscribers.json', subs, subSha,
+          `New subscriber from ${kitKey} review`);
+      }
+    } catch(subErr) {
+      console.error('Subscriber save error:', subErr.message);
+    }
+
+    // ── 3. Email notification to Anthony ──────────────────────────────────
+    try {
+      await transporter.sendMail({
+        from: `"CipherBuilds Reviews" <${process.env.GMAIL_USER}>`,
+        to: process.env.GMAIL_USER,
+        subject: `New ${stars}★ Review — ${kitKey} — ${safeUsername}`,
+        html: `<div style="font-family:Arial,sans-serif;padding:24px;background:#0f0f17;color:#dde8f0;border-radius:8px;max-width:560px">
+          <h2 style="color:#00aadd">New Review — CipherBuilds</h2>
+          <p><strong>Kit:</strong> ${kitKey}</p>
+          <p><strong>Username:</strong> ${safeUsername}</p>
+          <p><strong>Email:</strong> ${safeEmail} <em style="color:#888">(stored in subscribers.json)</em></p>
+          <p><strong>Rating:</strong> ${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</p>
+          <p><strong>Review:</strong></p>
+          <blockquote style="border-left:3px solid #00aadd;padding-left:12px;color:#aaa">${safeReview}</blockquote>
+          <p style="color:#555;font-size:11px">Stored permanently in GitHub repo: BehemothCipher.github.io</p>
+        </div>`
+      });
+    } catch(mailErr) {
+      console.error('Review email error:', mailErr.message);
+    }
+
+    const { email: _, ...publicReview } = newReview;
+    res.json({ success: true, review: publicReview });
+
+  } catch(e) {
+    console.error('Review save error:', e.message);
+    res.status(500).json({ error: 'Failed to save review. Please try again.' });
   }
 });
 
