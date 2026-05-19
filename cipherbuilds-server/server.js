@@ -333,6 +333,36 @@ function setCIACors(req, res) {
 
 app.options('/api/cia/chat', (req, res) => { setCIACors(req, res); res.sendStatus(204); });
 
+// Cache reviews for CIA (refresh every 10 minutes)
+let reviewsCache = null;
+let reviewsCacheTime = 0;
+
+async function getReviewsForCIA() {
+  const now = Date.now();
+  if (reviewsCache && (now - reviewsCacheTime) < 600000) return reviewsCache;
+  try {
+    const { content } = await ghGet('reviews.json');
+    const all = content || {};
+    // Build a readable summary of reviews for CIA
+    const lines = [];
+    for (const [kit, reviews] of Object.entries(all)) {
+      if (!Array.isArray(reviews) || !reviews.length) continue;
+      const avg = (reviews.reduce((s,r) => s + r.rating, 0) / reviews.length).toFixed(1);
+      lines.push(`\n${kit.toUpperCase()} — ${reviews.length} review(s), avg ${avg}/5 stars:`);
+      // Include up to 5 most recent reviews per kit
+      reviews.slice(0, 5).forEach(r => {
+        lines.push(`  - ${r.username} (${r.rating}★): "${r.review.slice(0, 150)}${r.review.length > 150 ? '...' : ''}"`);
+      });
+    }
+    reviewsCache = lines.length ? lines.join('\n') : null;
+    reviewsCacheTime = now;
+    return reviewsCache;
+  } catch(e) {
+    console.error('Reviews cache error:', e.message);
+    return null;
+  }
+}
+
 app.post('/api/cia/chat', async (req, res) => {
   setCIACors(req, res);
   const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
@@ -351,6 +381,12 @@ app.post('/api/cia/chat', async (req, res) => {
 
   if (!safe.length || safe[safe.length - 1].role !== 'user') return res.status(400).json({ error: 'Last message must be from user.' });
 
+  // Fetch reviews and inject into system prompt
+  const reviewSummary = await getReviewsForCIA();
+  const systemWithReviews = reviewSummary
+    ? CIA_SYSTEM + `\n\nCURRENT CUSTOMER REVIEWS (use this data when asked about reviews, ratings, or what customers think):\n${reviewSummary}\n\nWhen asked about reviews, summarize honestly from the data above. Never invent reviews.`
+    : CIA_SYSTEM;
+
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
@@ -360,7 +396,7 @@ app.post('/api/cia/chat', async (req, res) => {
     const stream = client.messages.stream({
       model: 'claude-sonnet-4-6',
       max_tokens: 600,
-      system: CIA_SYSTEM,
+      system: systemWithReviews,
       messages: safe,
     });
     let full = '';
