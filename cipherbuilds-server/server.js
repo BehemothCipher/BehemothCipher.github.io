@@ -379,14 +379,18 @@ app.get('/api/admin/subscribers', async (req, res) => {
   }
   console.log('[Admin] Auth passed, fetching subscribers...');
   try {
-    const { content } = await ghGet('subscribers.json');
-    const subs = content || [];
+    console.log('[Admin] Calling ghGet...');
+    const result = await ghGet('subscribers.json');
+    console.log('[Admin] ghGet result:', JSON.stringify(result).slice(0, 100));
+    const subs = result.content || [];
+    console.log('[Admin] Subs count:', subs.length);
     res.json({
       count: subs.length,
       subscribers: subs.map(s => ({ email: s.email, source: s.source, date: s.date }))
     });
   } catch(e) {
-    res.status(500).json({ error: 'Failed to load subscribers.' });
+    console.error('[Admin] Error:', e.message);
+    res.status(500).json({ error: e.message });
   }
 });
 
