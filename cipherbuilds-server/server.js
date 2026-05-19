@@ -160,7 +160,7 @@ app.get('/api/reviews/:kit', async (req, res) => {
   const kit = req.params.kit.toLowerCase().replace(/[^a-z-]/g, '');
   try {
     const { content } = await ghGet('reviews.json');
-    const all = content || [];
+    const all = content || {};
     const kitReviews = (all[kit] || []).map(({ email, ...r }) => r);
     res.json({ reviews: kitReviews });
   } catch(e) {
@@ -184,7 +184,7 @@ app.post('/api/reviews', async (req, res) => {
   const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
   if (reviewRateLimit(ip)) return res.status(429).json({ error: 'Review limit reached. Try again tomorrow.' });
 
-  const { kit, username, email, rating, review } = req.body || [];
+  const { kit, username, email, rating, review } = req.body || {};
 
   if (!kit || !username || !email || !review)
     return res.status(400).json({ error: 'Kit, username, email, and review are required.' });
@@ -211,7 +211,7 @@ app.post('/api/reviews', async (req, res) => {
   try {
     // ── 1. Save public review to reviews.json ──────────────────────────────
     const { content: reviewData, sha: reviewSha } = await ghGet('reviews.json');
-    const allReviews = reviewData || [];
+    const allReviews = reviewData || {};
     if (!allReviews[kitKey]) allReviews[kitKey] = [];
     allReviews[kitKey].unshift(newReview);
     await ghPut('reviews.json', allReviews, reviewSha,
@@ -220,7 +220,7 @@ app.post('/api/reviews', async (req, res) => {
     // ── 2. Save email to subscribers.json (private) ────────────────────────
     try {
       const { content: subData, sha: subSha } = await ghGet('subscribers.json');
-      const subs = subData || [];
+      const subs = Array.isArray(subData) ? subData : [];
       const exists = subs.some(s => s.email === safeEmail);
       if (!exists) {
         subs.push({ email: safeEmail, source: kitKey, date: newReview.date });
@@ -324,7 +324,7 @@ app.post('/api/cia/chat', async (req, res) => {
   const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
   if (rateLimit(ip)) return res.status(429).json({ error: 'Too many requests. Try again in a minute.' });
 
-  const { messages } = req.body || [];
+  const { messages } = req.body || {};
   if (!Array.isArray(messages) || !messages.length) return res.status(400).json({ error: 'messages array required' });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -381,8 +381,9 @@ app.get('/api/admin/subscribers', async (req, res) => {
   try {
     console.log('[Admin] Calling ghGet...');
     const result = await ghGet('subscribers.json');
-    console.log('[Admin] ghGet result:', JSON.stringify(result).slice(0, 100));
-    const subs = result.content || [];
+    const raw = result.content || [];
+    // Handle both [] and {} gracefully
+    const subs = Array.isArray(raw) ? raw : [];
     console.log('[Admin] Subs count:', subs.length);
     res.json({
       count: subs.length,
@@ -396,7 +397,7 @@ app.get('/api/admin/subscribers', async (req, res) => {
 
 // POST broadcast email to all subscribers
 app.post('/api/admin/broadcast', async (req, res) => {
-  const { adminKey, subject, body } = req.body || [];
+  const { adminKey, subject, body } = req.body || {};
   if (!adminKey || adminKey !== process.env.ADMIN_KEY)
     return res.status(401).json({ error: 'Unauthorized.' });
   if (!subject || !body)
@@ -404,7 +405,7 @@ app.post('/api/admin/broadcast', async (req, res) => {
 
   try {
     const { content: subData } = await ghGet('subscribers.json');
-    const subs = subData || [];
+    const subs = Array.isArray(subData) ? subData : [];
     if (!subs.length) return res.json({ success: true, sent: 0, message: 'No subscribers yet.' });
 
     let sent = 0, failed = 0;
