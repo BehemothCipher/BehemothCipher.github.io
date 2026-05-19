@@ -294,24 +294,62 @@ function renderSubList(subs){
 }
 
 function renderKitTabs(){
-  const kits=Object.keys(allReviews);
-  const all=Object.values(allReviews).flat().length;
-  let html='<div class="kit-tab active" onclick="filterKit('all',this)">All ('+all+')</div>';
-  kits.forEach(k=>{const n=allReviews[k].length;if(n>0)html+='<div class="kit-tab" onclick="filterKit(''+k+'',this)">'+k+' ('+n+')</div>';});
-  document.getElementById('kit-tabs').innerHTML=html;
+  var kits=Object.keys(allReviews);
+  var total=Object.values(allReviews).flat().length;
+  var container=document.getElementById('kit-tabs');
+  container.innerHTML='';
+  var allBtn=document.createElement('div');
+  allBtn.className='kit-tab active';
+  allBtn.textContent='All ('+total+')';
+  allBtn.onclick=function(){filterKit(allBtn,'all');};
+  container.appendChild(allBtn);
+  kits.forEach(function(k){
+    var n=(allReviews[k]||[]).length;
+    if(n>0){
+      var btn=document.createElement('div');
+      btn.className='kit-tab';
+      btn.textContent=k+' ('+n+')';
+      btn.onclick=(function(kk,bb){return function(){filterKit(bb,kk);};})(k,btn);
+      container.appendChild(btn);
+    }
+  });
 }
 
-function filterKit(kit,el){
-  document.querySelectorAll('.kit-tab').forEach(t=>t.classList.remove('active'));
+function filterKit(el,kit){
+  document.querySelectorAll('.kit-tab').forEach(function(t){t.classList.remove('active');});
   el.classList.add('active');
   renderReviews(kit);
 }
 
 function renderReviews(kit){
-  const el=document.getElementById('rv-list');
-  const reviews=kit==='all'?Object.entries(allReviews).flatMap(([k,arr])=>arr.map(r=>({...r,_kit:k}))):(allReviews[kit]||[]).map(r=>({...r,_kit:kit}));
+  var el=document.getElementById('rv-list');
+  var reviews=kit==='all'
+    ?Object.entries(allReviews).flatMap(function(e){return e[1].map(function(r){return Object.assign({},r,{_kit:e[0]});});})
+    :(allReviews[kit]||[]).map(function(r){return Object.assign({},r,{_kit:kit});});
   if(!reviews.length){el.innerHTML='<div class="empty-state">No reviews yet.</div>';return;}
-  el.innerHTML=reviews.map(r=>'<div class="list-row" id="rv-'+r.id+'"><div class="row-avatar">'+r.username.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title" style="display:flex;align-items:center;gap:6px">'+r.username+'<span class="badge badge-kit">'+r._kit+'</span><span class="stars">'+'&#9733;'.repeat(r.rating)+'&#9734;'.repeat(5-r.rating)+'</span></div><div class="row-text">'+r.review+'</div><div class="row-meta">'+r.date+'</div></div><div class="row-actions"><button class="btn-sm btn-danger" onclick="deleteReview(''+r._kit+'',''+r.id+'')">Delete</button></div></div>').join('');
+  el.innerHTML='';
+  reviews.forEach(function(r){
+    var row=document.createElement('div');
+    row.className='list-row';
+    row.id='rv-'+r.id;
+    var stars='';
+    for(var i=0;i<r.rating;i++) stars+='&#9733;';
+    for(var j=r.rating;j<5;j++) stars+='&#9734;';
+    row.innerHTML='<div class="row-avatar">'+r.username.charAt(0).toUpperCase()+'</div>'
+      +'<div class="row-body">'
+      +'<div class="row-title" style="display:flex;align-items:center;gap:6px">'+r.username
+      +'<span class="badge badge-kit">'+r._kit+'</span>'
+      +'<span class="stars">'+stars+'</span></div>'
+      +'<div class="row-text">'+r.review+'</div>'
+      +'<div class="row-meta">'+r.date+'</div>'
+      +'</div>'
+      +'<div class="row-actions"><button class="btn-sm btn-danger" data-kit="'+r._kit+'" data-id="'+r.id+'">Delete</button></div>';
+    el.appendChild(row);
+  });
+  // Attach delete handlers via data attributes (avoids nested quote issues)
+  el.querySelectorAll('button[data-kit]').forEach(function(btn){
+    btn.onclick=function(){deleteReview(btn.dataset.kit,btn.dataset.id);};
+  });
 }
 
 async function deleteReview(kit,id){
