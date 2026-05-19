@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express   = require('express');
 const cors      = require('cors');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const Anthropic  = require('@anthropic-ai/sdk');
 const crypto    = require('crypto');
 
@@ -66,13 +66,17 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Helper to send email via Resend
+async function sendEmail({ to, subject, html }) {
+  return resend.emails.send({
+    from: 'CipherBuilds <contact@behemothlab.dev>',
+    to,
+    subject,
+    html
+  });
+}
 
 app.get('/', (req, res) => {
   res.json({ status: 'CipherBuilds server running' });
@@ -82,8 +86,7 @@ app.post('/commission', async (req, res) => {
   const { name, email, tier, message } = req.body;
   if (!name || !email || !tier) return res.status(400).json({ error: 'Name, email, and tier are required.' });
   try {
-    await transporter.sendMail({
-      from: `"BehemothCipher | CipherBuilds" <${process.env.GMAIL_USER}>`,
+    await sendEmail({
       to: email,
       subject: 'Your CipherBuilds Commission Request',
       html: `<div style="font-family:'Poppins',sans-serif;background:#0f0f17;color:#dde8f0;padding:32px;border-radius:8px;max-width:560px">
@@ -99,9 +102,8 @@ app.post('/commission', async (req, res) => {
         <p style="color:#3a5568;font-size:10px">50% deposit is non-refundable once development has begun. All builds include a contract.</p>
       </div>`
     });
-    await transporter.sendMail({
-      from: `"CipherBuilds Server" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+    await sendEmail({
+      to: 'behemothcipher@gmail.com',
       subject: `New Commission Request — ${tier} — ${name}`,
       html: `<div style="font-family:'Poppins',sans-serif;padding:24px">
         <h2>New Commission Request</h2>
@@ -123,9 +125,8 @@ app.post('/contact', async (req, res) => {
   const { name, email, topic, message } = req.body;
   if (!name || !email || !message) return res.status(400).json({ error: 'Name, email, and message are required.' });
   try {
-    await transporter.sendMail({
-      from: `"CipherBuilds Contact" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+    await sendEmail({
+      to: 'behemothcipher@gmail.com',
       subject: `CipherBuilds — ${topic || 'General'} — from ${name}`,
       html: `<div style="font-family:'Poppins',sans-serif;padding:24px">
         <h2>New Contact Form Submission</h2>
@@ -223,9 +224,8 @@ app.post('/api/reviews', async (req, res) => {
 
     // ── 3. Email notification to Anthony ──────────────────────────────────
     try {
-      await transporter.sendMail({
-        from: `"CipherBuilds Reviews" <${process.env.GMAIL_USER}>`,
-        to: process.env.GMAIL_USER,
+      await sendEmail({
+        to: 'behemothcipher@gmail.com',
         subject: `New ${stars}★ Review — ${kitKey} — ${safeUsername}`,
         html: `<div style="font-family:Arial,sans-serif;padding:24px;background:#0f0f17;color:#dde8f0;border-radius:8px;max-width:560px">
           <h2 style="color:#00aadd">New Review — CipherBuilds</h2>
