@@ -7,96 +7,142 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0f0f17;--bg2:#13131f;--border:#1e2436;--border2:#242840;--cyan:#00aadd;--text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;--green:#00cc77;--red:#ff4560;--sans:'Poppins',sans-serif}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-#login-screen{width:100%;max-width:400px}
-.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:40px;text-align:center}
-.login-logo{font-size:28px;font-weight:700;margin-bottom:4px}
-.login-logo span{color:var(--cyan)}
-.login-sub{font-size:12px;color:var(--muted);margin-bottom:32px;letter-spacing:0.06em}
-.login-input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px 16px;color:#fff;font-family:var(--sans);font-size:14px;outline:none;margin-bottom:12px;text-align:center;letter-spacing:0.08em}
+:root{--bg:#0f0f17;--bg2:#13131f;--bg3:#0a0d14;--border:#1e2436;--border2:#242840;--cyan:#00aadd;--text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;--green:#00cc77;--red:#ff4560;--amber:#ffb347;--sans:'Poppins',sans-serif}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;padding:0}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:40px;text-align:center;width:100%;max-width:400px}
+.logo{font-size:26px;font-weight:700;margin-bottom:4px}.logo em{color:var(--cyan);font-style:normal}
+.login-sub{font-size:11px;color:var(--muted);margin-bottom:32px;letter-spacing:0.08em}
+.login-input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px 16px;color:#fff;font-family:var(--sans);font-size:14px;outline:none;margin-bottom:12px;text-align:center;letter-spacing:0.1em}
 .login-input:focus{border-color:var(--cyan)}
-.login-btn{width:100%;background:var(--cyan);color:#fff;border:none;border-radius:8px;padding:13px;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:0.06em;cursor:pointer;transition:opacity 0.2s}
-.login-btn:hover{opacity:0.85}
-.login-err{font-size:12px;color:var(--red);margin-top:10px;display:none}
-#admin-screen{width:100%;max-width:760px;display:none}
-.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-.admin-logo{font-size:20px;font-weight:700}
-.admin-logo span{color:var(--cyan)}
-.admin-tag{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;margin-left:8px}
-.logout-btn{font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--sans)}
-.logout-btn:hover{color:var(--text)}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center}
-.stat-n{font-size:32px;font-weight:700;color:var(--cyan)}
-.stat-l{font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-top:4px}
-.compose-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:28px;margin-bottom:20px}
-.compose-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:20px}
-.field-label{font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:6px}
-.field-input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-family:var(--sans);font-size:14px;outline:none;margin-bottom:16px}
+.btn-primary{background:var(--cyan);color:#fff;border:none;border-radius:8px;padding:13px 28px;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:0.06em;cursor:pointer;transition:opacity 0.2s;width:100%}
+.btn-primary:hover{opacity:0.85}.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
+.err-msg{font-size:12px;color:var(--red);margin-top:10px;display:none}
+#admin-screen{display:none;min-height:100vh;flex-direction:column}
+.topbar{background:var(--bg3);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:56px;flex-shrink:0}
+.topbar-logo{font-size:17px;font-weight:700}.topbar-logo em{color:var(--cyan);font-style:normal}
+.topbar-tag{font-size:10px;color:var(--muted);background:rgba(0,170,221,0.1);border:1px solid rgba(0,170,221,0.2);border-radius:20px;padding:3px 10px;margin-left:8px}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-link{font-size:11px;color:var(--muted);text-decoration:none;transition:color 0.2s}.topbar-link:hover{color:var(--cyan)}
+.btn-logout{font-size:11px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:var(--sans)}
+.btn-logout:hover{border-color:var(--cyan);color:var(--cyan)}
+.tab-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 28px;display:flex;gap:0;flex-shrink:0;overflow-x:auto}
+.tab{font-size:12px;font-weight:500;color:var(--muted);padding:14px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;white-space:nowrap}
+.tab:hover{color:var(--text)}.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.tab-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:5px;vertical-align:middle}
+.tab-content{flex:1;padding:28px;overflow-y:auto;display:none}.tab-content.active{display:block}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.stat-n{font-size:26px;font-weight:700;color:var(--cyan)}.stat-l{font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-top:3px}
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:16px}
+.section-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.section-title span{font-size:11px;color:var(--muted);font-weight:400}
+.field-label{font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:5px}
+.field-input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:#fff;font-family:var(--sans);font-size:13px;outline:none;margin-bottom:14px}
 .field-input:focus{border-color:var(--cyan)}
-textarea.field-input{resize:vertical;line-height:1.7;min-height:180px}
-.char-count{font-size:11px;color:var(--faint);text-align:right;margin-top:-12px;margin-bottom:16px}
-.preview-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px;display:none}
-.preview-title{font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px}
-.ep-header{background:#0a0d14;padding:16px 20px;border-radius:6px 6px 0 0;border:1px solid #1e2436}
-.ep-logo{font-size:18px;font-weight:bold}
-.ep-logo span{color:#00aadd}
-.ep-domain{font-size:10px;color:#4a6880;letter-spacing:0.1em;margin-top:2px}
-.ep-body{background:#0f0f17;padding:24px 20px;border:1px solid #1e2436;border-top:none;font-size:14px;line-height:1.8;color:#c8dce8;white-space:pre-wrap;word-break:break-word;font-family:Arial,sans-serif}
-.ep-footer{background:#0a0d14;padding:14px 20px;border:1px solid #1e2436;border-top:none;border-radius:0 0 6px 6px;font-size:11px;color:#4a6880;font-family:Arial,sans-serif}
-.actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-preview{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:transparent;color:var(--muted);padding:11px 24px;border-radius:8px;border:1px solid var(--border2);cursor:pointer;font-family:var(--sans);transition:border-color 0.2s,color 0.2s}
-.btn-preview:hover{border-color:var(--cyan);color:var(--cyan)}
-.btn-send{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:var(--cyan);color:#fff;padding:11px 28px;border-radius:8px;border:none;cursor:pointer;font-family:var(--sans);transition:opacity 0.2s}
-.btn-send:hover{opacity:0.85}
-.btn-send:disabled{opacity:0.5;cursor:not-allowed}
-.result-box{border-radius:8px;padding:16px 20px;margin-top:16px;font-size:14px;display:none}
-.result-box.success{background:rgba(0,204,119,0.08);border:1px solid rgba(0,204,119,0.3);color:var(--green)}
-.result-box.error{background:rgba(255,69,96,0.08);border:1px solid rgba(255,69,96,0.3);color:var(--red)}
-.sub-list-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
-.sub-list-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
-.sub-list{max-height:260px;overflow-y:auto}
-.sub-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
-.sub-row:last-child{border-bottom:none}
-.sub-email{color:var(--text)}
-.sub-meta{font-size:11px;color:var(--faint)}
-.sub-list::-webkit-scrollbar{width:3px}
-.sub-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.empty-subs{font-size:13px;color:var(--faint);padding:16px 0;text-align:center}
-@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr}.actions{flex-direction:column}}
+textarea.field-input{resize:vertical;line-height:1.7;min-height:160px}
+.scrollable{max-height:420px;overflow-y:auto;padding-right:4px}
+.scrollable::-webkit-scrollbar{width:3px}.scrollable::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.list-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.list-row:last-child{border-bottom:none}
+.row-avatar{width:34px;height:34px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.row-body{flex:1;min-width:0}.row-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.row-sub{font-size:11px;color:var(--muted);margin-bottom:4px}.row-text{font-size:12px;color:var(--text);line-height:1.6}
+.row-meta{font-size:10px;color:var(--faint);margin-top:4px}.row-actions{flex-shrink:0;display:flex;gap:6px}
+.stars{color:var(--amber);font-size:12px}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:0.06em}
+.badge-new{background:rgba(0,204,119,0.15);color:var(--green);border:1px solid rgba(0,204,119,0.3)}
+.badge-kit{background:rgba(0,170,221,0.1);color:var(--cyan);border:1px solid rgba(0,170,221,0.2)}
+.empty-state{font-size:13px;color:var(--faint);padding:24px 0;text-align:center}
+.btn-sm{font-size:10px;font-weight:600;letter-spacing:0.06em;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;font-family:var(--sans)}
+.btn-danger{background:rgba(255,69,96,0.15);color:var(--red);border:1px solid rgba(255,69,96,0.3)}.btn-danger:hover{opacity:0.7}
+.btn-secondary{background:transparent;color:var(--muted);border:1px solid var(--border2)}.btn-secondary:hover{border-color:var(--cyan);color:var(--cyan)}
+.preview-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:16px;display:none}
+.ep-header{background:#0a0d14;padding:14px 18px;border-radius:6px 6px 0 0;border:1px solid #1e2436}
+.ep-logo{font-size:16px;font-weight:bold}.ep-logo em{color:#00aadd;font-style:normal}
+.ep-domain{font-size:9px;color:#4a6880;letter-spacing:0.1em;margin-top:2px}
+.ep-body{background:#0f0f17;padding:20px 18px;border:1px solid #1e2436;border-top:none;font-size:13px;line-height:1.8;color:#c8dce8;white-space:pre-wrap;font-family:Arial,sans-serif}
+.ep-footer{background:#0a0d14;padding:12px 18px;border:1px solid #1e2436;border-top:none;border-radius:0 0 6px 6px;font-size:10px;color:#4a6880;font-family:Arial,sans-serif}
+.actions-row{display:flex;gap:10px;flex-wrap:wrap}
+.result-box{border-radius:8px;padding:14px 18px;margin-top:14px;font-size:13px;display:none}
+.result-success{background:rgba(0,204,119,0.08);border:1px solid rgba(0,204,119,0.3);color:var(--green)}
+.result-error{background:rgba(255,69,96,0.08);border:1px solid rgba(255,69,96,0.3);color:var(--red)}
+.kit-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.kit-tab{font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.2s}
+.kit-tab.active{background:rgba(0,170,221,0.1);border-color:var(--cyan);color:var(--cyan)}
+.quick-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.quick-link{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-decoration:none;color:var(--text);font-size:13px;display:flex;align-items:center;gap:8px;transition:border-color 0.2s}
+.quick-link:hover{border-color:var(--cyan)}
+@media(max-width:600px){.tab{padding:12px 12px;font-size:11px}.tab-content{padding:16px}.actions-row{flex-direction:column}}
 </style>
 </head>
 <body>
 
 <div id="login-screen">
   <div class="login-box">
-    <div class="login-logo">CIPHER<span>BUILDS</span></div>
-    <div class="login-sub">// ADMIN PANEL — AUTHORIZED ONLY</div>
-    <input id="admin-key-input" class="login-input" type="password" placeholder="Enter admin key" onkeydown="if(event.key==='Enter')login()"/>
-    <button class="login-btn" onclick="login()">Sign In →</button>
-    <div id="login-err" class="login-err">Incorrect admin key.</div>
+    <div class="logo"><em>CIPHER</em>BUILDS</div>
+    <div class="login-sub">// ADMIN PANEL — AUTHORIZED ACCESS ONLY</div>
+    <input id="key-input" class="login-input" type="password" placeholder="Enter admin key" onkeydown="if(event.key==='Enter')login()"/>
+    <button class="btn-primary" onclick="login()">Sign In →</button>
+    <div id="login-err" class="err-msg">Incorrect admin key.</div>
   </div>
 </div>
 
 <div id="admin-screen">
-  <div class="admin-header">
-    <div><div class="admin-logo">CIPHER<span>BUILDS</span><span class="admin-tag">Admin</span></div></div>
-    <button class="logout-btn" onclick="logout()">Sign out</button>
+  <div class="topbar">
+    <div><span class="topbar-logo"><em>CIPHER</em>BUILDS</span><span class="topbar-tag">Admin</span></div>
+    <div class="topbar-right">
+      <a href="https://behemothlab.dev" target="_blank" class="topbar-link">Site ↗</a>
+      <a href="https://github.com/BehemothCipher/BehemothCipher.github.io" target="_blank" class="topbar-link">GitHub ↗</a>
+      <a href="https://behemothcipher.gumroad.com" target="_blank" class="topbar-link">Gumroad ↗</a>
+      <button class="btn-logout" onclick="logout()">Sign out</button>
+    </div>
   </div>
 
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-n" id="stat-subs">—</div><div class="stat-l">Subscribers</div></div>
-    <div class="stat-card"><div class="stat-n" id="stat-sent">0</div><div class="stat-l">Emails Sent</div></div>
-    <div class="stat-card"><div class="stat-n" style="color:var(--green);font-size:14px;line-height:1.4">contact@<br/>behemothlab.dev</div><div class="stat-l">Sending From</div></div>
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab('overview',this)">Overview</div>
+    <div class="tab" onclick="switchTab('broadcast',this)">Broadcast</div>
+    <div class="tab" onclick="switchTab('reviews',this)" id="tab-reviews">Reviews</div>
+    <div class="tab" onclick="switchTab('commissions',this)" id="tab-commissions">Commissions</div>
+    <div class="tab" onclick="switchTab('cia',this)" id="tab-cia">CIA Logs</div>
   </div>
 
-  <div class="compose-box">
-    <div class="compose-title">Compose Broadcast Email</div>
-    <label class="field-label">Subject</label>
-    <input id="email-subject" class="field-input" type="text" placeholder="A message from CipherBuilds" value="A message from CipherBuilds"/>
-    <label class="field-label">Message Body</label>
-    <textarea id="email-body" class="field-input" oninput="updateCount()">Hey there,
+  <div class="tab-content active" id="pane-overview">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-n" id="ov-subs">-</div><div class="stat-l">Subscribers</div></div>
+      <div class="stat-card"><div class="stat-n" id="ov-reviews">-</div><div class="stat-l">Reviews</div></div>
+      <div class="stat-card"><div class="stat-n" id="ov-commissions">-</div><div class="stat-l">Commissions</div></div>
+      <div class="stat-card"><div class="stat-n" id="ov-cia">-</div><div class="stat-l">CIA Chats</div></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">Recent Activity</div>
+      <div id="ov-activity" class="scrollable"><div class="empty-state">Loading...</div></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">Quick Links</div>
+      <div class="quick-links">
+        <a href="https://dashboard.render.com" target="_blank" class="quick-link">🖥️ Render Dashboard</a>
+        <a href="https://resend.com/emails" target="_blank" class="quick-link">📧 Resend Dashboard</a>
+        <a href="https://github.com/BehemothCipher/BehemothCipher.github.io" target="_blank" class="quick-link">📁 GitHub Repo</a>
+        <a href="https://behemothcipher.gumroad.com" target="_blank" class="quick-link">🛒 Gumroad Store</a>
+        <a href="https://app.namecheap.com" target="_blank" class="quick-link">🌐 Namecheap DNS</a>
+        <a href="https://resend.com/domains" target="_blank" class="quick-link">✉️ Resend Domains</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="pane-broadcast">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-n" id="br-subs">-</div><div class="stat-l">Subscribers</div></div>
+      <div class="stat-card"><div class="stat-n" id="br-sent">0</div><div class="stat-l">Sent This Session</div></div>
+      <div class="stat-card"><div class="stat-n" style="color:var(--green);font-size:11px;line-height:1.6">contact@<br/>behemothlab.dev</div><div class="stat-l">From Address</div></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">Compose Email Broadcast</div>
+      <label class="field-label">Subject</label>
+      <input id="email-subject" class="field-input" type="text" value="A message from CipherBuilds"/>
+      <label class="field-label">Message Body</label>
+      <textarea id="email-body" class="field-input" oninput="updateCharCount()">Hey there,
 
 Just wanted to reach out and say thank you for checking out CipherBuilds. Whether you picked up one of the tools or just tried a demo, it means a lot.
 
@@ -107,43 +153,73 @@ Got questions? C.I.A. — the Cipher Integrated Assistant — is live on the sit
 — Anthony
 CipherBuilds / BehemothLab
 behemothlab.dev</textarea>
-    <div class="char-count"><span id="char-count">0</span> characters</div>
-
-    <div id="preview-box" class="preview-box">
-      <div class="preview-title">// EMAIL PREVIEW</div>
-      <div class="ep-header"><div class="ep-logo"><span>CIPHER</span>BUILDS</div><div class="ep-domain">behemothlab.dev</div></div>
-      <div class="ep-body" id="preview-body"></div>
-      <div class="ep-footer">You received this email because you left a review on behemothlab.dev.<br/><a href="https://behemothlab.dev" style="color:#00aadd">Visit the site</a></div>
+      <div style="font-size:10px;color:var(--faint);text-align:right;margin-top:-10px;margin-bottom:14px"><span id="char-count">0</span> characters</div>
+      <div id="preview-wrap" class="preview-box">
+        <div style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px">Preview</div>
+        <div class="ep-header"><div class="ep-logo"><em>CIPHER</em>BUILDS</div><div class="ep-domain">behemothlab.dev</div></div>
+        <div class="ep-body" id="preview-body"></div>
+        <div class="ep-footer">You received this because you left a review on behemothlab.dev. · <a href="https://behemothlab.dev" style="color:#00aadd">Visit the site</a></div>
+      </div>
+      <div class="actions-row">
+        <button class="btn-sm btn-secondary" onclick="togglePreview()">Preview Email</button>
+        <button class="btn-primary" id="send-btn" style="width:auto;padding:11px 24px" onclick="sendBroadcast()">Send to All Subscribers →</button>
+      </div>
+      <div id="send-result" class="result-box"></div>
     </div>
-
-    <div class="actions">
-      <button class="btn-preview" onclick="togglePreview()">Preview Email</button>
-      <button class="btn-send" id="send-btn" onclick="sendBroadcast()">Send to All Subscribers →</button>
+    <div class="section-card">
+      <div class="section-title">Subscriber List <span id="sub-count-label"></span></div>
+      <div id="sub-list" class="scrollable"><div class="empty-state">Loading...</div></div>
     </div>
-    <div id="result-box" class="result-box"></div>
   </div>
 
-  <div class="sub-list-box">
-    <div class="sub-list-title">
-      <span>Subscriber List</span>
-      <span id="sub-list-count" style="font-size:12px;color:var(--muted)"></span>
+  <div class="tab-content" id="pane-reviews">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-n" id="rv-total">-</div><div class="stat-l">Total Reviews</div></div>
+      <div class="stat-card"><div class="stat-n" id="rv-avg" style="font-size:18px">-</div><div class="stat-l">Avg Rating</div></div>
     </div>
-    <div id="sub-list" class="sub-list"><div class="empty-subs">Loading...</div></div>
+    <div class="section-card">
+      <div class="section-title">Reviews by Kit</div>
+      <div class="kit-tabs" id="kit-tabs"></div>
+      <div id="rv-list" class="scrollable"><div class="empty-state">Loading...</div></div>
+    </div>
   </div>
+
+  <div class="tab-content" id="pane-commissions">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-n" id="com-total">-</div><div class="stat-l">Total Inquiries</div></div>
+      <div class="stat-card"><div class="stat-n" id="com-new" style="color:var(--green)">-</div><div class="stat-l">New</div></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">Commission Inquiries</div>
+      <div id="com-list" class="scrollable"><div class="empty-state">No commission inquiries yet.</div></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="pane-cia">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-n" id="cia-total">-</div><div class="stat-l">Total Chats</div></div>
+      <div class="stat-card"><div class="stat-n" id="cia-today" style="color:var(--green)">-</div><div class="stat-l">Today</div></div>
+    </div>
+    <div class="section-card">
+      <div class="section-title">Recent CIA Conversations</div>
+      <div id="cia-list" class="scrollable"><div class="empty-state">No CIA conversations logged yet.</div></div>
+    </div>
+  </div>
+
 </div>
 
 <script>
 const API='https://behemothcipher-github-io.onrender.com';
-let adminKey='',totalSent=0;
+let adminKey='',allReviews={},sessionSent=0;
 
 function login(){
-  const key=document.getElementById('admin-key-input').value.trim();
+  const key=document.getElementById('key-input').value.trim();
   if(!key)return;
   adminKey=key;
-  loadDashboard();
+  loadAll();
 }
 
-async function loadDashboard(){
+async function loadAll(){
   try{
     const r=await fetch(API+'/api/admin/subscribers?adminKey='+encodeURIComponent(adminKey));
     const data=await r.json();
@@ -152,78 +228,185 @@ async function loadDashboard(){
       adminKey='';return;
     }
     document.getElementById('login-screen').style.display='none';
-    document.getElementById('admin-screen').style.display='block';
-    document.getElementById('stat-subs').textContent=data.count;
-    document.getElementById('sub-list-count').textContent=data.count+' total';
-    renderSubList(data.subscribers||[]);
-    updateCount();
+    document.getElementById('admin-screen').style.display='flex';
+
+    const [rvRes,comRes,ciaRes]=await Promise.all([
+      fetch(API+'/api/admin/reviews?adminKey='+encodeURIComponent(adminKey)).then(r=>r.json()),
+      fetch(API+'/api/admin/commissions?adminKey='+encodeURIComponent(adminKey)).then(r=>r.json()),
+      fetch(API+'/api/admin/cia-logs?adminKey='+encodeURIComponent(adminKey)).then(r=>r.json())
+    ]);
+
+    allReviews=rvRes.reviews||{};
+    const subs=data.subscribers||[];
+    const coms=comRes.commissions||[];
+    const ciaLogs=ciaRes.logs||[];
+    const totalRv=Object.values(allReviews).reduce((s,a)=>s+a.length,0);
+    const today=new Date().toISOString().split('T')[0];
+    const ciaToday=ciaLogs.filter(l=>l.date===today).length;
+
+    // Stats
+    ['ov-subs','br-subs'].forEach(id=>document.getElementById(id).textContent=subs.length);
+    document.getElementById('ov-reviews').textContent=totalRv;
+    document.getElementById('rv-total').textContent=totalRv;
+    document.getElementById('ov-commissions').textContent=coms.length;
+    document.getElementById('com-total').textContent=coms.length;
+    document.getElementById('com-new').textContent=coms.filter(c=>c.status==='new').length;
+    document.getElementById('ov-cia').textContent=ciaLogs.length;
+    document.getElementById('cia-total').textContent=ciaLogs.length;
+    document.getElementById('cia-today').textContent=ciaToday;
+    document.getElementById('sub-count-label').textContent=subs.length+' total';
+
+    if(totalRv>0){
+      const flat=Object.values(allReviews).flat();
+      const avg=(flat.reduce((s,r)=>s+r.rating,0)/flat.length).toFixed(1);
+      document.getElementById('rv-avg').textContent=avg+' ★';
+    }
+
+    renderSubList(subs);
+    renderKitTabs();
+    renderReviews('all');
+    renderCommissions(coms);
+    renderCIALogs(ciaLogs);
+    renderActivity(subs,allReviews,coms,ciaLogs);
+
+    const newComs=coms.filter(c=>c.status==='new').length;
+    if(newComs>0)document.getElementById('tab-commissions').innerHTML='Commissions <span class="tab-badge">'+newComs+'</span>';
+
+    updateCharCount();
   }catch(e){
     document.getElementById('login-err').textContent='Could not connect to server.';
     document.getElementById('login-err').style.display='block';
   }
 }
 
-function renderSubList(subs){
-  const list=document.getElementById('sub-list');
-  if(!subs.length){list.innerHTML='<div class="empty-subs">No subscribers yet.</div>';return;}
-  list.innerHTML=subs.map(s=>`<div class="sub-row"><div class="sub-email">${s.email}</div><div class="sub-meta">${s.source||'—'} · ${s.date||'—'}</div></div>`).join('');
+function switchTab(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const map={overview:'pane-overview',broadcast:'pane-broadcast',reviews:'pane-reviews',commissions:'pane-commissions',cia:'pane-cia'};
+  document.getElementById(map[name]).classList.add('active');
 }
 
-function updateCount(){
-  const body=document.getElementById('email-body').value;
-  document.getElementById('char-count').textContent=body.length;
-  if(document.getElementById('preview-box').style.display!=='none')
+function renderSubList(subs){
+  const el=document.getElementById('sub-list');
+  if(!subs.length){el.innerHTML='<div class="empty-state">No subscribers yet.</div>';return;}
+  el.innerHTML=subs.map(s=>'<div class="list-row"><div class="row-avatar">'+s.email.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title">'+s.email+'</div><div class="row-meta">'+(s.source||'—')+' · '+(s.date||'—')+'</div></div></div>').join('');
+}
+
+function renderKitTabs(){
+  const kits=Object.keys(allReviews);
+  const all=Object.values(allReviews).flat().length;
+  let html='<div class="kit-tab active" onclick="filterKit('all',this)">All ('+all+')</div>';
+  kits.forEach(k=>{const n=allReviews[k].length;if(n>0)html+='<div class="kit-tab" onclick="filterKit(''+k+'',this)">'+k+' ('+n+')</div>';});
+  document.getElementById('kit-tabs').innerHTML=html;
+}
+
+function filterKit(kit,el){
+  document.querySelectorAll('.kit-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderReviews(kit);
+}
+
+function renderReviews(kit){
+  const el=document.getElementById('rv-list');
+  const reviews=kit==='all'?Object.entries(allReviews).flatMap(([k,arr])=>arr.map(r=>({...r,_kit:k}))):(allReviews[kit]||[]).map(r=>({...r,_kit:kit}));
+  if(!reviews.length){el.innerHTML='<div class="empty-state">No reviews yet.</div>';return;}
+  el.innerHTML=reviews.map(r=>'<div class="list-row" id="rv-'+r.id+'"><div class="row-avatar">'+r.username.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title" style="display:flex;align-items:center;gap:6px">'+r.username+'<span class="badge badge-kit">'+r._kit+'</span><span class="stars">'+'★'.repeat(r.rating)+'☆'.repeat(5-r.rating)+'</span></div><div class="row-text">'+r.review+'</div><div class="row-meta">'+r.date+'</div></div><div class="row-actions"><button class="btn-sm btn-danger" onclick="deleteReview(''+r._kit+'',''+r.id+'')">Delete</button></div></div>').join('');
+}
+
+async function deleteReview(kit,id){
+  if(!confirm('Delete this review?'))return;
+  try{
+    const r=await fetch(API+'/api/admin/reviews/'+kit+'/'+id+'?adminKey='+encodeURIComponent(adminKey),{method:'DELETE'});
+    const data=await r.json();
+    if(data.success){
+      allReviews[kit]=(allReviews[kit]||[]).filter(r=>r.id!==id);
+      document.getElementById('rv-'+id)?.remove();
+      const total=Object.values(allReviews).flat().length;
+      document.getElementById('rv-total').textContent=total;
+      document.getElementById('ov-reviews').textContent=total;
+      renderKitTabs();
+    }
+  }catch(e){alert('Failed to delete review.');}
+}
+
+function renderCommissions(coms){
+  const el=document.getElementById('com-list');
+  if(!coms.length){el.innerHTML='<div class="empty-state">No commission inquiries yet.</div>';return;}
+  const tc={Simple:'var(--cyan)','Mid-Level':'var(--amber)',Complex:'var(--red)'};
+  el.innerHTML=coms.map(c=>'<div class="list-row"><div class="row-avatar" style="background:'+(tc[c.tier]||'var(--cyan)')+'">'+c.name.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title" style="display:flex;align-items:center;gap:6px">'+c.name+'<span class="badge badge-new">'+(c.status||'new')+'</span><span style="font-size:10px;color:var(--muted)">'+c.tier+'</span></div><div class="row-sub">'+c.email+'</div><div class="row-text">'+(c.message||'No message provided.')+'</div><div class="row-meta">'+c.date+'</div></div><div class="row-actions"><a href="mailto:'+c.email+'?subject=Re: Your CipherBuilds Commission Request" class="btn-sm btn-secondary" style="text-decoration:none;display:inline-block">Reply</a></div></div>').join('');
+}
+
+function renderCIALogs(logs){
+  const el=document.getElementById('cia-list');
+  if(!logs.length){el.innerHTML='<div class="empty-state">No CIA conversations yet.</div>';return;}
+  el.innerHTML=logs.map(l=>'<div class="list-row"><div class="row-avatar" style="background:var(--bg3);border:1px solid var(--border);color:var(--cyan);font-size:10px;font-weight:700">CIA</div><div class="row-body"><div class="row-title">User asked:</div><div class="row-text" style="color:var(--cyan)">&quot;'+l.question+'&quot;</div><div class="row-text" style="margin-top:4px;color:var(--muted)">'+l.answer+(l.answer.length>=300?'…':'')+'</div><div class="row-meta">'+l.date+' '+(l.time||'')+' · '+l.turns+' turn'+(l.turns!==1?'s':'')+'</div></div></div>').join('');
+}
+
+function renderActivity(subs,reviews,coms,ciaLogs){
+  const el=document.getElementById('ov-activity');
+  const items=[];
+  if(subs[0])items.push({icon:'👤',text:'New subscriber from '+(subs[0].source||'site'),date:subs[0].date});
+  const latestRv=Object.values(reviews).flat().sort((a,b)=>b.date.localeCompare(a.date))[0];
+  if(latestRv)items.push({icon:'★',text:latestRv.username+' left a '+latestRv.rating+'★ review',date:latestRv.date});
+  if(coms[0])items.push({icon:'🔧',text:'Commission from '+coms[0].name+' ('+coms[0].tier+')',date:coms[0].date});
+  if(ciaLogs[0])items.push({icon:'🤖',text:'CIA: "'+ciaLogs[0].question.slice(0,60)+(ciaLogs[0].question.length>60?'…':'')+'"',date:ciaLogs[0].date});
+  if(!items.length){el.innerHTML='<div class="empty-state">No activity yet.</div>';return;}
+  el.innerHTML=items.map(i=>'<div class="list-row"><div style="font-size:20px;flex-shrink:0;width:34px;text-align:center">'+i.icon+'</div><div class="row-body"><div class="row-text">'+i.text+'</div><div class="row-meta">'+i.date+'</div></div></div>').join('');
+}
+
+function updateCharCount(){
+  const body=document.getElementById('email-body')?.value||'';
+  const el=document.getElementById('char-count');
+  if(el)el.textContent=body.length;
+  if(document.getElementById('preview-wrap').style.display!=='none')
     document.getElementById('preview-body').textContent=body;
 }
 
 function togglePreview(){
-  const box=document.getElementById('preview-box');
+  const box=document.getElementById('preview-wrap');
   document.getElementById('preview-body').textContent=document.getElementById('email-body').value;
   box.style.display=box.style.display==='none'?'block':'none';
-  document.querySelector('.btn-preview').textContent=box.style.display==='none'?'Preview Email':'Hide Preview';
+  document.querySelector('[onclick="togglePreview()"]').textContent=box.style.display==='none'?'Preview Email':'Hide Preview';
 }
 
 async function sendBroadcast(){
   const subject=document.getElementById('email-subject').value.trim();
   const body=document.getElementById('email-body').value.trim();
   const btn=document.getElementById('send-btn');
-  const subCount=parseInt(document.getElementById('stat-subs').textContent)||0;
-  if(!subject||!body){showResult('Please fill in both subject and message body.',false);return;}
-  if(subCount===0){showResult('No subscribers to send to yet.',false);return;}
-  if(!confirm('Send this email to all '+subCount+' subscriber'+(subCount!==1?'s':'')+'?'))return;
-  btn.disabled=true;btn.textContent='Sending...';
-  document.getElementById('result-box').style.display='none';
+  const result=document.getElementById('send-result');
+  const subCount=parseInt(document.getElementById('br-subs').textContent)||0;
+  if(!subject||!body){showResult(result,'Please fill in both fields.',false);return;}
+  if(subCount===0){showResult(result,'No subscribers yet.',false);return;}
+  if(!confirm('Send to all '+subCount+' subscriber'+(subCount!==1?'s':'')+'?'))return;
+  btn.disabled=true;btn.textContent='Sending...';result.style.display='none';
   try{
-    const r=await fetch(API+'/api/admin/broadcast',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({adminKey,subject,body})
-    });
+    const r=await fetch(API+'/api/admin/broadcast',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({adminKey,subject,body})});
     const data=await r.json();
     if(data.success){
-      totalSent+=data.sent;
-      document.getElementById('stat-sent').textContent=totalSent;
-      showResult('Sent to '+data.sent+' subscriber'+(data.sent!==1?'s':'')+' successfully.'+(data.failed?' ('+data.failed+' failed)':''),true);
-    }else throw new Error(data.error||'Broadcast failed.');
-  }catch(e){showResult(e.message||'Something went wrong.',false);}
+      sessionSent+=data.sent;
+      document.getElementById('br-sent').textContent=sessionSent;
+      showResult(result,'Sent to '+data.sent+' subscriber'+(data.sent!==1?'s':'')+'.'+(data.failed?' ('+data.failed+' failed)':''),true);
+    }else throw new Error(data.error||'Failed.');
+  }catch(e){showResult(result,e.message,false);}
   btn.disabled=false;btn.textContent='Send to All Subscribers →';
 }
 
-function showResult(msg,success){
-  const box=document.getElementById('result-box');
-  box.textContent=msg;
-  box.className='result-box '+(success?'success':'error');
-  box.style.display='block';
+function showResult(el,msg,ok){
+  el.textContent=msg;
+  el.className='result-box '+(ok?'result-success':'result-error');
+  el.style.display='block';
 }
 
 function logout(){
   adminKey='';
   document.getElementById('admin-screen').style.display='none';
   document.getElementById('login-screen').style.display='flex';
-  document.getElementById('admin-key-input').value='';
+  document.getElementById('key-input').value='';
   document.getElementById('login-err').style.display='none';
 }
 
-document.addEventListener('DOMContentLoaded',updateCount);
+document.addEventListener('DOMContentLoaded',updateCharCount);
 </script>
 </body>
 </html>
