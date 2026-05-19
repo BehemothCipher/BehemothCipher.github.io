@@ -62,8 +62,17 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: ['https://behemothlab.dev', 'http://localhost:5500', 'http://127.0.0.1:5500']
+  origin: function(origin, callback) {
+    const allowed = ['https://behemothlab.dev', 'http://localhost:5500', 'http://127.0.0.1:5500'];
+    // Allow requests with no origin (mobile apps, curl, direct browser access)
+    if (!origin || allowed.includes(origin)) return callback(null, true);
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true
 }));
+
+// Handle preflight requests for all routes
+app.options('*', cors());
 app.use(express.json());
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -363,8 +372,12 @@ app.post('/api/cia/chat', async (req, res) => {
 // GET subscriber count + list
 app.get('/api/admin/subscribers', async (req, res) => {
   const key = req.query.adminKey || req.body?.adminKey;
-  if (!key || key !== process.env.ADMIN_KEY)
+  console.log('[Admin] subscribers request, key present:', !!key, 'env key present:', !!process.env.ADMIN_KEY);
+  if (!key || key !== process.env.ADMIN_KEY) {
+    console.log('[Admin] Auth failed');
     return res.status(401).json({ error: 'Unauthorized.' });
+  }
+  console.log('[Admin] Auth passed, fetching subscribers...');
   try {
     const { content } = await ghGet('subscribers.json');
     const subs = content || [];
