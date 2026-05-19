@@ -356,4 +356,208 @@ app.post('/api/cia/chat', async (req, res) => {
   }
 });
 
+
+// ── Admin broadcast endpoints ──────────────────────────────────────────────
+// Protected by ADMIN_SECRET env var — only you can access these
+
+function adminAuth(req, res, next) {
+  const secret = req.headers['x-admin-secret'] || req.body?.adminSecret;
+  if (!secret || secret !== process.env.ADMIN_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// GET subscriber count + list (admin only)
+app.get('/api/admin/subscribers', adminAuth, async (req, res) => {
+  try {
+    const { content } = await ghGet('subscribers.json');
+    const subs = content || [];
+    res.json({
+      count: subs.length,
+      subscribers: subs.map(s => ({ email: s.email, source: s.source, date: s.date }))
+    });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+
+// GET broadcast log
+app.get('/api/admin/broadcast-log', adminAuth, async (req, res) => {
+  try {
+    const { content } = await ghGet('broadcast_log.json');
+    res.json({ log: content || [] });
+  } catch(e) {
+    res.json({ log: [] });
+  }
+});
+
+// POST broadcast email to all subscribers
+app.post('/api/admin/broadcast', adminAuth, async (req, res) => {
+  const { subject, body, preview } = req.body || {};
+  if (!subject || !body) return res.status(400).json({ error: 'Subject and body are required.' });
+
+  try {
+    const { content } = await ghGet('subscribers.json');
+    const subs = content || [];
+    if (!subs.length) return res.json({ sent: 0, message: 'No subscribers yet.' });
+
+    // Preview mode — just returns what would be sent
+    if (preview) {
+      return res.json({
+        preview: true,
+        subject,
+        body,
+        recipientCount: subs.length,
+        sampleEmail: subs[0]?.email
+      });
+    }
+
+    // Send to all subscribers
+    let sent = 0, failed = 0;
+    const emailHtml = `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#dde8f0;border-radius:8px;overflow:hidden">
+        <div style="background:#0a0d14;padding:24px 32px;border-bottom:2px solid #00aadd">
+          <span style="font-size:22px;font-weight:900;color:#fff;letter-spacing:0.04em">CIPHER</span><span style="font-size:22px;font-weight:900;color:#00aadd;letter-spacing:0.04em">BUILDS</span>
+          <div style="font-size:11px;color:#4a7a90;letter-spacing:0.15em;margin-top:4px">// FIELD-BUILT WINDOWS TOOLS</div>
+        </div>
+        <div style="padding:32px">
+          <div style="font-size:15px;line-height:1.8;color:#c8dce8;white-space:pre-line">${body}</div>
+        </div>
+        <div style="background:#0a0d14;padding:16px 32px;border-top:1px solid #1c2840">
+          <div style="font-size:12px;color:#4a7a90">
+            <a href="https://behemothlab.dev" style="color:#00aadd;text-decoration:none">behemothlab.dev</a>
+            &nbsp;·&nbsp; You received this because you left a review on CipherBuilds.
+          </div>
+        </div>
+      </div>`;
+
+    for (const sub of subs) {
+      try {
+        await resend.emails.send({
+          from: 'CipherBuilds <contact@behemothlab.dev>',
+          to: sub.email,
+          subject,
+          html: emailHtml
+        });
+        sent++;
+        // Small delay to avoid rate limits
+        await new Promise(r => setTimeout(r, 100));
+      } catch(e) {
+        console.error(`Broadcast failed for ${sub.email}:`, e.message);
+        failed++;
+      }
+    }
+
+    // Log broadcast to GitHub
+    try {
+      const { content: logData, sha: logSha } = await ghGet('broadcast_log.json');
+      const log = logData || [];
+      log.unshift({
+        date: new Date().toISOString(),
+        subject,
+        sent,
+        failed,
+        total: subs.length
+      });
+      await ghPut('broadcast_log.json', log, logSha, `Broadcast: ${subject} (${sent} sent)`);
+    } catch(e) { console.error('Log error:', e.message); }
+
+    res.json({ sent, failed, total: subs.length });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+
+// ── Admin broadcast endpoint ─────────────────────────────────────────────────
+app.post('/api/admin/broadcast', async (req, res) => {
+  const { adminKey, subject, body } = req.body || {};
+
+  // Auth check
+  if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized.' });
+  }
+  if (!subject || !body) {
+    return res.status(400).json({ error: 'Subject and body are required.' });
+  }
+
+  // Load subscribers from GitHub
+  let subscribers = [];
+  try {
+    const { content: subData } = await ghGet('subscribers.json');
+    subscribers = subData || [];
+  } catch(e) {
+    return res.status(500).json({ error: 'Failed to load subscribers.' });
+  }
+
+  if (!subscribers.length) {
+    return res.json({ success: true, sent: 0, message: 'No subscribers yet.' });
+  }
+
+  // Send to each subscriber
+  let sent = 0;
+  let failed = 0;
+  const errors = [];
+
+  for (const sub of subscribers) {
+    try {
+      const htmlBody = `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0f0f17;color:#dde8f0;border-radius:8px;overflow:hidden">
+          <div style="background:#0a0d14;padding:24px 32px;border-bottom:1px solid #1e2436">
+            <div style="font-size:22px;font-weight:bold">
+              <span style="color:#00aadd">CIPHER</span><span style="color:#ffffff">BUILDS</span>
+            </div>
+            <div style="font-size:11px;color:#4a6880;letter-spacing:0.1em;margin-top:4px">behemothlab.dev</div>
+          </div>
+          <div style="padding:32px">
+            <div style="font-size:15px;line-height:1.8;color:#c8dce8;white-space:pre-wrap">${body.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+          </div>
+          <div style="background:#0a0d14;padding:20px 32px;border-top:1px solid #1e2436;font-size:11px;color:#4a6880">
+            You received this email because you left a review on behemothlab.dev.<br/>
+            <a href="https://behemothlab.dev" style="color:#00aadd">Visit the site</a>
+          </div>
+        </div>`;
+
+      await resend.emails.send({
+        from: 'CipherBuilds <contact@behemothlab.dev>',
+        to: sub.email,
+        subject,
+        html: htmlBody
+      });
+      sent++;
+    } catch(e) {
+      failed++;
+      errors.push({ email: sub.email, error: e.message });
+    }
+  }
+
+  res.json({
+    success: true,
+    sent,
+    failed,
+    total: subscribers.length,
+    errors: errors.length ? errors : undefined
+  });
+});
+
+// GET subscriber count (admin only)
+app.get('/api/admin/subscribers', async (req, res) => {
+  const { adminKey } = req.query;
+  if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized.' });
+  }
+  try {
+    const { content: subData } = await ghGet('subscribers.json');
+    const subs = subData || [];
+    res.json({
+      count: subs.length,
+      subscribers: subs.map(s => ({ email: s.email, source: s.source, date: s.date }))
+    });
+  } catch(e) {
+    res.status(500).json({ error: 'Failed to load subscribers.' });
+  }
+});
+
 app.listen(PORT, () => console.log(`CipherBuilds server running on port ${PORT}`));
