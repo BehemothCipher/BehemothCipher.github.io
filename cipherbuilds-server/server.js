@@ -372,19 +372,14 @@ app.post('/api/cia/chat', async (req, res) => {
 // GET subscriber count + list
 app.get('/api/admin/subscribers', async (req, res) => {
   const key = req.query.adminKey || req.body?.adminKey;
-  console.log('[Admin] subscribers request, key present:', !!key, 'env key present:', !!process.env.ADMIN_KEY);
   if (!key || key !== process.env.ADMIN_KEY) {
-    console.log('[Admin] Auth failed');
     return res.status(401).json({ error: 'Unauthorized.' });
   }
-  console.log('[Admin] Auth passed, fetching subscribers...');
   try {
-    console.log('[Admin] Calling ghGet...');
     const result = await ghGet('subscribers.json');
     const raw = result.content || [];
     // Handle both [] and {} gracefully
     const subs = Array.isArray(raw) ? raw : [];
-    console.log('[Admin] Subs count:', subs.length);
     res.json({
       count: subs.length,
       subscribers: subs.map(s => ({ email: s.email, source: s.source, date: s.date }))
