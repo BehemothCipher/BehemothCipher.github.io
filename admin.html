@@ -259,7 +259,7 @@ async function loadAll(){
     if(totalRv>0){
       const flat=Object.values(allReviews).flat();
       const avg=(flat.reduce((s,r)=>s+r.rating,0)/flat.length).toFixed(1);
-      document.getElementById('rv-avg').textContent=avg+' ★';
+      document.getElementById('rv-avg').textContent=avg+' &#9733;';
     }
 
     renderSubList(subs);
@@ -290,7 +290,7 @@ function switchTab(name,el){
 function renderSubList(subs){
   const el=document.getElementById('sub-list');
   if(!subs.length){el.innerHTML='<div class="empty-state">No subscribers yet.</div>';return;}
-  el.innerHTML=subs.map(s=>'<div class="list-row"><div class="row-avatar">'+s.email.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title">'+s.email+'</div><div class="row-meta">'+(s.source||'—')+' · '+(s.date||'—')+'</div></div></div>').join('');
+  el.innerHTML=subs.map(s=>'<div class="list-row"><div class="row-avatar">'+s.email.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title">'+s.email+'</div><div class="row-meta">'+(s.source||'--')+' &middot; '+(s.date||'--')+'</div></div></div>').join('');
 }
 
 function renderKitTabs(){
@@ -311,7 +311,7 @@ function renderReviews(kit){
   const el=document.getElementById('rv-list');
   const reviews=kit==='all'?Object.entries(allReviews).flatMap(([k,arr])=>arr.map(r=>({...r,_kit:k}))):(allReviews[kit]||[]).map(r=>({...r,_kit:kit}));
   if(!reviews.length){el.innerHTML='<div class="empty-state">No reviews yet.</div>';return;}
-  el.innerHTML=reviews.map(r=>'<div class="list-row" id="rv-'+r.id+'"><div class="row-avatar">'+r.username.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title" style="display:flex;align-items:center;gap:6px">'+r.username+'<span class="badge badge-kit">'+r._kit+'</span><span class="stars">'+'★'.repeat(r.rating)+'☆'.repeat(5-r.rating)+'</span></div><div class="row-text">'+r.review+'</div><div class="row-meta">'+r.date+'</div></div><div class="row-actions"><button class="btn-sm btn-danger" onclick="deleteReview(''+r._kit+'',''+r.id+'')">Delete</button></div></div>').join('');
+  el.innerHTML=reviews.map(r=>'<div class="list-row" id="rv-'+r.id+'"><div class="row-avatar">'+r.username.charAt(0).toUpperCase()+'</div><div class="row-body"><div class="row-title" style="display:flex;align-items:center;gap:6px">'+r.username+'<span class="badge badge-kit">'+r._kit+'</span><span class="stars">'+'&#9733;'.repeat(r.rating)+'&#9734;'.repeat(5-r.rating)+'</span></div><div class="row-text">'+r.review+'</div><div class="row-meta">'+r.date+'</div></div><div class="row-actions"><button class="btn-sm btn-danger" onclick="deleteReview(''+r._kit+'',''+r.id+'')">Delete</button></div></div>').join('');
 }
 
 async function deleteReview(kit,id){
@@ -340,17 +340,17 @@ function renderCommissions(coms){
 function renderCIALogs(logs){
   const el=document.getElementById('cia-list');
   if(!logs.length){el.innerHTML='<div class="empty-state">No CIA conversations yet.</div>';return;}
-  el.innerHTML=logs.map(l=>'<div class="list-row"><div class="row-avatar" style="background:var(--bg3);border:1px solid var(--border);color:var(--cyan);font-size:10px;font-weight:700">CIA</div><div class="row-body"><div class="row-title">User asked:</div><div class="row-text" style="color:var(--cyan)">&quot;'+l.question+'&quot;</div><div class="row-text" style="margin-top:4px;color:var(--muted)">'+l.answer+(l.answer.length>=300?'…':'')+'</div><div class="row-meta">'+l.date+' '+(l.time||'')+' · '+l.turns+' turn'+(l.turns!==1?'s':'')+'</div></div></div>').join('');
+  el.innerHTML=logs.map(l=>'<div class="list-row"><div class="row-avatar" style="background:var(--bg3);border:1px solid var(--border);color:var(--cyan);font-size:10px;font-weight:700">CIA</div><div class="row-body"><div class="row-title">User asked:</div><div class="row-text" style="color:var(--cyan)">&quot;'+l.question+'&quot;</div><div class="row-text" style="margin-top:4px;color:var(--muted)">'+l.answer+(l.answer.length>=300?'...':'')+'</div><div class="row-meta">'+l.date+' '+(l.time||'')+' &middot; '+l.turns+' turn'+(l.turns!==1?'s':'')+'</div></div></div>').join('');
 }
 
 function renderActivity(subs,reviews,coms,ciaLogs){
   const el=document.getElementById('ov-activity');
   const items=[];
-  if(subs[0])items.push({icon:'👤',text:'New subscriber from '+(subs[0].source||'site'),date:subs[0].date});
+  if(subs[0])items.push({icon:'&#128100;',text:'New subscriber from '+(subs[0].source||'site'),date:subs[0].date});
   const latestRv=Object.values(reviews).flat().sort((a,b)=>b.date.localeCompare(a.date))[0];
-  if(latestRv)items.push({icon:'★',text:latestRv.username+' left a '+latestRv.rating+'★ review',date:latestRv.date});
-  if(coms[0])items.push({icon:'🔧',text:'Commission from '+coms[0].name+' ('+coms[0].tier+')',date:coms[0].date});
-  if(ciaLogs[0])items.push({icon:'🤖',text:'CIA: "'+ciaLogs[0].question.slice(0,60)+(ciaLogs[0].question.length>60?'…':'')+'"',date:ciaLogs[0].date});
+  if(latestRv)items.push({icon:'&#9733;',text:latestRv.username+' left a '+latestRv.rating+'&#9733; review',date:latestRv.date});
+  if(coms[0])items.push({icon:'&#128295;',text:'Commission from '+coms[0].name+' ('+coms[0].tier+')',date:coms[0].date});
+  if(ciaLogs[0])items.push({icon:'&#129302;',text:'CIA: "'+ciaLogs[0].question.slice(0,60)+(ciaLogs[0].question.length>60?'...':'')+'"',date:ciaLogs[0].date});
   if(!items.length){el.innerHTML='<div class="empty-state">No activity yet.</div>';return;}
   el.innerHTML=items.map(i=>'<div class="list-row"><div style="font-size:20px;flex-shrink:0;width:34px;text-align:center">'+i.icon+'</div><div class="row-body"><div class="row-text">'+i.text+'</div><div class="row-meta">'+i.date+'</div></div></div>').join('');
 }
@@ -389,7 +389,7 @@ async function sendBroadcast(){
       showResult(result,'Sent to '+data.sent+' subscriber'+(data.sent!==1?'s':'')+'.'+(data.failed?' ('+data.failed+' failed)':''),true);
     }else throw new Error(data.error||'Failed.');
   }catch(e){showResult(result,e.message,false);}
-  btn.disabled=false;btn.textContent='Send to All Subscribers →';
+  btn.disabled=false;btn.textContent='Send to All Subscribers ->';
 }
 
 function showResult(el,msg,ok){
