@@ -123,6 +123,20 @@ app.post('/commission', async (req, res) => {
         <hr/><p style="color:#888">Client has been sent an acknowledgement email. Send them the contract when ready.</p>
       </div>`
     });
+    // Save to GitHub commissions.json
+    try {
+      const { content: comData, sha: comSha } = await ghGet('commissions.json');
+      const coms = Array.isArray(comData) ? comData : [];
+      coms.unshift({
+        id: crypto.randomBytes(6).toString('hex'),
+        name, email, tier,
+        message: message || '',
+        date: new Date().toISOString().split('T')[0],
+        status: 'new'
+      });
+      await ghPut('commissions.json', coms, comSha, `New commission: ${tier} from ${name}`);
+    } catch(e) { console.error('Commission save error:', e.message); }
+
     res.json({ success: true, message: 'Request received!' });
   } catch (err) {
     console.error('Commission error:', err);
@@ -358,6 +372,25 @@ app.post('/api/cia/chat', async (req, res) => {
     }
     res.write(`data: ${JSON.stringify({ done: true, full })}\n\n`);
     res.end();
+
+    // Log CIA conversation to GitHub (async, don't block response)
+    if (full && safe.length) {
+      const userMsg = safe[safe.length - 1].content;
+      ghGet('cia_logs.json').then(({ content: logData, sha: logSha }) => {
+        const logs = Array.isArray(logData) ? logData : [];
+        logs.unshift({
+          id: crypto.randomBytes(4).toString('hex'),
+          date: new Date().toISOString().split('T')[0],
+          time: new Date().toISOString().split('T')[1].slice(0,5),
+          question: userMsg.slice(0, 200),
+          answer: full.slice(0, 300),
+          turns: safe.length
+        });
+        // Keep last 500 conversations
+        const trimmed = logs.slice(0, 500);
+        return ghPut('cia_logs.json', trimmed, logSha, 'CIA conversation logged');
+      }).catch(e => console.error('CIA log error:', e.message));
+    }
   } catch (err) {
     console.error('CIA error:', err);
     if (!res.headersSent) res.status(500).json({ error: 'Assistant error. Try again.' });
@@ -444,6 +477,69 @@ app.post('/api/admin/broadcast', async (req, res) => {
     } catch(e) { console.error('Log error:', e.message); }
 
     res.json({ success: true, sent, failed, total: subs.length });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+
+// GET all reviews (admin)
+app.get('/api/admin/reviews', async (req, res) => {
+  const key = req.query.adminKey || req.body?.adminKey;
+  if (!key || key !== process.env.ADMIN_KEY)
+    return res.status(401).json({ error: 'Unauthorized.' });
+  try {
+    const { content } = await ghGet('reviews.json');
+    res.json({ reviews: content || {} });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// DELETE a review (admin)
+app.delete('/api/admin/reviews/:kit/:id', async (req, res) => {
+  const key = req.query.adminKey || req.body?.adminKey;
+  if (!key || key !== process.env.ADMIN_KEY)
+    return res.status(401).json({ error: 'Unauthorized.' });
+  const kit = req.params.kit.toLowerCase().replace(/[^a-z-]/g, '');
+  const id  = req.params.id;
+  try {
+    const { content: all, sha } = await ghGet('reviews.json');
+    const data = all || {};
+    if (!data[kit]) return res.status(404).json({ error: 'Kit not found.' });
+    const before = data[kit].length;
+    data[kit] = data[kit].filter(r => r.id !== id);
+    if (data[kit].length === before) return res.status(404).json({ error: 'Review not found.' });
+    await ghPut('reviews.json', data, sha, `Deleted review ${id} from ${kit}`);
+    res.json({ success: true });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET commissions (admin)
+app.get('/api/admin/commissions', async (req, res) => {
+  const key = req.query.adminKey || req.body?.adminKey;
+  if (!key || key !== process.env.ADMIN_KEY)
+    return res.status(401).json({ error: 'Unauthorized.' });
+  try {
+    const { content } = await ghGet('commissions.json');
+    const coms = Array.isArray(content) ? content : [];
+    res.json({ commissions: coms });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET CIA logs (admin)
+app.get('/api/admin/cia-logs', async (req, res) => {
+  const key = req.query.adminKey || req.body?.adminKey;
+  if (!key || key !== process.env.ADMIN_KEY)
+    return res.status(401).json({ error: 'Unauthorized.' });
+  try {
+    const { content } = await ghGet('cia_logs.json');
+    const logs = Array.isArray(content) ? content : [];
+    res.json({ logs });
   } catch(e) {
     res.status(500).json({ error: e.message });
   }
