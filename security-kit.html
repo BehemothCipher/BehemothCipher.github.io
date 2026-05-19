@@ -200,6 +200,189 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
   </div>
 </section>
 
+
+<section id="reviews" style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-label">Community</div>
+    <div class="section-title">Reviews</div>
+
+    <div id="review-form-wrap" style="background:var(--bg);border:1px solid var(--border2);border-radius:10px;padding:28px;margin-bottom:32px">
+      <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:16px">Leave a Review</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:0.06em;text-transform:uppercase">Username</label>
+          <input id="rv-username" type="text" maxlength="30" placeholder="YourName123"
+            style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:#fff;font-family:inherit;font-size:14px;outline:none"/>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:0.06em;text-transform:uppercase">Email <span style="color:var(--faint)">(kept private)</span></label>
+          <input id="rv-email" type="email" placeholder="you@email.com"
+            style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:#fff;font-family:inherit;font-size:14px;outline:none"/>
+        </div>
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase">Rating</label>
+        <div id="rv-stars" style="display:flex;gap:6px;cursor:pointer">
+          <span class="rv-star" data-v="1" style="font-size:26px;color:var(--faint);transition:color 0.15s">&#9733;</span>
+          <span class="rv-star" data-v="2" style="font-size:26px;color:var(--faint);transition:color 0.15s">&#9733;</span>
+          <span class="rv-star" data-v="3" style="font-size:26px;color:var(--faint);transition:color 0.15s">&#9733;</span>
+          <span class="rv-star" data-v="4" style="font-size:26px;color:var(--faint);transition:color 0.15s">&#9733;</span>
+          <span class="rv-star" data-v="5" style="font-size:26px;color:var(--faint);transition:color 0.15s">&#9733;</span>
+        </div>
+        <input type="hidden" id="rv-rating" value="5"/>
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:0.06em;text-transform:uppercase">Your Review</label>
+        <textarea id="rv-text" maxlength="500" rows="4" placeholder="Share your experience with this tool..."
+          style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:#fff;font-family:inherit;font-size:14px;outline:none;resize:vertical"></textarea>
+        <div style="font-size:11px;color:var(--faint);text-align:right;margin-top:2px"><span id="rv-count">0</span>/500</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <button id="rv-submit" onclick="submitReview()"
+          style="font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:var(--accent);color:#fff;padding:11px 24px;border-radius:6px;border:none;cursor:pointer;transition:opacity 0.2s">
+          Submit Review
+        </button>
+        <span id="rv-msg" style="font-size:13px;display:none"></span>
+      </div>
+    </div>
+
+    <div id="rv-list-wrap">
+      <div id="rv-count-hdr" style="font-size:13px;color:var(--muted);margin-bottom:16px"></div>
+      <div id="rv-list" style="display:flex;flex-direction:column;gap:12px;max-height:600px;overflow-y:auto;padding-right:8px"></div>
+      <div id="rv-empty" style="font-size:14px;color:var(--faint);padding:24px 0;display:none">No reviews yet — be the first!</div>
+    </div>
+  </div>
+</section>
+
+<style>
+#rv-list::-webkit-scrollbar{width:4px}
+#rv-list::-webkit-scrollbar-track{background:var(--bg2)}
+#rv-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+#rv-username:focus,#rv-email:focus,#rv-text:focus{border-color:var(--cyan)!important}
+.rv-star.active{color:#ffb347!important}
+.rv-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+</style>
+
+<script>
+const KIT_KEY = window.location.pathname.split("/").pop().replace(".html","") || "kit";
+const API = "https://behemothcipher-github-io.onrender.com";
+let selectedRating = 5;
+
+document.querySelectorAll(".rv-star").forEach(s => s.classList.add("active"));
+
+document.querySelectorAll(".rv-star").forEach(star => {
+  star.addEventListener("click", () => {
+    selectedRating = parseInt(star.dataset.v);
+    document.getElementById("rv-rating").value = selectedRating;
+    document.querySelectorAll(".rv-star").forEach(s =>
+      s.classList.toggle("active", parseInt(s.dataset.v) <= selectedRating));
+  });
+  star.addEventListener("mouseover", () => {
+    const v = parseInt(star.dataset.v);
+    document.querySelectorAll(".rv-star").forEach(s =>
+      s.style.color = parseInt(s.dataset.v) <= v ? "#ffd080" : "");
+  });
+  star.addEventListener("mouseout", () => {
+    document.querySelectorAll(".rv-star").forEach(s => {
+      s.style.color = "";
+      s.classList.toggle("active", parseInt(s.dataset.v) <= selectedRating);
+    });
+  });
+});
+
+document.getElementById("rv-text").addEventListener("input", function() {
+  document.getElementById("rv-count").textContent = this.value.length;
+});
+
+async function loadReviews() {
+  try {
+    const r = await fetch(API + "/api/reviews/" + KIT_KEY);
+    const data = await r.json();
+    renderReviews(data.reviews || []);
+  } catch(e) {
+    document.getElementById("rv-empty").style.display = "block";
+  }
+}
+
+function renderReviews(reviews) {
+  const list  = document.getElementById("rv-list");
+  const empty = document.getElementById("rv-empty");
+  const hdr   = document.getElementById("rv-count-hdr");
+  if (!reviews.length) {
+    empty.style.display = "block";
+    list.style.display  = "none";
+    hdr.textContent = "";
+    return;
+  }
+  empty.style.display = "none";
+  list.style.display  = "flex";
+  const avg = (reviews.reduce((s,r) => s + r.rating, 0) / reviews.length).toFixed(1);
+  const stars = n => Array(n).fill("&#9733;").join("") + Array(5-n).fill("&#9734;").join("");
+  hdr.innerHTML = "<span style='color:#ffb347'>" + stars(Math.round(avg)) + "</span> " + avg + " average &middot; " + reviews.length + " review" + (reviews.length !== 1 ? "s" : "");
+  list.innerHTML = reviews.map(r => `
+    <div class="rv-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0">
+            ${r.username.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#fff">${r.username}</div>
+            <div style="font-size:11px;color:var(--faint)">${r.date}</div>
+          </div>
+        </div>
+        <div style="color:#ffb347;font-size:14px">${Array(r.rating).fill("&#9733;").join("")}<span style="color:var(--faint)">${Array(5-r.rating).fill("&#9733;").join("")}</span></div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin:0">${r.review}</p>
+    </div>
+  `).join("");
+}
+
+async function submitReview() {
+  const username = document.getElementById("rv-username").value.trim();
+  const email    = document.getElementById("rv-email").value.trim();
+  const rating   = selectedRating;
+  const review   = document.getElementById("rv-text").value.trim();
+  const msg      = document.getElementById("rv-msg");
+  const btn      = document.getElementById("rv-submit");
+
+  msg.style.display = "none";
+
+  if (!username || !email || !review) {
+    msg.textContent = "Please fill in all fields."; msg.style.color = "#ff4560"; msg.style.display = "inline"; return;
+  }
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+    msg.textContent = "Please enter a valid email."; msg.style.color = "#ff4560"; msg.style.display = "inline"; return;
+  }
+
+  btn.disabled = true; btn.textContent = "Submitting...";
+
+  try {
+    const r = await fetch(API + "/api/reviews", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({kit: KIT_KEY, username, email, rating, review})
+    });
+    const data = await r.json();
+    if (data.success) {
+      document.getElementById("rv-username").value = "";
+      document.getElementById("rv-email").value    = "";
+      document.getElementById("rv-text").value     = "";
+      document.getElementById("rv-count").textContent = "0";
+      msg.textContent = "Review posted — thank you!"; msg.style.color = "var(--green)"; msg.style.display = "inline";
+      btn.textContent = "Review Submitted";
+      loadReviews();
+    } else throw new Error(data.error || "Failed to submit.");
+  } catch(e) {
+    msg.textContent = e.message || "Something went wrong."; msg.style.color = "#ff4560"; msg.style.display = "inline";
+    btn.disabled = false; btn.textContent = "Submit Review";
+  }
+}
+
+loadReviews();
+</script>
+
+
 <section style="background:var(--bg2)">
   <div class="container">
     <div class="section-label">The Suite</div>
