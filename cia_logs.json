@@ -1,5 +1,13 @@
 [
   {
+    "id": "aec616fa",
+    "date": "2026-05-24",
+    "time": "20:00",
+    "question": "Can you show me what tools CipherBuilds sells?",
+    "answer": "Here's the current lineup:\n\n---\n\n**Free Tools**\n- **Startup Auditor** — Free. Scans all Windows startup locations, risk-rates every entry, lets you disable/quarantine safely, exports HTML & CSV reports. → [Download](https://behemothcipher.gumroad.com/l/startup_auditor)\n\n---\n\n**Full Products**\n| Tool",
+    "turns": 1
+  },
+  {
     "id": "7080af63",
     "date": "2026-05-24",
     "time": "19:58",
