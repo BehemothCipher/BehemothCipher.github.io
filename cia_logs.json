@@ -1,5 +1,13 @@
 [
   {
+    "id": "ead0ba05",
+    "date": "2026-05-24",
+    "time": "20:03",
+    "question": "I'm not sure what I need. Can you ask me a few questions?",
+    "answer": "Sure, let's narrow it down fast.\n\n**First question:** What's the main problem you're trying to solve?\n\n- 🐢 PC running slow / weird startup behavior\n- 🌐 Network issues / want to monitor traffic or scan ports\n- 🔒 Security concerns / think something's wrong on your system\n- 🔍 Something happened and",
+    "turns": 2
+  },
+  {
     "id": "730d0cf4",
     "date": "2026-05-24",
     "time": "20:03",
