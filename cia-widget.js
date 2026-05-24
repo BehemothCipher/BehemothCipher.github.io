@@ -24,6 +24,7 @@ What are you dealing with today?`;
   // ── Quick reply chips shown after greeting ──────────────────────────────────
   const QUICK_REPLIES = [
     { label: '🐢 My PC is slow',          text: 'My PC has been running slow lately, what can help?' },
+    { label: '🆓 Free startup tool',        text: 'Tell me about your free Startup Auditor tool.' },
     { label: '🌐 Network issues',          text: 'I\'ve been having network problems, what tool should I use?' },
     { label: '🔒 Security concerns',       text: 'I\'m worried about the security of my PC, what do you recommend?' },
     { label: '🛠️ What tools do you sell?', text: 'Can you show me what tools CipherBuilds sells?' },
@@ -33,6 +34,15 @@ What are you dealing with today?`;
 
   // ── Product catalogue (shown as cards when CIA recommends a product) ─────────
   const PRODUCTS = {
+    'startup auditor': {
+      name: 'Startup Auditor',
+      desc: 'Scan registry keys, startup folders & scheduled tasks. Risk scoring, plain-English explanations, quarantine & restore.',
+      price: 'Free',
+      badge: 'Free Tool',
+      pageUrl: '/startup-auditor.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/startup_auditor',
+      demoUrl: null,
+    },
     'system kit': {
       name: 'System Kit',
       desc: 'Maintenance toolkit, health dashboard, cleanup, diagnostics & report generation.',
@@ -378,22 +388,29 @@ What are you dealing with today?`;
 
   // ── Build product card HTML ──────────────────────────────────────────────────
   function buildCard(product) {
+    const isFree = product.price === 'Free';
+    const priceColor = isFree ? '#00cc77' : 'var(--cia-accent)';
+    const badgeStyle = isFree
+      ? 'background:rgba(0,204,119,0.12);border:1px solid rgba(0,204,119,0.3);color:#00cc77'
+      : '';
     const demoBtn = product.demoUrl
       ? `<a class="cia-card-btn cia-card-btn-demo" href="${product.demoUrl}" target="_blank">Try Demo</a>`
       : '';
+    const buyLabel = isFree ? 'Download Free →' : 'Buy Now';
+    const buyStyle = isFree ? 'background:#00cc77;' : '';
     return `
       <div class="cia-card">
         <div class="cia-card-top">
           <span class="cia-card-name">${product.name}</span>
-          <span class="cia-card-badge">${product.badge}</span>
+          <span class="cia-card-badge" style="${badgeStyle}">${product.badge}</span>
         </div>
         <div class="cia-card-desc">${product.desc}</div>
         <div class="cia-card-actions">
-          <span class="cia-card-price">${product.price}</span>
+          <span class="cia-card-price" style="color:${priceColor}">${product.price}</span>
           <div class="cia-card-btns">
             ${demoBtn}
             <a class="cia-card-btn" href="${product.pageUrl}">Details →</a>
-            <a class="cia-card-btn cia-card-btn-buy" href="${product.buyUrl}" target="_blank">Buy Now</a>
+            <a class="cia-card-btn cia-card-btn-buy" style="${buyStyle}" href="${product.buyUrl}" target="_blank">${buyLabel}</a>
           </div>
         </div>
       </div>

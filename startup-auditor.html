@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Startup Auditor — CipherBuilds | Free Windows Startup Analysis Tool</title>
+<meta name="description" content="Free Windows startup analysis tool by CipherBuilds. Scan registry keys, startup folders and scheduled tasks. Risk scoring, plain-English explanations, quarantine and restore. 100% free." />
+<meta property="og:title" content="Startup Auditor — CipherBuilds" />
+<meta property="og:description" content="Free Windows startup analysis tool. Scan, analyse, and clean your startup entries in minutes. Risk scoring with plain-English explanations." />
+<meta property="og:image" content="https://behemothlab.dev/StartupAuditor.png" />
+<meta property="og:url" content="https://behemothlab.dev/startup-auditor.html" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f17;--bg2:#13131f;
+  --border:#1e2436;--border2:#242840;
+  --cyan:#00aadd;--cyan2:#22bbee;
+  --text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;
+  --green:#00cc77;--amber:#ffb347;
+  --accent:#00aadd;
+  --sans:'Poppins',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(15,15,23,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--cyan)}
+.nav-brand img{height:38px;width:38px;object-fit:cover;border-radius:50%;border:1px solid rgba(0,170,221,0.3)}
+.nav-back{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.nav-back:hover{color:var(--cyan)}
+.nav-cta{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:var(--green);color:#fff;padding:9px 20px;border-radius:6px;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.85}
+
+.hero{padding:110px 32px 60px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse at 40% 0%,rgba(0,204,119,0.06) 0%,transparent 65%)}
+.hero-inner{max-width:1100px;margin:0 auto}
+.hero-eyebrow{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';display:block;width:18px;height:1px;background:var(--green)}
+.hero h1{font-size:clamp(32px,5vw,60px);font-weight:700;color:#fff;line-height:1.05;margin-bottom:12px}
+.free-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,204,119,0.12);border:1px solid rgba(0,204,119,0.35);border-radius:8px;padding:10px 20px;margin-bottom:20px}
+.free-badge-price{font-size:36px;font-weight:700;color:var(--green);line-height:1}
+.free-badge-note{font-size:12px;color:var(--muted);line-height:1.5}
+.hero-tagline{font-size:15px;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:28px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:var(--green);color:#fff;padding:13px 28px;border-radius:6px;transition:opacity 0.2s;display:inline-block}
+.btn-primary:hover{opacity:0.85}
+.btn-secondary{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:transparent;color:var(--muted);padding:13px 28px;border-radius:6px;border:1px solid var(--border2);transition:border-color 0.2s,color 0.2s;display:inline-block}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.hero-text{max-width:680px;margin-bottom:40px}
+.hero-screenshot{border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 48px rgba(0,0,0,0.6);margin-top:8px}
+.hero-screenshot img{width:100%;display:block}
+
+section{padding:72px 32px}
+.container{max-width:1000px;margin:0 auto}
+.section-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px;opacity:0.85}
+.section-title{font-size:clamp(24px,3.5vw,38px);font-weight:700;color:#fff;margin-bottom:28px;line-height:1.1}
+
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feature-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;display:flex;gap:14px;align-items:flex-start;transition:border-color 0.2s}
+.feature-card:hover{border-color:rgba(0,150,200,0.3)}
+.feature-card::before{content:'▸';color:var(--accent);font-size:14px;flex-shrink:0;margin-top:2px}
+.feature-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.feature-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+
+.who-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.who-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;display:flex;align-items:center;gap:12px}
+.who-icon{font-size:20px;flex-shrink:0}
+.who-text{font-size:13px;font-weight:500;color:var(--text)}
+
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.spec-row{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border)}
+.spec-row:last-child{border-bottom:none}
+.spec-label{padding:14px 18px;font-size:12px;font-weight:600;color:var(--faint);background:var(--bg2);letter-spacing:0.06em;text-transform:uppercase;border-right:1px solid var(--border)}
+.spec-val{padding:14px 18px;font-size:13px;color:var(--text)}
+
+.cta-box{background:linear-gradient(135deg,rgba(0,204,119,0.06),rgba(0,0,0,0));border:1px solid rgba(0,204,119,0.2);border-radius:10px;padding:48px;text-align:center}
+.cta-title{font-size:clamp(22px,3vw,34px);font-weight:700;color:#fff;margin-bottom:10px}
+.cta-sub{font-size:15px;font-weight:300;color:var(--muted);margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-note{font-size:12px;color:var(--faint);margin-top:16px}
+
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.risk-card{border-radius:10px;padding:20px;text-align:center;border:1px solid var(--border)}
+.risk-label{font-size:13px;font-weight:700;margin-bottom:6px}
+.risk-desc{font-size:12px;font-weight:300;color:var(--muted);line-height:1.6}
+
+.nav-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:48px}
+.nav-pill{font-size:11px;font-weight:600;padding:6px 14px;border-radius:20px;border:1px solid var(--border);color:var(--muted);transition:border-color 0.2s,color 0.2s;cursor:pointer}
+.nav-pill:hover{border-color:var(--cyan);color:var(--cyan)}
+.nav-pill.free{border-color:rgba(0,204,119,0.3);color:var(--green)}
+.nav-pill.free:hover{border-color:var(--green)}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-name{font-size:12px;font-weight:700;color:var(--cyan)}
+.footer-note{font-size:11px;color:var(--faint)}
+
+@media(max-width:800px){
+  nav{padding:12px 16px}
+  .hero{padding:90px 16px 48px}
+  section{padding:48px 16px}
+  .features-grid,.risk-grid{grid-template-columns:1fr}
+  .specs-grid{grid-template-columns:1fr}
+  .spec-row{grid-template-columns:1fr}
+  .spec-label{border-right:none}
+  .hero-actions,.cta-actions{flex-direction:column}
+  .btn-primary,.btn-secondary{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">
+    <img src="./cipher-nav-logo.png" alt="CipherBuilds" />
+    CipherBuilds
+  </a>
+  <a href="/#products" class="nav-back">← All Products</a>
+  <a href="https://behemothcipher.gumroad.com/l/startup_auditor" class="nav-cta" target="_blank">Download Free →</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">CipherBuilds · Free Tool</div>
+      <h1>Startup Auditor</h1>
+      <div class="free-badge">
+        <div class="free-badge-price">FREE</div>
+        <div class="free-badge-note">No subscription · No account required<br>Windows 10 / 11 · Instant download</div>
+      </div>
+      <p class="hero-tagline">Find out what's secretly slowing down your Windows startup. Startup Auditor scans every program, shortcut, and scheduled task set to run at login — and tells you in plain English what each one is and whether it looks safe.</p>
+      <div class="hero-actions">
+        <a href="https://behemothcipher.gumroad.com/l/startup_auditor" class="btn-primary" target="_blank">Download Free →</a>
+        <a href="/#products" class="btn-secondary">View Paid Tools</a>
+      </div>
+    </div>
+    <div class="hero-screenshot">
+      <img src="./StartupAuditor.png" alt="CipherBuilds Startup Auditor screenshot" />
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <div class="section-title">What Startup Auditor Does</div>
+    <div class="features-grid">
+      <div class="feature-card"><div><div class="feature-title">Registry Scan</div><div class="feature-desc">Reads all Windows Run and RunOnce keys — HKCU and HKLM — to find every program set to launch at login via the registry.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Startup Folder Scan</div><div class="feature-desc">Checks both the user and all-users Startup folders for shortcuts that auto-launch when Windows loads.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Scheduled Task Scan</div><div class="feature-desc">Queries all scheduled tasks with logon triggers — the startup entries most tools completely miss.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Risk Scoring</div><div class="feature-desc">Every entry gets a Low, Medium, or High risk rating based on publisher trust, file location, digital signature, and name patterns.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Plain-English Explanations</div><div class="feature-desc">Click any row to read a plain-language description of what that entry does and whether you should be concerned — no tech jargon.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Publisher Verification</div><div class="feature-desc">Resolves the publisher name for every executable and flags entries with no verified publisher or digital signature.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Disable & Enable</div><div class="feature-desc">Disable any startup entry with one click. The entry is backed up and can be re-enabled at any time — nothing is deleted.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">Quarantine & Restore</div><div class="feature-desc">Fully remove suspicious entries from startup and store them safely. Stronger than Disable — always restorable with one click.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">HTML Audit Report</div><div class="feature-desc">Export a full styled HTML report with risk summary cards, all entries, file details, and plain-English explanations.</div></div></div>
+      <div class="feature-card"><div><div class="feature-title">CSV Export</div><div class="feature-desc">Export all entries to a CSV spreadsheet including risk scores, publisher info, file size, MD5 hash, and signature status.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg)">
+  <div class="container">
+    <div class="section-label">Risk Ratings</div>
+    <div class="section-title">How Risk Scoring Works</div>
+    <div class="risk-grid">
+      <div class="risk-card" style="background:rgba(0,204,119,0.05);border-color:rgba(0,204,119,0.2)">
+        <div class="risk-label" style="color:#00cc77">● Low Risk</div>
+        <div class="risk-desc">Known publisher, valid digital signature, installed in a standard location. Safe to leave running.</div>
+      </div>
+      <div class="risk-card" style="background:rgba(255,179,71,0.05);border-color:rgba(255,179,71,0.2)">
+        <div class="risk-label" style="color:#ffb347">● Medium Risk</div>
+        <div class="risk-desc">One suspicious flag — such as an unknown publisher or missing signature. Review before deciding.</div>
+      </div>
+      <div class="risk-card" style="background:rgba(255,95,95,0.05);border-color:rgba(255,95,95,0.2)">
+        <div class="risk-label" style="color:#ff5f5f">● High Risk</div>
+        <div class="risk-desc">Runs from a temp folder, has a randomly generated name, or two or more suspicious flags. Quarantine recommended.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="container">
+    <div class="section-label">Built For</div>
+    <div class="section-title">Who This Tool Is For</div>
+    <div class="who-grid">
+      <div class="who-card"><div class="who-icon">🖥️</div><div class="who-text">Everyday Windows Users</div></div>
+      <div class="who-card"><div class="who-icon">🔧</div><div class="who-text">IT Technicians</div></div>
+      <div class="who-card"><div class="who-icon">💻</div><div class="who-text">Field Engineers</div></div>
+      <div class="who-card"><div class="who-icon">🏠</div><div class="who-text">Home Lab Enthusiasts</div></div>
+      <div class="who-card"><div class="who-icon">🎓</div><div class="who-text">Help Desk Staff</div></div>
+      <div class="who-card"><div class="who-icon">🔒</div><div class="who-text">Security-Conscious Users</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg)">
+  <div class="container">
+    <div class="section-label">Specs</div>
+    <div class="section-title">System Requirements</div>
+    <div class="specs-grid">
+      <div class="spec-row"><div class="spec-label">Platform</div><div class="spec-val">Windows 10 / 11 (64-bit)</div></div>
+      <div class="spec-row"><div class="spec-label">Price</div><div class="spec-val">Free — no account, no subscription, no strings</div></div>
+      <div class="spec-row"><div class="spec-label">Installation</div><div class="spec-val">Windows installer included · Portable .exe also available</div></div>
+      <div class="spec-row"><div class="spec-label">Admin Rights</div><div class="spec-val">Recommended for full scan access (registry + scheduled tasks)</div></div>
+      <div class="spec-row"><div class="spec-label">Internet Required</div><div class="spec-val">No — runs 100% locally, no data sent anywhere</div></div>
+      <div class="spec-row"><div class="spec-label">What's Included</div><div class="spec-val">Installer .exe · Portable .exe</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="container">
+    <div class="cta-box">
+      <div class="cta-title">Download Startup Auditor</div>
+      <p class="cta-sub">Free. No account required. Find out what's slowing down your startup in minutes.</p>
+      <div class="cta-actions">
+        <a href="https://behemothcipher.gumroad.com/l/startup_auditor" class="btn-primary" target="_blank">Download Free →</a>
+        <a href="/#products" class="btn-secondary">View Paid Tools</a>
+      </div>
+      <div class="cta-note">Download via Gumroad · Windows 10/11 · Built by BehemothCipher</div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg)">
+  <div class="container">
+    <div class="section-label">The Suite</div>
+    <div class="section-title">Other CipherBuilds Tools</div>
+    <div class="nav-pills">
+      <a href="/startup-auditor.html" class="nav-pill free">Startup Auditor — Free</a>
+      <a href="/system-kit.html" class="nav-pill">System Kit — $30</a>
+      <a href="/network-kit.html" class="nav-pill">Network Kit — $35</a>
+      <a href="/guard-kit.html" class="nav-pill">Guard Kit — $40</a>
+      <a href="/security-kit.html" class="nav-pill">Security Kit — $45</a>
+      <a href="/forensic-kit.html" class="nav-pill">Forensic Kit — $50</a>
+      <a href="/tool-kit.html" class="nav-pill">Tool Kit (All 5) — $130</a>
+    </div>
+    <p style="font-size:13px;color:var(--faint)">Buy all five paid kits together as the <a href="/tool-kit.html" style="color:var(--cyan)">Tool Kit for $130</a> and save $70 vs buying separately.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">© 2025 BehemothCipher · CipherBuilds · Springfield, MA</div>
+  <div class="footer-note">Windows 10/11 · Free tool · Built by a field engineer</div>
+</footer>
+
+</body>
+</html>
