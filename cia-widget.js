@@ -542,7 +542,8 @@ What are you dealing with today?`;
       const btn = document.createElement('button');
       btn.className = 'cia-chip';
       btn.textContent = qr.label;
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         removeQuickReplies();
         textarea.value = '';
         send(qr.text);
