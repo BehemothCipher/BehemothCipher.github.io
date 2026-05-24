@@ -1,5 +1,13 @@
 [
   {
+    "id": "132382ea",
+    "date": "2026-05-24",
+    "time": "22:13",
+    "question": "I'm not sure what I need. Can you ask me a few questions?",
+    "answer": "Sure, let's figure it out fast.\n\n**First question:** What's the problem you're trying to solve — or the goal you're going for?\n\nPick the closest one:\n\n- 🐢 **PC is slow / something's off** — boot times, weird behavior\n- 🌐 **Network issues** — connectivity, ports, bandwidth\n- 🔒 **Security concerns*",
+    "turns": 2
+  },
+  {
     "id": "c13e7104",
     "date": "2026-05-24",
     "time": "20:08",
