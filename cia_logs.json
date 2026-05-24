@@ -1,5 +1,13 @@
 [
   {
+    "id": "592d6803",
+    "date": "2026-05-24",
+    "time": "19:37",
+    "question": "Where are you quick response tabs?",
+    "answer": "Those are configured on the site itself — I don't control the front-end UI from here. If something looks off or missing on **behemothlab.dev**, best move is to shoot Anthony a message directly:\n\n📧 **contact@behemothlab.dev**\n\nHe'll get back to you within 24hrs.",
+    "turns": 4
+  },
+  {
     "id": "7c707ac5",
     "date": "2026-05-24",
     "time": "19:36",
