@@ -1,26 +1,77 @@
 /**
  * C.I.A. — Cipher Integrated Assistant
  * Self-contained embeddable widget for behemothlab.dev
+ * v2.0 — Quick replies, product cards, session persistence
  *
  * HOW TO EMBED — add ONE line before </body> in your HTML:
  *   <script src="/cia-widget.js" data-cia-endpoint="https://your-render-server.onrender.com/api/cia/chat"></script>
  *
- * That's it. No other dependencies needed.
+ * No other dependencies needed.
  */
 (function () {
   'use strict';
 
   // ── Config ──────────────────────────────────────────────────────────────────
-  const ENDPOINT = document.currentScript?.dataset?.ciaEndpoint
-    || '/api/cia/chat';
+  const ENDPOINT = document.currentScript?.dataset?.ciaEndpoint || '/api/cia/chat';
+  const STORAGE_KEY = 'cia_session_v2';
 
   const GREETING = `Hello — I'm **C.I.A.**, the Cipher Integrated Assistant for **behemothlab.dev**.
 
-I can help you explore the CipherBuilds tool suite, find the right product, or figure out which commission tier fits your project.
+I can help you find the right CipherBuilds tool, walk you through what each product does, or figure out which commission tier fits your project.
 
-What are you looking for today?`;
+What are you dealing with today?`;
 
-  // ── Inject styles ────────────────────────────────────────────────────────────
+  // ── Quick reply chips shown after greeting ──────────────────────────────────
+  const QUICK_REPLIES = [
+    { label: '🐢 My PC is slow',          text: 'My PC has been running slow lately, what can help?' },
+    { label: '🌐 Network issues',          text: 'I\'ve been having network problems, what tool should I use?' },
+    { label: '🔒 Security concerns',       text: 'I\'m worried about the security of my PC, what do you recommend?' },
+    { label: '🛠️ What tools do you sell?', text: 'Can you show me what tools CipherBuilds sells?' },
+    { label: '💼 Commission a project',    text: 'I\'m interested in commissioning a custom project.' },
+    { label: '❓ Not sure yet',            text: 'I\'m not sure what I need. Can you ask me a few questions?' },
+  ];
+
+  // ── Product catalogue (shown as cards when CIA recommends a product) ─────────
+  const PRODUCTS = {
+    'system kit': {
+      name: 'System Kit',
+      desc: 'Performance tuning, startup management, disk cleanup & real-time resource monitoring.',
+      badge: 'Most Popular',
+      url: 'https://behemothlab.dev/#system-kit',
+    },
+    'network kit': {
+      name: 'Network Kit',
+      desc: 'Network diagnostics, bandwidth monitoring, device scanner & connection health tools.',
+      badge: 'Top Pick',
+      url: 'https://behemothlab.dev/#network-kit',
+    },
+    'security kit': {
+      name: 'Security Kit',
+      desc: 'Threat detection, port scanning, vulnerability checks & privacy hardening.',
+      badge: 'Coming Soon',
+      url: 'https://behemothlab.dev/#security-kit',
+    },
+    'guard kit': {
+      name: 'Guard Kit',
+      desc: 'Real-time file & process monitoring, anomaly alerts & system integrity checks.',
+      badge: 'Coming Soon',
+      url: 'https://behemothlab.dev/#guard-kit',
+    },
+    'forensic kit': {
+      name: 'Forensic Kit',
+      desc: 'Deep system analysis, log forensics, deleted file tracing & audit trails.',
+      badge: 'Coming Soon',
+      url: 'https://behemothlab.dev/#forensic-kit',
+    },
+    'bundle kit': {
+      name: 'Bundle Kit',
+      desc: 'All five CipherBuilds tools in one package — best value for power users.',
+      badge: 'Best Value',
+      url: 'https://behemothlab.dev/#bundle',
+    },
+  };
+
+  // ── Styles ──────────────────────────────────────────────────────────────────
   const STYLES = `
     :root {
       --cia-bg:      #0f0f17;
@@ -37,142 +88,89 @@ What are you looking for today?`;
 
     #cia-root * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── FAB button ── */
+    /* ── FAB ── */
     #cia-fab {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 99998;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
+      position: fixed; bottom: 28px; right: 28px; z-index: 99998;
+      width: 58px; height: 58px; border-radius: 50%;
       background: var(--cia-bg);
       border: 1.5px solid rgba(0,170,221,0.35);
       box-shadow: var(--cia-glow);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      outline: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease; outline: none;
     }
-    #cia-fab:hover {
-      transform: scale(1.08);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.6);
-    }
+    #cia-fab:hover { transform: scale(1.08); box-shadow: 0 2px 16px rgba(0,0,0,0.6); }
     #cia-fab svg { width: 28px; height: 28px; }
     #cia-fab .cia-badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--cia-accent);
-      border: 2px solid var(--cia-bg);
+      position: absolute; top: -4px; right: -4px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--cia-accent); border: 2px solid var(--cia-bg);
       animation: cia-pulse 2s ease infinite;
     }
     @keyframes cia-pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.6; transform: scale(0.9); }
+      0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.9)}
     }
 
     /* ── Panel ── */
     #cia-panel {
-      position: fixed;
-      bottom: 100px;
-      right: 28px;
-      z-index: 99999;
-      width: min(400px, calc(100vw - 32px));
-      height: min(580px, calc(100vh - 140px));
+      position: fixed; bottom: 100px; right: 28px; z-index: 99999;
+      width: min(420px, calc(100vw - 32px));
+      height: min(600px, calc(100vh - 140px));
       background: var(--cia-bg);
       border: 1px solid var(--cia-line);
       border-top: 1px solid rgba(0,170,221,0.3);
       border-radius: var(--cia-radius);
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      display: flex; flex-direction: column; overflow: hidden;
       font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
-      font-size: 14px;
-      color: var(--cia-text);
+      font-size: 14px; color: var(--cia-text);
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
     #cia-panel.cia-hidden {
-      opacity: 0;
-      transform: translateY(12px) scale(0.97);
-      pointer-events: none;
+      opacity: 0; transform: translateY(12px) scale(0.97); pointer-events: none;
     }
 
     /* ── Header ── */
     #cia-header {
-      padding: 14px 16px 12px;
-      background: var(--cia-panel);
+      padding: 14px 16px 12px; background: var(--cia-panel);
       border-bottom: 1px solid var(--cia-line);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
+      display: flex; align-items: center; gap: 12px; flex-shrink: 0;
     }
     .cia-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--cia-bg);
-      border: 1.5px solid var(--cia-accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-weight: 800;
-      font-size: 11px;
-      color: var(--cia-accent);
-      letter-spacing: 0.05em;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--cia-bg); border: 1.5px solid var(--cia-accent);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-weight: 800; font-size: 11px; color: var(--cia-accent); letter-spacing: 0.05em;
     }
     .cia-header-info { flex: 1; }
-    .cia-name {
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--cia-text);
-      letter-spacing: 0.04em;
-    }
+    .cia-name { font-weight: 700; font-size: 13px; color: var(--cia-text); letter-spacing: 0.04em; }
     .cia-status {
-      font-size: 11px;
-      color: var(--cia-accent);
-      font-family: 'Poppins', system-ui, sans-serif;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 1px;
+      font-size: 11px; color: var(--cia-accent);
+      display: flex; align-items: center; gap: 5px; margin-top: 1px;
     }
     .cia-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--cia-accent);
-      animation: cia-blink 2s ease infinite;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cia-accent); animation: cia-blink 2s ease infinite;
     }
     @keyframes cia-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Header actions */
+    .cia-header-actions { display: flex; align-items: center; gap: 4px; }
+    #cia-clear {
+      background: none; border: none; color: var(--cia-muted); cursor: pointer;
+      padding: 4px; border-radius: 4px; display: flex; transition: color 0.15s;
+      font-size: 10px; letter-spacing: 0.04em; font-family: inherit;
+    }
+    #cia-clear:hover { color: var(--cia-text); }
     #cia-close {
-      background: none;
-      border: none;
-      color: var(--cia-muted);
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      display: flex;
-      transition: color 0.15s;
+      background: none; border: none; color: var(--cia-muted); cursor: pointer;
+      padding: 4px; border-radius: 4px; display: flex; transition: color 0.15s;
     }
     #cia-close:hover { color: var(--cia-text); }
 
     /* ── Messages ── */
     #cia-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      scroll-behavior: smooth;
+      flex: 1; overflow-y: auto; padding: 16px 14px;
+      display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth;
     }
     #cia-messages::-webkit-scrollbar { width: 4px; }
     #cia-messages::-webkit-scrollbar-track { background: transparent; }
@@ -182,45 +180,29 @@ What are you looking for today?`;
     .cia-msg.cia-user { flex-direction: row-reverse; }
 
     .cia-msg-avatar {
-      width: 26px; height: 26px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 700;
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
     }
     .cia-msg.cia-assistant .cia-msg-avatar {
-      background: var(--cia-bg);
-      border: 1.5px solid var(--cia-accent);
-      color: var(--cia-accent);
+      background: var(--cia-bg); border: 1.5px solid var(--cia-accent); color: var(--cia-accent);
     }
     .cia-msg.cia-user .cia-msg-avatar {
-      background: var(--cia-panel2);
-      border: 1.5px solid var(--cia-line);
-      color: var(--cia-muted);
+      background: var(--cia-panel2); border: 1.5px solid var(--cia-line); color: var(--cia-muted);
     }
 
     .cia-bubble {
-      max-width: 82%;
-      padding: 10px 13px;
-      border-radius: 10px;
-      line-height: 1.65;
-      font-size: 13px;
+      max-width: 82%; padding: 10px 13px; border-radius: 10px;
+      line-height: 1.65; font-size: 13px;
     }
     .cia-msg.cia-user .cia-bubble {
-      background: var(--cia-panel2);
-      border: 1px solid var(--cia-line);
-      color: var(--cia-text);
+      background: var(--cia-panel2); border: 1px solid var(--cia-line); color: var(--cia-text);
     }
     .cia-msg.cia-assistant .cia-bubble {
-      background: var(--cia-panel);
-      border: 1px solid var(--cia-line);
-      color: var(--cia-text);
+      background: var(--cia-panel); border: 1px solid var(--cia-line); color: var(--cia-text);
     }
 
-    /* Markdown inside bubbles */
+    /* Markdown */
     .cia-bubble strong { color: var(--cia-text); font-weight: 700; }
     .cia-bubble em { color: var(--cia-muted); font-style: italic; }
     .cia-bubble p { margin: 0 0 8px; }
@@ -228,82 +210,102 @@ What are you looking for today?`;
     .cia-bubble ul, .cia-bubble ol { margin: 6px 0 6px 18px; padding: 0; }
     .cia-bubble li { margin: 3px 0; }
     .cia-bubble code {
-      background: var(--cia-bg);
-      border: 1px solid var(--cia-line);
-      border-radius: 3px;
-      padding: 1px 5px;
-      font-family: 'Poppins', system-ui, sans-serif;
-      font-size: 12px;
-      color: #9fe1ff;
+      background: var(--cia-bg); border: 1px solid var(--cia-line); border-radius: 3px;
+      padding: 1px 5px; font-size: 12px; color: #9fe1ff;
     }
     .cia-bubble h3 { font-size: 13px; font-weight: 700; margin: 8px 0 4px; color: var(--cia-accent); }
 
     /* Streaming cursor */
-    .cia-cursor::after {
-      content: '▋';
-      color: var(--cia-accent);
-      animation: cia-blink 0.9s step-start infinite;
-    }
+    .cia-cursor::after { content:'▋'; color:var(--cia-accent); animation:cia-blink 0.9s step-start infinite; }
 
     /* Typing indicator */
     .cia-typing { display: flex; gap: 4px; padding: 10px 13px; align-items: center; }
     .cia-typing span {
-      width: 6px; height: 6px;
-      background: var(--cia-muted);
-      border-radius: 50%;
+      width: 6px; height: 6px; background: var(--cia-muted); border-radius: 50%;
       animation: cia-bounce 1.2s ease infinite;
     }
     .cia-typing span:nth-child(2) { animation-delay: 0.2s; }
     .cia-typing span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes cia-bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }
 
+    /* ── Quick reply chips ── */
+    .cia-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 4px 0 2px; margin-top: 2px;
+    }
+    .cia-chip {
+      background: var(--cia-panel2);
+      border: 1px solid var(--cia-line);
+      color: var(--cia-accent);
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 11.5px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .cia-chip:hover {
+      background: rgba(0,170,221,0.1);
+      border-color: rgba(0,170,221,0.5);
+      transform: translateY(-1px);
+    }
+
+    /* ── Product cards ── */
+    .cia-card {
+      background: var(--cia-panel2);
+      border: 1px solid var(--cia-line);
+      border-left: 3px solid var(--cia-accent);
+      border-radius: 8px;
+      padding: 11px 13px;
+      margin-top: 8px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .cia-card:hover { background: rgba(0,170,221,0.05); border-left-color: var(--cia-accent2); }
+    .cia-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+    .cia-card-name { font-weight: 700; font-size: 13px; color: var(--cia-text); }
+    .cia-card-badge {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--cia-accent); background: rgba(0,170,221,0.12);
+      border: 1px solid rgba(0,170,221,0.25);
+      border-radius: 4px; padding: 2px 6px; text-transform: uppercase;
+    }
+    .cia-card-desc { font-size: 12px; color: var(--cia-muted); line-height: 1.5; margin-bottom: 10px; }
+    .cia-card-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--cia-accent); color: #001820;
+      border: none; border-radius: 5px; padding: 6px 13px;
+      font-size: 11.5px; font-weight: 700; font-family: inherit;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .cia-card-btn:hover { background: var(--cia-accent2); transform: translateY(-1px); }
+    .cia-card-coming {
+      display: inline-flex; align-items: center;
+      color: var(--cia-muted); font-size: 11.5px; font-style: italic;
+    }
+
     /* ── Input area ── */
     #cia-input-area {
-      padding: 12px 14px;
-      border-top: 1px solid var(--cia-line);
-      background: var(--cia-panel);
-      flex-shrink: 0;
+      padding: 12px 14px; border-top: 1px solid var(--cia-line);
+      background: var(--cia-panel); flex-shrink: 0;
     }
     #cia-input-wrap {
-      display: flex;
-      gap: 8px;
-      align-items: flex-end;
-      background: var(--cia-bg);
-      border: 1px solid var(--cia-line);
-      border-radius: 8px;
-      padding: 8px 10px;
-      transition: border-color 0.15s;
+      display: flex; gap: 8px; align-items: flex-end;
+      background: var(--cia-bg); border: 1px solid var(--cia-line);
+      border-radius: 8px; padding: 8px 10px; transition: border-color 0.15s;
     }
-    #cia-input-wrap:focus-within {
-      border-color: var(--cia-accent);
-      box-shadow: none;
-    }
+    #cia-input-wrap:focus-within { border-color: var(--cia-accent); }
     #cia-textarea {
-      flex: 1;
-      background: none;
-      border: none;
-      outline: none;
-      color: var(--cia-text);
-      font-family: inherit;
-      font-size: 13px;
-      resize: none;
-      max-height: 120px;
-      min-height: 20px;
-      line-height: 1.5;
+      flex: 1; background: none; border: none; outline: none;
+      color: var(--cia-text); font-family: inherit; font-size: 13px;
+      resize: none; max-height: 120px; min-height: 20px; line-height: 1.5;
     }
     #cia-textarea::placeholder { color: var(--cia-muted); }
     #cia-send {
-      background: var(--cia-accent);
-      border: none;
-      border-radius: 6px;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: background 0.15s, transform 0.1s;
+      background: var(--cia-accent); border: none; border-radius: 6px;
+      width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; transition: background 0.15s, transform 0.1s;
     }
     #cia-send:hover { background: #00d8ff; transform: scale(1.05); }
     #cia-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
@@ -311,11 +313,8 @@ What are you looking for today?`;
 
     /* ── Footer ── */
     #cia-footer {
-      text-align: center;
-      padding: 6px 0 10px;
-      font-size: 10px;
-      color: var(--cia-muted);
-      letter-spacing: 0.04em;
+      text-align: center; padding: 6px 0 10px;
+      font-size: 10px; color: var(--cia-muted); letter-spacing: 0.04em;
     }
     #cia-footer a { color: var(--cia-accent); text-decoration: none; }
 
@@ -340,17 +339,47 @@ What are you looking for today?`;
       .replace(/^(.+)$/s, '<p>$1</p>');
   }
 
+  // ── Product card detector ────────────────────────────────────────────────────
+  // Scans assistant reply for product name mentions and returns matching products
+  function detectProducts(text) {
+    const lower = text.toLowerCase();
+    const found = [];
+    for (const [key, product] of Object.entries(PRODUCTS)) {
+      if (lower.includes(key) && !found.find(p => p.name === product.name)) {
+        found.push(product);
+      }
+    }
+    return found;
+  }
+
+  // ── Build product card HTML ──────────────────────────────────────────────────
+  function buildCard(product) {
+    const isComingSoon = product.badge === 'Coming Soon';
+    const actionHtml = isComingSoon
+      ? `<span class="cia-card-coming">🔔 Coming Soon</span>`
+      : `<a class="cia-card-btn" href="${product.url}" target="_blank">View Product →</a>`;
+
+    return `
+      <div class="cia-card">
+        <div class="cia-card-top">
+          <span class="cia-card-name">${product.name}</span>
+          <span class="cia-card-badge">${product.badge}</span>
+        </div>
+        <div class="cia-card-desc">${product.desc}</div>
+        ${actionHtml}
+      </div>
+    `;
+  }
+
   // ── Build DOM ────────────────────────────────────────────────────────────────
   function buildWidget() {
     const root = document.createElement('div');
     root.id = 'cia-root';
 
-    // Style tag
     const style = document.createElement('style');
     style.textContent = STYLES;
     root.appendChild(style);
 
-    // FAB
     root.innerHTML += `
       <button id="cia-fab" aria-label="Open Cipher Integrated Assistant" title="Chat with C.I.A.">
         <svg viewBox="0 0 24 24" fill="none" stroke="#00b8e8" stroke-width="1.8"
@@ -370,20 +399,23 @@ What are you looking for today?`;
             <div class="cia-name">C.I.A. — Cipher Integrated Assistant</div>
             <div class="cia-status"><span class="cia-dot"></span>Online · behemothlab.dev</div>
           </div>
-          <button id="cia-close" aria-label="Close">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
+          <div class="cia-header-actions">
+            <button id="cia-clear" title="Clear conversation">Clear</button>
+            <button id="cia-close" aria-label="Close">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div id="cia-messages"></div>
 
         <div id="cia-input-area">
           <div id="cia-input-wrap">
-            <textarea id="cia-textarea" rows="1" placeholder="Ask about products, commissions, or anything on the site…"></textarea>
+            <textarea id="cia-textarea" rows="1" placeholder="Describe your problem or ask anything…"></textarea>
             <button id="cia-send" aria-label="Send">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                    stroke-linecap="round" stroke-linejoin="round">
@@ -394,7 +426,7 @@ What are you looking for today?`;
           </div>
           <div id="cia-footer">
             Powered by <a href="https://behemothlab.dev" target="_blank">CipherBuilds</a>
-            · C.I.A. v1.0
+            · C.I.A. v2.0
           </div>
         </div>
       </div>
@@ -403,19 +435,35 @@ What are you looking for today?`;
     document.body.appendChild(root);
   }
 
-  // ── State ────────────────────────────────────────────────────────────────────
-  let isOpen    = false;
-  let busy      = false;
-  let greeted   = false;
-  const history = []; // { role, content }
-
-  // ── DOM refs (set after build) ───────────────────────────────────────────────
-  let fab, panel, msgEl, textarea, sendBtn;
-
-  function scrollBottom() {
-    msgEl.scrollTop = msgEl.scrollHeight;
+  // ── Session persistence ──────────────────────────────────────────────────────
+  function saveSession(history) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    } catch (_) {}
   }
 
+  function loadSession() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) { return null; }
+  }
+
+  function clearSession() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+  }
+
+  // ── State ────────────────────────────────────────────────────────────────────
+  let isOpen  = false;
+  let busy    = false;
+  let greeted = false;
+  let history = []; // { role, content }
+
+  let fab, panel, msgEl, textarea, sendBtn;
+
+  function scrollBottom() { msgEl.scrollTop = msgEl.scrollHeight; }
+
+  // ── Render a message row ─────────────────────────────────────────────────────
   function addMessage(role, contentHtml, isStreaming = false) {
     const row = document.createElement('div');
     row.className = `cia-msg cia-${role}`;
@@ -435,6 +483,51 @@ What are you looking for today?`;
     return bubble;
   }
 
+  // ── Append product cards below a bubble ─────────────────────────────────────
+  function appendCards(bubble, text) {
+    const products = detectProducts(text);
+    if (!products.length) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = products.map(buildCard).join('');
+    bubble.appendChild(wrap);
+    scrollBottom();
+  }
+
+  // ── Quick reply chips ────────────────────────────────────────────────────────
+  function showQuickReplies() {
+    const row = document.createElement('div');
+    row.id = 'cia-chips-row';
+    row.className = 'cia-msg cia-assistant';
+    row.style.flexDirection = 'column';
+    row.style.alignItems = 'flex-start';
+    row.style.paddingLeft = '35px';
+
+    const chips = document.createElement('div');
+    chips.className = 'cia-chips';
+
+    QUICK_REPLIES.forEach(qr => {
+      const btn = document.createElement('button');
+      btn.className = 'cia-chip';
+      btn.textContent = qr.label;
+      btn.addEventListener('click', () => {
+        removeQuickReplies();
+        textarea.value = '';
+        send(qr.text);
+      });
+      chips.appendChild(btn);
+    });
+
+    row.appendChild(chips);
+    msgEl.appendChild(row);
+    scrollBottom();
+  }
+
+  function removeQuickReplies() {
+    const el = document.getElementById('cia-chips-row');
+    if (el) el.remove();
+  }
+
+  // ── Typing indicator ─────────────────────────────────────────────────────────
   function showTyping() {
     const row = document.createElement('div');
     row.className = 'cia-msg cia-assistant';
@@ -455,17 +548,17 @@ What are you looking for today?`;
     return row;
   }
 
-  // ── Send a message ───────────────────────────────────────────────────────────
+  // ── Send ─────────────────────────────────────────────────────────────────────
   async function send(text) {
     if (busy || !text.trim()) return;
     busy = true;
     sendBtn.disabled = true;
+    removeQuickReplies();
 
-    // Show user message
-    addMessage('user', `<p>${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>`);
+    addMessage('user', `<p>${text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`);
     history.push({ role: 'user', content: text });
+    saveSession(history);
 
-    // Show typing
     const typingRow = showTyping();
 
     try {
@@ -483,11 +576,11 @@ What are you looking for today?`;
         busy = false; sendBtn.disabled = false; return;
       }
 
-      // Stream
-      const bubble = addMessage('assistant', '', true);
+      // Stream response
+      const bubble  = addMessage('assistant', '', true);
       const reader  = resp.body.getReader();
       const decoder = new TextDecoder();
-      let buf = '';
+      let buf  = '';
       let full = '';
 
       while (true) {
@@ -510,19 +603,21 @@ What are you looking for today?`;
               full = parsed.full || full;
               bubble.innerHTML = md(full);
               bubble.classList.remove('cia-cursor');
+              appendCards(bubble, full);
             }
             if (parsed.error) {
               bubble.innerHTML = `<p style="color:#f87171">${parsed.error}</p>`;
               bubble.classList.remove('cia-cursor');
             }
-          } catch {}
+          } catch (_) {}
         }
       }
 
       bubble.classList.remove('cia-cursor');
       history.push({ role: 'assistant', content: full });
+      saveSession(history);
 
-    } catch (e) {
+    } catch (_) {
       typingRow.remove();
       addMessage('assistant', '<p style="color:#f87171">Connection error. Check your network and try again.</p>');
     }
@@ -532,19 +627,33 @@ What are you looking for today?`;
     textarea.focus();
   }
 
-  // ── Greeting ─────────────────────────────────────────────────────────────────
+  // ── Restore session from localStorage ────────────────────────────────────────
+  function restoreSession(savedHistory) {
+    greeted = true;
+    history = savedHistory;
+    savedHistory.forEach(msg => {
+      const html = msg.role === 'user'
+        ? `<p>${msg.content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`
+        : md(msg.content);
+      const bubble = addMessage(msg.role, html);
+      if (msg.role === 'assistant') appendCards(bubble, msg.content);
+    });
+  }
+
+  // ── Greeting (fresh session) ─────────────────────────────────────────────────
   function showGreeting() {
     if (greeted) return;
     greeted = true;
     const bubble = addMessage('assistant', '');
     let i = 0;
-    const words = GREETING.split('');
     const interval = setInterval(() => {
-      if (i >= words.length) {
+      if (i >= GREETING.length) {
         clearInterval(interval);
         bubble.classList.remove('cia-cursor');
         bubble.innerHTML = md(GREETING);
         history.push({ role: 'assistant', content: GREETING });
+        saveSession(history);
+        showQuickReplies();
         return;
       }
       bubble.innerHTML = md(GREETING.slice(0, ++i));
@@ -553,22 +662,37 @@ What are you looking for today?`;
     }, 12);
   }
 
+  // ── Clear conversation ───────────────────────────────────────────────────────
+  function clearConversation() {
+    clearSession();
+    history = [];
+    greeted = false;
+    msgEl.innerHTML = '';
+    showGreeting();
+  }
+
   // ── Toggle panel ─────────────────────────────────────────────────────────────
   function togglePanel() {
     isOpen = !isOpen;
     panel.classList.toggle('cia-hidden', !isOpen);
     if (isOpen) {
-      // Remove notification badge
       const badge = document.querySelector('#cia-fab .cia-badge');
       if (badge) badge.style.display = 'none';
       setTimeout(() => {
-        showGreeting();
+        if (!greeted) {
+          const saved = loadSession();
+          if (saved && saved.length > 0) {
+            restoreSession(saved);
+          } else {
+            showGreeting();
+          }
+        }
         textarea.focus();
       }, 50);
     }
   }
 
-  // ── Init ──────────────────────────────────────────────────────────────────────
+  // ── Init ─────────────────────────────────────────────────────────────────────
   function init() {
     buildWidget();
 
@@ -580,6 +704,7 @@ What are you looking for today?`;
 
     fab.addEventListener('click', togglePanel);
     document.getElementById('cia-close').addEventListener('click', togglePanel);
+    document.getElementById('cia-clear').addEventListener('click', clearConversation);
 
     sendBtn.addEventListener('click', () => {
       const t = textarea.value.trim();
@@ -605,14 +730,10 @@ What are you looking for today?`;
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     });
 
-    // Close on outside click
     document.addEventListener('click', e => {
-      if (isOpen && !panel.contains(e.target) && !fab.contains(e.target)) {
-        togglePanel();
-      }
+      if (isOpen && !panel.contains(e.target) && !fab.contains(e.target)) togglePanel();
     });
 
-    // Escape key
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && isOpen) togglePanel();
     });
