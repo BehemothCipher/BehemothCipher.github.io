@@ -1,5 +1,13 @@
 [
   {
+    "id": "10c4cf5c",
+    "date": "2026-05-24",
+    "time": "20:05",
+    "question": "My PC has been running slow lately, what can help?",
+    "answer": "Two things worth doing right now:\n\n**First — grab Startup Auditor (free)**\nSlow boot and general sluggishness is often junk loading at startup. Startup Auditor scans every Windows startup location, flags risky entries, and lets you disable or quarantine them safely. No account needed.\n👉 [Download f",
+    "turns": 2
+  },
+  {
     "id": "761e3a58",
     "date": "2026-05-24",
     "time": "20:04",
