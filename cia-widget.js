@@ -684,6 +684,11 @@ What are you dealing with today?`;
       const bubble = addMessage(msg.role, html);
       if (msg.role === 'assistant') appendCards(bubble, msg.content);
     });
+    // Show quick replies if the user hasn't sent anything yet
+    const hasUserMessage = savedHistory.some(m => m.role === 'user');
+    if (!hasUserMessage) {
+      showQuickReplies();
+    }
   }
 
   // ── Greeting (fresh session) ─────────────────────────────────────────────────
