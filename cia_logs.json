@@ -1,5 +1,13 @@
 [
   {
+    "id": "362ddb53",
+    "date": "2026-05-24",
+    "time": "17:59",
+    "question": "I don't really know where to begin.",
+    "answer": "No worries. Let's narrow it down.\n\nAre you dealing with any of these?\n\n- **Performance issues** — slow PC, high resource usage\n- **Network problems** — connectivity, slow speeds, open ports\n- **Security concerns** — suspicious activity, vulnerabilities\n- **Something happened** — need to investigate ",
+    "turns": 6
+  },
+  {
     "id": "5d4bfa3d",
     "date": "2026-05-24",
     "time": "17:59",
