@@ -1,5 +1,13 @@
 [
   {
+    "id": "e0942a08",
+    "date": "2026-05-24",
+    "time": "17:11",
+    "question": "My PC has been running slow lately, what can help?",
+    "answer": "Sounds like a job for the **System Kit**.\n\nIt covers exactly that — health dashboard, cleanup scanning, disk overview, and diagnostics. Built from real field experience maintaining infrastructure, not just theory.\n\n**Start free with the demo:**\n👉 https://behemothcipher.gumroad.com/l/behemoth-system",
+    "turns": 2
+  },
+  {
     "id": "a94ebd6a",
     "date": "2026-05-19",
     "time": "22:06",
