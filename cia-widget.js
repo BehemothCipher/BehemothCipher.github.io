@@ -776,15 +776,6 @@ What are you dealing with today?`;
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     });
 
-    document.addEventListener('click', e => {
-      if (!isOpen) return;
-      // composedPath captures the original path even if elements were removed from DOM
-      // (e.g. chip buttons removed on click before event bubbles to document)
-      const path = e.composedPath ? e.composedPath() : [];
-      const inside = path.includes(panel) || path.includes(fab);
-      if (!inside) togglePanel();
-    });
-
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && isOpen) togglePanel();
     });
