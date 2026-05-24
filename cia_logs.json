@@ -1,5 +1,13 @@
 [
   {
+    "id": "c13e7104",
+    "date": "2026-05-24",
+    "time": "20:08",
+    "question": "Tell me about your free Startup Auditor tool.",
+    "answer": "**Startup Auditor** — 100% free, no account needed.\n\nBuilt for anyone dealing with **slow boot times** or wondering what's actually loading when Windows starts.\n\n**What it does:**\n- Scans all Windows startup locations — registry Run keys, Startup folders, scheduled tasks\n- Rates every entry **Low / ",
+    "turns": 2
+  },
+  {
     "id": "10c4cf5c",
     "date": "2026-05-24",
     "time": "20:05",
