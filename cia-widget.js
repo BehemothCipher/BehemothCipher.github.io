@@ -35,39 +35,57 @@ What are you dealing with today?`;
   const PRODUCTS = {
     'system kit': {
       name: 'System Kit',
-      desc: 'Performance tuning, startup management, disk cleanup & real-time resource monitoring.',
+      desc: 'Maintenance toolkit, health dashboard, cleanup, diagnostics & report generation.',
+      price: '$30',
       badge: 'Most Popular',
-      url: 'https://behemothlab.dev/#system-kit',
+      pageUrl: '/system-kit.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/behemoth-system-kit',
+      demoUrl: 'https://behemothcipher.gumroad.com/l/behemoth-system-kit-demo',
     },
     'network kit': {
       name: 'Network Kit',
-      desc: 'Network diagnostics, bandwidth monitoring, device scanner & connection health tools.',
+      desc: 'Port scanning, connectivity testing, bandwidth analysis & network overview.',
+      price: '$35',
       badge: 'Top Pick',
-      url: 'https://behemothlab.dev/#network-kit',
-    },
-    'security kit': {
-      name: 'Security Kit',
-      desc: 'Threat detection, port scanning, vulnerability checks & privacy hardening.',
-      badge: 'Coming Soon',
-      url: 'https://behemothlab.dev/#security-kit',
+      pageUrl: '/network-kit.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/behemoth-network-kit',
+      demoUrl: 'https://behemothcipher.gumroad.com/l/behemoth-network-kit-demo',
     },
     'guard kit': {
       name: 'Guard Kit',
-      desc: 'Real-time file & process monitoring, anomaly alerts & system integrity checks.',
-      badge: 'Coming Soon',
-      url: 'https://behemothlab.dev/#guard-kit',
+      desc: 'Real-time process monitoring, intrusion detection & automated threat response.',
+      price: '$40',
+      badge: 'Live',
+      pageUrl: '/guard-kit.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/behemoth-guard-kit',
+      demoUrl: 'https://behemothcipher.gumroad.com/l/behemoth-guard-kit-demo',
+    },
+    'security kit': {
+      name: 'Security Kit',
+      desc: 'Vulnerability scanning, threat detection & system lockdown tools.',
+      price: '$45',
+      badge: 'Live',
+      pageUrl: '/security-kit.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/behemoth-security-kit',
+      demoUrl: 'https://behemothcipher.gumroad.com/l/behemoth-security-kit-demo',
     },
     'forensic kit': {
       name: 'Forensic Kit',
-      desc: 'Deep system analysis, log forensics, deleted file tracing & audit trails.',
-      badge: 'Coming Soon',
-      url: 'https://behemothlab.dev/#forensic-kit',
+      desc: 'Log analysis, file recovery, system timeline reconstruction & incident investigation.',
+      price: '$50',
+      badge: 'Live',
+      pageUrl: '/forensic-kit.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/behemoth-forensic-kit',
+      demoUrl: 'https://behemothcipher.gumroad.com/l/behemoth-forensic-kit-demo',
     },
-    'bundle kit': {
-      name: 'Bundle Kit',
-      desc: 'All five CipherBuilds tools in one package — best value for power users.',
+    'tool kit': {
+      name: 'Tool Kit',
+      desc: 'All five kits in one install — System, Network, Guard, Security & Forensic. Save $70.',
+      price: '$130',
       badge: 'Best Value',
-      url: 'https://behemothlab.dev/#bundle',
+      pageUrl: '/tool-kit.html',
+      buyUrl: 'https://behemothcipher.gumroad.com/l/behemoth-tool-kit',
+      demoUrl: null,
     },
   };
 
@@ -271,19 +289,25 @@ What are you dealing with today?`;
       border-radius: 4px; padding: 2px 6px; text-transform: uppercase;
     }
     .cia-card-desc { font-size: 12px; color: var(--cia-muted); line-height: 1.5; margin-bottom: 10px; }
+    .cia-card-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .cia-card-price { font-size: 15px; font-weight: 800; color: var(--cia-accent); flex-shrink: 0; }
+    .cia-card-btns { display: flex; gap: 6px; flex-wrap: wrap; }
     .cia-card-btn {
       display: inline-flex; align-items: center; gap: 5px;
       background: var(--cia-accent); color: #001820;
-      border: none; border-radius: 5px; padding: 6px 13px;
-      font-size: 11.5px; font-weight: 700; font-family: inherit;
+      border: none; border-radius: 5px; padding: 5px 11px;
+      font-size: 11px; font-weight: 700; font-family: inherit;
       cursor: pointer; text-decoration: none;
       transition: background 0.15s, transform 0.1s;
     }
     .cia-card-btn:hover { background: var(--cia-accent2); transform: translateY(-1px); }
-    .cia-card-coming {
-      display: inline-flex; align-items: center;
-      color: var(--cia-muted); font-size: 11.5px; font-style: italic;
+    .cia-card-btn-demo {
+      background: transparent;
+      border: 1px solid var(--cia-line);
+      color: var(--cia-muted);
     }
+    .cia-card-btn-demo:hover { background: rgba(0,170,221,0.08); color: var(--cia-text); border-color: rgba(0,170,221,0.3); }
+    .cia-card-btn-buy { background: var(--cia-accent); }
 
     /* ── Input area ── */
     #cia-input-area {
@@ -354,11 +378,9 @@ What are you dealing with today?`;
 
   // ── Build product card HTML ──────────────────────────────────────────────────
   function buildCard(product) {
-    const isComingSoon = product.badge === 'Coming Soon';
-    const actionHtml = isComingSoon
-      ? `<span class="cia-card-coming">🔔 Coming Soon</span>`
-      : `<a class="cia-card-btn" href="${product.url}" target="_blank">View Product →</a>`;
-
+    const demoBtn = product.demoUrl
+      ? `<a class="cia-card-btn cia-card-btn-demo" href="${product.demoUrl}" target="_blank">Try Demo</a>`
+      : '';
     return `
       <div class="cia-card">
         <div class="cia-card-top">
@@ -366,7 +388,14 @@ What are you dealing with today?`;
           <span class="cia-card-badge">${product.badge}</span>
         </div>
         <div class="cia-card-desc">${product.desc}</div>
-        ${actionHtml}
+        <div class="cia-card-actions">
+          <span class="cia-card-price">${product.price}</span>
+          <div class="cia-card-btns">
+            ${demoBtn}
+            <a class="cia-card-btn" href="${product.pageUrl}">Details →</a>
+            <a class="cia-card-btn cia-card-btn-buy" href="${product.buyUrl}" target="_blank">Buy Now</a>
+          </div>
+        </div>
       </div>
     `;
   }
