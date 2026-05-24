@@ -13,8 +13,6 @@
 
   // ── Config ──────────────────────────────────────────────────────────────────
   const ENDPOINT = document.currentScript?.dataset?.ciaEndpoint || '/api/cia/chat';
-  const STORAGE_KEY = 'cia_session_v2';
-
   const GREETING = `Hello — I'm **C.I.A.**, the Cipher Integrated Assistant for **behemothlab.dev**.
 
 I can help you find the right CipherBuilds tool, walk you through what each product does, or figure out which commission tier fits your project.
@@ -482,22 +480,10 @@ What are you dealing with today?`;
   }
 
   // ── Session persistence ──────────────────────────────────────────────────────
-  function saveSession(history) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-    } catch (_) {}
-  }
-
-  function loadSession() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (_) { return null; }
-  }
-
-  function clearSession() {
-    try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
-  }
+  // Session persistence disabled — chat resets on every page load
+  function saveSession()  {}
+  function loadSession()  { return null; }
+  function clearSession() {}
 
   // ── State ────────────────────────────────────────────────────────────────────
   let isOpen  = false;
@@ -674,7 +660,7 @@ What are you dealing with today?`;
     textarea.focus();
   }
 
-  // ── Restore session from localStorage ────────────────────────────────────────
+  // ── Session (in-memory only — resets on page load) ───────────────────────────
   function restoreSession(savedHistory) {
     greeted = true;
     history = savedHistory;
