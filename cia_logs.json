@@ -1,5 +1,13 @@
 [
   {
+    "id": "a1e84266",
+    "date": "2026-05-24",
+    "time": "20:00",
+    "question": "Can you show me what tools CipherBuilds sells?",
+    "answer": "Here's the full lineup:\n\n---\n\n**Free Tools**\n- **Startup Auditor** — Free. Scans startup locations, rates risks, lets you disable/quarantine entries, exports reports.\n\n---\n\n**Individual Kits**\n| Tool | Price | What It Does |\n|---|---|---|\n| System Kit | $30 | Health dashboard, cleanup, diagnostics |",
+    "turns": 1
+  },
+  {
     "id": "6137c701",
     "date": "2026-05-24",
     "time": "20:00",
