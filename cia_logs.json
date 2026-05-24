@@ -1,5 +1,13 @@
 [
   {
+    "id": "ddebdd86",
+    "date": "2026-05-24",
+    "time": "19:58",
+    "question": "I'm not sure what I need. Can you ask me a few questions?",
+    "answer": "Sure, let's figure it out.\n\n**First question:** What's the main problem you're trying to solve — or the goal you're after?\n\nPick the closest:\n\n- 🖥️ **My PC is slow / something feels off**\n- 🔒 **I'm worried about security or something suspicious**\n- 🌐 **Network issues or I want to monitor traffic/",
+    "turns": 2
+  },
+  {
     "id": "8730cb27",
     "date": "2026-05-24",
     "time": "19:57",
