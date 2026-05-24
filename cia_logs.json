@@ -1,5 +1,13 @@
 [
   {
+    "id": "7608746d",
+    "date": "2026-05-24",
+    "time": "19:54",
+    "question": "I'm not sure what I need. Can you ask me a few questions?",
+    "answer": "Sure, let's figure it out. I'll keep it quick.\n\n**First question:**\n\nAre you dealing with a specific problem right now (slow PC, suspicious activity, network issues, etc.) — or are you more looking to beef up your toolkit proactively?",
+    "turns": 2
+  },
+  {
     "id": "1a118a62",
     "date": "2026-05-24",
     "time": "19:54",
