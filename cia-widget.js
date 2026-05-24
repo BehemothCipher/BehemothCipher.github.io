@@ -541,6 +541,7 @@ What are you dealing with today?`;
 
   // ── Quick reply chips ────────────────────────────────────────────────────────
   function showQuickReplies() {
+    if (document.getElementById('cia-chips-row')) return; // already visible
     const row = document.createElement('div');
     row.id = 'cia-chips-row';
     row.className = 'cia-msg cia-assistant';
@@ -738,8 +739,14 @@ What are you dealing with today?`;
             showGreeting();
           }
         }
+        // Always show chips if no user message sent yet and chips not already present
+        // Handles re-open, restored sessions, and any timing edge cases
+        const noUserMsg = !history.some(m => m.role === 'user');
+        if (greeted && noUserMsg) {
+          showQuickReplies(); // idempotent — skips if already rendered
+        }
         textarea.focus();
-      }, 50);
+      }, 150);
     }
   }
 
