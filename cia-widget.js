@@ -752,6 +752,7 @@ What are you dealing with today?`;
 
   // ── Init ─────────────────────────────────────────────────────────────────────
   function init() {
+    clearSession(); // always start fresh on page load / refresh
     buildWidget();
 
     fab      = document.getElementById('cia-fab');
