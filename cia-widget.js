@@ -777,7 +777,12 @@ What are you dealing with today?`;
     });
 
     document.addEventListener('click', e => {
-      if (isOpen && !panel.contains(e.target) && !fab.contains(e.target)) togglePanel();
+      if (!isOpen) return;
+      // composedPath captures the original path even if elements were removed from DOM
+      // (e.g. chip buttons removed on click before event bubbles to document)
+      const path = e.composedPath ? e.composedPath() : [];
+      const inside = path.includes(panel) || path.includes(fab);
+      if (!inside) togglePanel();
     });
 
     document.addEventListener('keydown', e => {
