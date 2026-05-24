@@ -1,5 +1,13 @@
 [
   {
+    "id": "1e7f1530",
+    "date": "2026-05-24",
+    "time": "19:57",
+    "question": "I'm not sure what I need. Can you ask me a few questions?",
+    "answer": "Sure, let's narrow it down fast.\n\n**First question:** What's the problem you're trying to solve — or the goal you're after?\n\nPick the closest one:\n\n1. 🖥️ My PC is slow, cluttered, or acting up\n2. 🌐 Network issues — connectivity, ports, bandwidth\n3. 🔒 Security concerns — threats, vulnerabilities, ",
+    "turns": 2
+  },
+  {
     "id": "e79abe64",
     "date": "2026-05-24",
     "time": "19:55",
