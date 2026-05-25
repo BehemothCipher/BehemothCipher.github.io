@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>CipherBuilds — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f0f17;--bg2:#13131f;--bg3:#0a0d14;--border:#1e2436;--border2:#242840;--cyan:#00aadd;--text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;--green:#00cc77;--red:#ff4560;--amber:#ffb347;--sans:'Poppins',sans-serif}
@@ -74,6 +75,31 @@ textarea.field-input{resize:vertical;line-height:1.7;min-height:160px}
 .quick-link{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;text-decoration:none;color:var(--text);font-size:13px;display:flex;align-items:center;gap:8px;transition:border-color 0.2s}
 .quick-link:hover{border-color:var(--cyan)}
 @media(max-width:600px){.tab{padding:12px 12px;font-size:11px}.tab-content{padding:16px}.actions-row{flex-direction:column}}
+/* ── Analytics tab styles ── */
+.an-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.an-stat{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;overflow:hidden}
+.an-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan)}
+.an-stat.green::before{background:var(--green)}.an-stat.amber::before{background:var(--amber)}
+.an-stat-n{font-size:28px;font-weight:700;color:#fff;line-height:1}
+.an-stat-l{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.an-range{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.an-range-btn{font-size:10px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:none;cursor:pointer;font-family:var(--sans);transition:all 0.15s}
+.an-range-btn.active,.an-range-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,170,221,0.07)}
+.an-charts{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}
+.an-chart-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px}
+.an-chart-title{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.an-chart-wrap{position:relative;height:240px}
+.an-table-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px}
+.an-table-title{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.an-table{width:100%;border-collapse:collapse}
+.an-table th{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.an-table td{font-size:12px;color:var(--text);padding:9px 10px;border-bottom:1px solid var(--border)}
+.an-table tr:last-child td{border-bottom:none}
+.an-table tr:hover td{background:rgba(255,255,255,0.02)}
+.an-bar-wrap{display:flex;align-items:center;gap:8px}
+.an-bar{height:3px;border-radius:2px;background:var(--cyan);min-width:3px}
+.an-updated{margin-left:auto;font-size:10px;color:var(--faint)}
+@media(max-width:700px){.an-charts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -105,6 +131,7 @@ textarea.field-input{resize:vertical;line-height:1.7;min-height:160px}
     <div class="tab" onclick="switchTab('reviews',this)" id="tab-reviews">Reviews</div>
     <div class="tab" onclick="switchTab('commissions',this)" id="tab-commissions">Commissions</div>
     <div class="tab" onclick="switchTab('cia',this)" id="tab-cia">CIA Logs</div>
+    <div class="tab" onclick="switchTab('analytics',this)" id="tab-analytics">Analytics</div>
   </div>
 
   <div class="tab-content active" id="pane-overview">
@@ -113,6 +140,7 @@ textarea.field-input{resize:vertical;line-height:1.7;min-height:160px}
       <div class="stat-card"><div class="stat-n" id="ov-reviews">-</div><div class="stat-l">Reviews</div></div>
       <div class="stat-card"><div class="stat-n" id="ov-commissions">-</div><div class="stat-l">Commissions</div></div>
       <div class="stat-card"><div class="stat-n" id="ov-cia">-</div><div class="stat-l">CIA Chats</div></div>
+      <div class="stat-card"><div class="stat-n" id="ov-views" style="color:var(--green)">-</div><div class="stat-l">Views Today</div></div>
     </div>
     <div class="section-card">
       <div class="section-title">Recent Activity</div>
@@ -206,7 +234,35 @@ behemothlab.dev</textarea>
     </div>
   </div>
 
-</div>
+  <!-- ── Analytics pane ── -->
+  <div class="tab-content" id="pane-analytics">
+    <div class="an-stats" id="an-stat-cards">
+      <div class="empty-state">Loading analytics…</div>
+    </div>
+    <div class="an-range">
+      <button class="an-range-btn active" onclick="anSetRange(7,this)">7 days</button>
+      <button class="an-range-btn" onclick="anSetRange(14,this)">14 days</button>
+      <button class="an-range-btn" onclick="anSetRange(30,this)">30 days</button>
+      <button class="an-range-btn" onclick="anSetRange(90,this)">90 days</button>
+      <div class="an-updated" id="an-updated"></div>
+    </div>
+    <div class="an-charts">
+      <div class="an-chart-card">
+        <div class="an-chart-title">Daily Page Views</div>
+        <div class="an-chart-wrap"><canvas id="an-line"></canvas></div>
+      </div>
+      <div class="an-chart-card">
+        <div class="an-chart-title">Traffic by Page</div>
+        <div class="an-chart-wrap"><canvas id="an-donut"></canvas></div>
+      </div>
+    </div>
+    <div class="an-table-card">
+      <div class="an-table-title">Page Breakdown</div>
+      <div id="an-table-wrap"><div class="empty-state">Loading…</div></div>
+    </div>
+  </div>
+
+</div><!-- end admin-screen -->
 
 <script>
 const API='https://behemothcipher-github-io.onrender.com';
@@ -283,8 +339,9 @@ function switchTab(name,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  const map={overview:'pane-overview',broadcast:'pane-broadcast',reviews:'pane-reviews',commissions:'pane-commissions',cia:'pane-cia'};
+  const map={overview:'pane-overview',broadcast:'pane-broadcast',reviews:'pane-reviews',commissions:'pane-commissions',cia:'pane-cia',analytics:'pane-analytics'};
   document.getElementById(map[name]).classList.add('active');
+  if(name==='analytics') anLoad();
 }
 
 function renderSubList(subs){
@@ -445,6 +502,114 @@ function logout(){
 }
 
 document.addEventListener('DOMContentLoaded',updateCharCount);
+
+/* ── Analytics ───────────────────────────────────────────────────────────── */
+let anDaily={}, anRange=7, anLineChart=null, anDonutChart=null, anLoaded=false;
+const AN_PALETTE=['#00aadd','#00cc77','#ffb347','#aa55ff','#ff5f8f','#22bbee','#88ddaa','#ffdd55'];
+
+async function anLoad(){
+  try{
+    const r=await fetch(API+'/api/admin/analytics?adminKey='+encodeURIComponent(adminKey));
+    const data=await r.json();
+    if(!data.ok) return;
+    anDaily=data.daily||{};
+    document.getElementById('an-updated').textContent='Updated '+new Date().toLocaleTimeString();
+    // Update overview Views Today card
+    const today=new Date().toISOString().split('T')[0];
+    const todayDay=anDaily[today]||{};
+    const todayTotal=Object.values(todayDay).reduce((s,v)=>s+v,0);
+    document.getElementById('ov-views').textContent=todayTotal;
+    anRenderAll();
+    anLoaded=true;
+  }catch(e){console.error('Analytics failed:',e);}
+}
+
+function anSetRange(days,btn){
+  anRange=days;
+  document.querySelectorAll('.an-range-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  anRenderAll();
+}
+
+function anDateRange(days){
+  const dates=[];
+  for(let i=days-1;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);dates.push(d.toISOString().split('T')[0]);}
+  return dates;
+}
+
+function anTotalInRange(dates){
+  return dates.reduce((s,d)=>s+Object.values(anDaily[d]||{}).reduce((a,v)=>a+v,0),0);
+}
+
+function anPageBreakdown(dates){
+  const t={};
+  for(const d of dates)for(const[p,c]of Object.entries(anDaily[d]||{}))t[p]=(t[p]||0)+c;
+  return Object.entries(t).sort((a,b)=>b[1]-a[1]);
+}
+
+function anAllTime(){let t=0;for(const d of Object.values(anDaily))for(const v of Object.values(d))t+=v;return t;}
+
+function anRenderAll(){
+  const dates=anDateRange(anRange);
+  const today=anDateRange(1);
+  const week=anDateRange(7);
+  const todayV=anTotalInRange(today);
+  const weekV=anTotalInRange(week);
+  const rangeV=anTotalInRange(dates);
+  const allV=anAllTime();
+  const pages=anPageBreakdown(dates);
+  const topPage=pages[0]?pages[0][0]:'—';
+
+  document.getElementById('an-stat-cards').innerHTML=`
+    <div class="an-stat green"><div class="an-stat-n">${todayV}</div><div class="an-stat-l">Today</div></div>
+    <div class="an-stat"><div class="an-stat-n">${weekV}</div><div class="an-stat-l">This Week</div></div>
+    <div class="an-stat"><div class="an-stat-n">${rangeV}</div><div class="an-stat-l">Last ${anRange} Days</div></div>
+    <div class="an-stat amber"><div class="an-stat-n">${allV.toLocaleString()}</div><div class="an-stat-l">All Time</div></div>
+    <div class="an-stat"><div class="an-stat-n" style="font-size:13px;margin-top:4px">${topPage}</div><div class="an-stat-l">Top Page</div></div>
+    <div class="an-stat"><div class="an-stat-n">${pages.length}</div><div class="an-stat-l">Unique Pages</div></div>
+  `;
+  anRenderLine(dates);
+  anRenderDonut(pages.slice(0,8));
+  anRenderTable(pages);
+}
+
+function anRenderLine(dates){
+  const vals=dates.map(d=>Object.values(anDaily[d]||{}).reduce((s,v)=>s+v,0));
+  const labels=dates.map(d=>{const[,m,day]=d.split('-');return`${parseInt(m)}/${parseInt(day)}`;});
+  if(anLineChart)anLineChart.destroy();
+  anLineChart=new Chart(document.getElementById('an-line').getContext('2d'),{
+    type:'line',
+    data:{labels,datasets:[{label:'Views',data:vals,borderColor:'#00aadd',backgroundColor:'rgba(0,170,221,0.07)',borderWidth:2,pointRadius:vals.length>30?0:3,pointBackgroundColor:'#00aadd',tension:0.35,fill:true}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
+      scales:{x:{grid:{color:'#1e2436'},ticks:{color:'#3a5568',font:{size:9}}},y:{grid:{color:'#1e2436'},ticks:{color:'#3a5568',font:{size:9}},beginAtZero:true}}}
+  });
+}
+
+function anRenderDonut(pages){
+  if(anDonutChart)anDonutChart.destroy();
+  if(!pages.length)return;
+  const labels=pages.map(([p])=>p==='/'?'Home':p.replace('.html','').replace(/^\//,''));
+  anDonutChart=new Chart(document.getElementById('an-donut').getContext('2d'),{
+    type:'doughnut',
+    data:{labels,datasets:[{data:pages.map(([,v])=>v),backgroundColor:AN_PALETTE,borderColor:'#13131f',borderWidth:2,hoverOffset:5}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
+      plugins:{legend:{position:'bottom',labels:{color:'#7a9ab0',font:{size:9},boxWidth:9,padding:6}}}}
+  });
+}
+
+function anRenderTable(pages){
+  const wrap=document.getElementById('an-table-wrap');
+  if(!pages.length){wrap.innerHTML='<div class="empty-state">No views yet — make sure analytics.js is added to your pages.</div>';return;}
+  const max=pages[0][1];
+  wrap.innerHTML=`<table class="an-table"><thead><tr><th>#</th><th>Page</th><th>Views</th><th>Share</th></tr></thead><tbody>${
+    pages.map(([page,count],i)=>`<tr>
+      <td style="color:var(--faint);width:28px">${i+1}</td>
+      <td style="font-family:monospace;font-size:11px;color:#aac8e0">${page}</td>
+      <td><div class="an-bar-wrap"><div class="an-bar" style="width:${Math.max(3,Math.round((count/max)*160))}px"></div><span style="font-size:11px;color:var(--muted)">${count.toLocaleString()}</span></div></td>
+      <td style="font-size:11px;color:var(--faint)">${((count/max)*100).toFixed(1)}%</td>
+    </tr>`).join('')
+  }</tbody></table>`;
+}
 </script>
 </body>
 </html>
