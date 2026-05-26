@@ -3,11 +3,11 @@
     "2026-05-26": {
       "/": 4,
       "/system-kit.html": 2,
-      "/network-kit.html": 1,
+      "/network-kit.html": 2,
       "/guard-kit.html": 2,
-      "/security-kit.html": 2,
+      "/security-kit.html": 3,
       "/forensic-kit.html": 1,
-      "/tool-kit.html": 1,
+      "/tool-kit.html": 2,
       "/startup-auditor.html": 2
     }
   }
