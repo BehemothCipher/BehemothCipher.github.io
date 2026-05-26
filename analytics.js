@@ -3,21 +3,22 @@
  * Add <script src="/analytics.js"></script> before </body> on every page.
  */
 (function () {
-  if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
-
   const API = 'https://behemothcipher-github-io.onrender.com';
+
+  console.log('[CipherBuilds Analytics] Script loaded on:', location.pathname);
+  console.log('[CipherBuilds Analytics] DNT status:', navigator.doNotTrack, window.doNotTrack);
 
   // Deduplicate: one hit per page per hour per browser
   const storageKey = 'cb_v_' + location.pathname;
   const lastHit = localStorage.getItem(storageKey);
   const oneHour = 60 * 60 * 1000;
   if (lastHit && (Date.now() - parseInt(lastHit)) < oneHour) {
-    console.log('[CipherBuilds Analytics] Skipped (dedup):', location.pathname);
+    console.log('[CipherBuilds Analytics] Skipped (dedup) — clear with: localStorage.removeItem("' + storageKey + '")');
     return;
   }
   localStorage.setItem(storageKey, Date.now().toString());
 
-  console.log('[CipherBuilds Analytics] Firing beacon for:', location.pathname);
+  console.log('[CipherBuilds Analytics] Firing beacon...');
 
   fetch(API + '/api/analytics/track', {
     method: 'POST',
@@ -26,12 +27,11 @@
     keepalive: true,
   })
   .then(r => {
-    console.log('[CipherBuilds Analytics] Response status:', r.status);
+    console.log('[CipherBuilds Analytics] Server response:', r.status);
     return r.json();
   })
-  .then(d => console.log('[CipherBuilds Analytics] Tracked:', d))
+  .then(d => console.log('[CipherBuilds Analytics] Success:', d))
   .catch(e => {
-    console.warn('[CipherBuilds Analytics] Failed:', e.message || 'No message (likely CORS)');
-    console.warn('[CipherBuilds Analytics] Error type:', e.name, '| Full error:', e);
+    console.warn('[CipherBuilds Analytics] Error:', e.name, e.message || '(CORS or network — no message available)');
   });
 })();
