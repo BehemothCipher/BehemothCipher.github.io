@@ -6,7 +6,6 @@
   const API = 'https://behemothcipher-github-io.onrender.com';
 
   console.log('[CipherBuilds Analytics] Script loaded on:', location.pathname);
-  console.log('[CipherBuilds Analytics] DNT status: 0', navigator.doNotTrack, window.doNotTrack);
 
   // Deduplicate: one hit per page per hour per browser
   const storageKey = 'cb_v_' + location.pathname;
