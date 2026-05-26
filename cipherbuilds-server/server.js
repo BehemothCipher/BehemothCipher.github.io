@@ -586,4 +586,97 @@ app.get('/api/admin/cia-logs', async (req, res) => {
 });
 
 
+// ── Analytics ─────────────────────────────────────────────────────────────────
+let analyticsBuffer = {};
+let analyticsFlushing = false;
+
+function todayKey() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function bufferView(page) {
+  const day = todayKey();
+  if (!analyticsBuffer[day])       analyticsBuffer[day] = {};
+  if (!analyticsBuffer[day][page]) analyticsBuffer[day][page] = 0;
+  analyticsBuffer[day][page]++;
+  console.log(`[analytics] Buffered: ${page}`);
+}
+
+async function flushAnalytics() {
+  if (analyticsFlushing || Object.keys(analyticsBuffer).length === 0) return;
+  analyticsFlushing = true;
+  const snapshot = analyticsBuffer;
+  analyticsBuffer = {};
+  try {
+    const { content, sha } = await ghGet('analytics.json');
+    const stored = content || { daily: {} };
+    for (const [day, pages] of Object.entries(snapshot)) {
+      if (!stored.daily[day]) stored.daily[day] = {};
+      for (const [page, count] of Object.entries(pages)) {
+        stored.daily[day][page] = (stored.daily[day][page] || 0) + count;
+      }
+    }
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 90);
+    for (const day of Object.keys(stored.daily)) {
+      if (new Date(day) < cutoff) delete stored.daily[day];
+    }
+    await ghPut('analytics.json', stored, sha, 'analytics: flush page views');
+    console.log(`[analytics] Flushed to GitHub: ${JSON.stringify(snapshot)}`);
+  } catch (err) {
+    console.error('[analytics] Flush failed:', err.message);
+    for (const [day, pages] of Object.entries(snapshot)) {
+      if (!analyticsBuffer[day]) analyticsBuffer[day] = {};
+      for (const [page, count] of Object.entries(pages)) {
+        analyticsBuffer[day][page] = (analyticsBuffer[day][page] || 0) + count;
+      }
+    }
+  } finally {
+    analyticsFlushing = false;
+  }
+}
+
+// Flush every 30 seconds
+setInterval(flushAnalytics, 30 * 1000);
+
+// POST /api/analytics/track
+app.post('/api/analytics/track', (req, res) => {
+  const { page } = req.body || {};
+  if (!page || typeof page !== 'string')
+    return res.status(400).json({ error: 'page required' });
+  let clean = page.replace(/[?#].*$/, '').trim() || '/';
+  if (!clean.startsWith('/')) clean = '/' + clean;
+  bufferView(clean);
+  res.json({ ok: true, tracked: clean });
+});
+
+// POST /api/analytics/flush — manual flush for testing
+app.post('/api/analytics/flush', async (req, res) => {
+  const key = req.query.adminKey || (req.body && req.body.adminKey);
+  if (!key || key !== process.env.ADMIN_KEY)
+    return res.status(401).json({ error: 'Unauthorised' });
+  await flushAnalytics();
+  res.json({ ok: true, message: 'Flushed', remaining: analyticsBuffer });
+});
+
+// GET /api/admin/analytics
+app.get('/api/admin/analytics', async (req, res) => {
+  const key = req.query.adminKey;
+  if (!key || key !== process.env.ADMIN_KEY)
+    return res.status(401).json({ error: 'Unauthorised' });
+  try {
+    const { content } = await ghGet('analytics.json');
+    const stored = content || { daily: {} };
+    for (const [day, pages] of Object.entries(analyticsBuffer)) {
+      if (!stored.daily[day]) stored.daily[day] = {};
+      for (const [page, count] of Object.entries(pages)) {
+        stored.daily[day][page] = (stored.daily[day][page] || 0) + count;
+      }
+    }
+    res.json({ ok: true, daily: stored.daily });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => console.log(`CipherBuilds server running on port ${PORT}`));
