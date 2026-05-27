@@ -1,5 +1,13 @@
 [
   {
+    "id": "5d57a455",
+    "date": "2026-05-27",
+    "time": "18:53",
+    "question": "Can you show me what tools CipherBuilds sells?",
+    "answer": "Here's the current lineup:\n\n---\n\n**Free**\n- 🔍 **Startup Auditor** — Scans startup locations, risk-rates entries, lets you disable/quarantine. Free, no account. [Download](https://behemothcipher.gumroad.com/l/startup_auditor)\n\n---\n\n**Paid Tools**\n| Tool | Price | What It Does |\n|---|---|---|\n| Syste",
+    "turns": 2
+  },
+  {
     "id": "132382ea",
     "date": "2026-05-24",
     "time": "22:13",
