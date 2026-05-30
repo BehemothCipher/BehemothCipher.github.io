@@ -21,8 +21,9 @@
       "/": 2
     },
     "2026-05-30": {
-      "/tool-kit.html": 1,
-      "/system-kit.html": 2
+      "/tool-kit.html": 2,
+      "/system-kit.html": 2,
+      "/": 1
     }
   }
 }
