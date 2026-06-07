@@ -47,7 +47,9 @@
     },
     "2026-06-07": {
       "/network-kit.html": 1,
-      "/tool-kit.html": 1
+      "/tool-kit.html": 1,
+      "/": 1,
+      "/startup-auditor.html": 1
     }
   }
 }
