@@ -135,7 +135,9 @@
       "/tool-kit.html": 2
     },
     "2026-06-26": {
-      "/system-kit.html": 1
+      "/system-kit.html": 2,
+      "/": 1,
+      "/about.html": 1
     }
   }
 }
