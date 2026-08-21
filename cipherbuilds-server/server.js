@@ -106,7 +106,7 @@ app.post('/commission', async (req, res) => {
         <p>I'll review your details and get back to you within 24 hours with next steps, including a contract to review before we get started.</p>
         <p>If you have any questions in the meantime, just reply to this email.</p>
         <br/><p style="color:#00aadd">— BehemothCipher</p>
-        <p style="color:#3a5568;font-size:11px">contact@behemothlab.dev · github.com/BehemothCipher · behemothlab.dev</p>
+        <p style="color:#3a5568;font-size:11px">contact@behemothlab.dev · behemothlab.dev</p>
         <hr style="border-color:#1e2436;margin:24px 0"/>
         <p style="color:#3a5568;font-size:10px">50% deposit is non-refundable once development has begun. All builds include a contract.</p>
       </div>`
