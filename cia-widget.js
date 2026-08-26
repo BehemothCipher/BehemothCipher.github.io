@@ -141,6 +141,7 @@ What are you dealing with today?`;
       position: fixed; bottom: 100px; right: 28px; z-index: 99999;
       width: min(420px, calc(100vw - 32px));
       height: min(600px, calc(100vh - 140px));
+      height: min(600px, calc(100dvh - 140px));
       background: var(--cia-bg);
       border: 1px solid var(--cia-line);
       border-top: 1px solid rgba(0,170,221,0.3);
@@ -352,7 +353,11 @@ What are you dealing with today?`;
 
     /* ── Responsive ── */
     @media (max-width: 480px) {
-      #cia-panel { right: 12px; bottom: 88px; width: calc(100vw - 24px); }
+      #cia-panel {
+        right: 12px; bottom: 88px; width: calc(100vw - 24px);
+        height: min(600px, calc(100vh - 128px));
+        height: min(600px, calc(100dvh - 128px));
+      }
       #cia-fab   { right: 16px; bottom: 20px; }
     }
   `;
