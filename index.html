@@ -79,7 +79,7 @@ if (location.hostname === "behemothcipher.github.io") {
   --bg:#0f0f17;--bg2:#13131f;--bg3:#181826;
   --border:#1e2436;--border2:#242840;
   --cyan:#00aadd;--cyan2:#22bbee;
-  --text:#dde8f0;--muted:#7a9ab0;--faint:#3a5568;
+  --text:#dde8f0;--muted:#7a9ab0;--faint:#6483a0;
   --green:#00cc77;--red:#ff4560;--amber:#ffb347;
   --sans:'Poppins',sans-serif;
   --display:'Poppins',sans-serif;
@@ -467,7 +467,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 <section id="simulator" style="background:var(--bg2)">
   <div class="container">
     <div class="section-label reveal">System Kit</div>
-    <div class="section-title reveal">See It In<br>Action.</div>
+    <h2 class="section-title reveal">See It In<br>Action.</h2>
     <p class="section-sub reveal">Watch the real app running on Windows 11 alongside the interactive simulator. Click the buttons to explore every feature yourself.</p>
 
     <div class="sim-layout reveal">
@@ -554,12 +554,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 <section id="products" style="background:var(--bg)">
   <div class="container">
     <div class="section-label reveal">All Products</div>
-    <div class="section-title reveal">The Suite.</div>
+    <h2 class="section-title reveal">The Suite.</h2>
     <p class="section-sub reveal">Available on Gumroad — one-time purchase, runs on any Windows 10/11 machine. All six kits are live, plus a free standalone tool.</p>
 
     <div class="products-grid">
 
-      <div class="product-card live reveal" onclick="window.location='/system-kit.html'" style="cursor:pointer">
+      <div class="product-card live reveal" onclick="window.location='/system-kit.html'" onkeydown="cardKeyNav(event, '/system-kit.html')" role="link" tabindex="0" aria-label="View System Kit details" style="cursor:pointer">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">System Kit<a href="/system-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Technician maintenance toolkit — system health dashboard, cleanup profiles, diagnostics, and report generation. Built by a field engineer for field engineers.</p>
@@ -572,7 +572,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card live reveal" onclick="window.location='/network-kit.html'" style="cursor:pointer;transition-delay:0.05s">
+      <div class="product-card live reveal" onclick="window.location='/network-kit.html'" onkeydown="cardKeyNav(event, '/network-kit.html')" role="link" tabindex="0" aria-label="View Network Kit details" style="cursor:pointer;transition-delay:0.05s">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Network Kit<a href="/network-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Network diagnostics and monitoring for Windows — port scanning, connectivity testing, bandwidth analysis, and infrastructure reporting.</p>
@@ -585,7 +585,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card live reveal" onclick="window.location='/guard-kit.html'" style="cursor:pointer;transition-delay:0.1s">
+      <div class="product-card live reveal" onclick="window.location='/guard-kit.html'" onkeydown="cardKeyNav(event, '/guard-kit.html')" role="link" tabindex="0" aria-label="View Guard Kit details" style="cursor:pointer;transition-delay:0.1s">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Guard Kit<a href="/guard-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Endpoint protection and monitoring toolkit — real-time process watching, intrusion detection, and automated threat response for Windows endpoints.</p>
@@ -598,7 +598,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card live reveal" onclick="window.location='/security-kit.html'" style="cursor:pointer;transition-delay:0.15s">
+      <div class="product-card live reveal" onclick="window.location='/security-kit.html'" onkeydown="cardKeyNav(event, '/security-kit.html')" role="link" tabindex="0" aria-label="View Security Kit details" style="cursor:pointer;transition-delay:0.15s">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Security Kit<a href="/security-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Windows security hardening toolkit — vulnerability scanning, threat detection, and system lockdown tools for technicians and small businesses.</p>
@@ -611,7 +611,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card live reveal" onclick="window.location='/forensic-kit.html'" style="cursor:pointer;transition-delay:0.2s">
+      <div class="product-card live reveal" onclick="window.location='/forensic-kit.html'" onkeydown="cardKeyNav(event, '/forensic-kit.html')" role="link" tabindex="0" aria-label="View Forensic Kit details" style="cursor:pointer;transition-delay:0.2s">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Forensic Kit<a href="/forensic-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">Digital forensics toolkit — log analysis, file recovery, system timeline reconstruction, and incident investigation tools for Windows.</p>
@@ -624,7 +624,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
         </div>
       </div>
 
-      <div class="product-card live reveal" onclick="window.location='/tool-kit.html'" style="cursor:pointer;transition-delay:0.25s;border-color:rgba(0,170,221,0.4)">
+      <div class="product-card live reveal" onclick="window.location='/tool-kit.html'" onkeydown="cardKeyNav(event, '/tool-kit.html')" role="link" tabindex="0" aria-label="View Tool Kit details" style="cursor:pointer;transition-delay:0.25s;border-color:rgba(0,170,221,0.4)">
         <div class="product-badge badge-live">● Live</div>
         <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">Tool Kit <span style="font-size:11px;font-weight:600;color:var(--green);background:rgba(0,204,119,0.1);border:1px solid rgba(0,204,119,0.25);padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:6px">Save $70</span><a href="/tool-kit.html" style="font-size:10px;font-weight:600;color:var(--cyan);opacity:0.8;white-space:nowrap;margin-left:8px">Details →</a></div>
         <p class="product-desc">The complete CipherBuilds package — all five kits in one install. System, Network, Guard, Security, and Forensic Kit bundled together. Buy separately for $200, or get everything here for $130 and save $70.</p>
@@ -641,7 +641,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
       <div class="section-label reveal" style="margin-bottom:10px">Free Tools</div>
       <div class="product-grid reveal" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
 
-        <div class="product-card live reveal" onclick="window.location='/startup-auditor.html'" style="cursor:pointer;border-color:rgba(0,204,119,0.25)">
+        <div class="product-card live reveal" onclick="window.location='/startup-auditor.html'" onkeydown="cardKeyNav(event, '/startup-auditor.html')" role="link" tabindex="0" aria-label="View Startup Auditor details" style="cursor:pointer;border-color:rgba(0,204,119,0.25)">
           <div style="position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0;background:var(--green)"></div>
           <div class="product-name" style="display:flex;justify-content:space-between;align-items:center">
             Startup Auditor
@@ -672,7 +672,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
     <div class="about-simple reveal">
       <div>
         <div class="section-label">About</div>
-        <div class="section-title">Built In<br>The Field.</div>
+        <h2 class="section-title">Built In<br>The Field.</h2>
         <p style="font-size:15px;font-weight:300;color:var(--muted);line-height:1.85;max-width:600px;margin-bottom:28px">Ten years maintaining ATM networks and financial infrastructure. I build the tools I always wished existed — packaged as proper Windows installers, priced fairly, sold direct. No subscriptions. No bloat. Buy once, own it forever.</p>
         <a href="/about.html" class="btn-outline">Read the Full Story →</a>
       </div>
@@ -684,7 +684,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 <section id="commissions" style="background:var(--bg2)">
   <div class="container">
     <div class="section-label reveal">Custom Builds</div>
-    <div class="section-title reveal">Got An Idea?<br>Let's Build It.</div>
+    <h2 class="section-title reveal">Got An Idea?<br>Let's Build It.</h2>
     <p class="section-sub reveal">I take on commissions for custom apps and tools. You bring the idea, I handle the tech — from simple utilities to full-stack applications. 50% deposit required to start, non-refundable once work begins.</p>
     <div class="commission-grid reveal">
 
@@ -741,7 +741,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:24px 32p
 <section id="contact" style="background:var(--bg)">
   <div class="container">
     <div class="section-label reveal">Get In Touch</div>
-    <div class="section-title reveal">Questions?<br>Get In Touch.</div>
+    <h2 class="section-title reveal">Questions?<br>Get In Touch.</h2>
     <div class="contact-inner">
       <form class="reveal" onsubmit="handleSubmit(event)">
         <div class="form-group">
@@ -877,6 +877,16 @@ function handleTopicChange(sel) {
 function selectTier(el) {
   document.querySelectorAll('.tier-option').forEach(o => o.classList.remove('selected-tier'));
   el.classList.add('selected-tier');
+}
+
+// Keyboard support for product cards: Enter/Space navigates, same as a click.
+// Clicks originating from a link/button inside the card (Details, Try Demo,
+// Buy Now) are left alone since those already navigate on their own.
+function cardKeyNav(e, url) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    window.location = url;
+  }
 }
 
 // Update this URL once your Render backend is deployed
